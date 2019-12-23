@@ -3,6 +3,7 @@ package org.ivy.util.annotation;
 import java.lang.annotation.*;
 
 /**
+ * <p> classname: ThreadSafe
  * <p> description: 线程安全注解
  * <br>--------------------------------------------------------
  * <br> 标明类、方法是否线程安全。
@@ -13,7 +14,6 @@ import java.lang.annotation.*;
  *
  * @author Ivybest (ivybestdev@163.com)
  * @version 1.0
- * @className ThreadSafe
  * @date 2019/12/18 14:53
  */
 @Retention(RetentionPolicy.SOURCE)
@@ -27,13 +27,13 @@ public @interface ThreadSafe {
      *
      * @return boolean
      */
-    public boolean value() default true;
+    boolean value() default true;
 
     /**
      * 使用注解类关于线程安全的描述
      *
      * @return String
      */
-    public String[] msg();
+    String[] msg();
 
 }

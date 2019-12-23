@@ -3,17 +3,17 @@ package org.ivy.util.annotation;
 import java.lang.annotation.*;
 
 /**
- * <p> description: 注释说明
- * <br>--------------------------------------------------------
- * <br> 给类、方法添加标签
- * <br>--------------------------------------------------------
- * <br>Copyright@2019 www.ivybest.org Inc. All rights reserved.
+ * <p>  classname: Description
+ * <br> description: 注释说明
+ * <br>---------------------------------------------------------
+ * <br>
+ * <br>---------------------------------------------------------
+ * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
  *
- * @author Ivybest (ivybestdev@163.com)
+ * @author ivybest (ivybestdev@163.com)
  * @version 1.0
- * @className Tag
- * @date 2019/12/19 18:32
+ * @date 2019/12/24 0:25
  */
 @Retention(RetentionPolicy.SOURCE)
 @Target({ElementType.PACKAGE,
@@ -26,8 +26,6 @@ import java.lang.annotation.*;
         ElementType.LOCAL_VARIABLE,
         ElementType.TYPE_PARAMETER,
         ElementType.TYPE_USE
-
-
 })
 @Inherited
 @Documented
@@ -38,7 +36,7 @@ public @interface Description {
      *
      * @return String
      */
-    public String[] value();
+    String[] value();
 
 }
 
