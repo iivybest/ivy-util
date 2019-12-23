@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+	* scan			扫描配置文件更新
+	* scanPeriod	扫描周期
+	* debug			logback 启动日志
+ -->
+<configuration scan="true" scanPeriod="60 seconds" debug="false">
+	
+	<property name="app.name" value="ivy-util" />
+	<property name="log.level" value="debug"/>
+	<property name="log.maxHistory" value="30"/>
+	<!--
+		* catalina.home：	公用信息的位置，就是bin和lib的父目录。
+		* catalina.base：	Tomcat目录私有信息的位置，conf、logs、...的父目录
+    	* <property name="log.dir" value="${catalina.base}/logs/xx-looger"/>
+    -->
+	<property name="log.dir" value="/app/logs/ivybest/${app.name}" />
+	
+	<!--格式化输出：
+		* %d 		日期	[%d{yyyy-MM-dd HH:mm:ss：SSS}]
+        * %t		输出产生该日志事件的线程名
+		* %thread	线程名，
+        * %level	输出日志事件的发生位置，即输出日志讯息的语句在他所在类别的第几行。
+		* %-5level	级别从左显示5个字符宽度
+		* %logger	日志所有者，即logger类所在类
+		* %line		日志代码行数 ~~~~ 尽量避免使用~~~~考虑性能
+		* %n		换行符 
+		* %p		输出优先级，即DEBUG,INFO,WARN,ERROR,FATAL
+        * %r		输出自应用启动到输出该日志讯息所耗费的毫秒数
+        * %file		输出日志讯息所属的类别的类别名
+        * %c		输出日志讯息所属的类的全名
+        * %M		方法名
+		* %msg		日志消息，
+        * %m		输出代码中指定的讯息，如log(message)中的message
+	-->
+	<property name="log.default.pattern"
+		value="[%d{yyyy-MM-dd HH:mm:ss,SSS}]-[%t]-%-5level-%logger{20}-[%M]-[%line]-%m%n" />
+	<!-- 
+		* %black", 
+		* "%red", 
+		* "%green",
+		* "%yellow",
+		* "%blue", 
+		* "%magenta",	洋红
+		* "%cyan", 		青色
+		* "%white", 
+		* "%gray"
+		* ************************************
+		* colorful log in console
+		*彩色日志，只能用于控制台输出，开发人员调试使用
+	-->
+	<property name="log.color.pattern"
+		value="%cyan([%d{ISO8601}])-%red([%t])-%highlight(%-5level)-%boldMagenta(%logger{20})-%yellow([%M])-%green([%line])-%blue(%m%n)" />
+	
+
+	<contextName>${app.name}</contextName>
+
+	<!--
+		* console_appender 
+		* 或者命名为 stdout	
+	-->
+	<appender name="console_appender" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>${log.color.pattern}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- DEBUG级别 -->
+	<appender name="debug_appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<File>${log.dir}/debug.log</File>
+		<!-- 级别过滤器 -->
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<!-- 设置过滤级别 -->
+			<level>DEBUG</level>
+			<!-- 用于配置符合过滤条件的操作 -->
+			<onMatch>ACCEPT</onMatch>
+			<!-- 用于配置不符合过滤条件的操作 -->
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<!-- 
+			* 根据时间来制定滚动策略 
+			* .gz 每天生成一个debug日志的压缩文件
+		-->
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>
+				${log.dir}/debug/debug.%d{yyyy-MM-dd}.log.gz
+			</FileNamePattern>
+			<!-- 日志最大保存时间 -->
+			<MaxHistory>${log.maxHistory}</MaxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${log.default.pattern}</pattern>
+		</encoder>
+	</appender>
+
+	<!-- INFO级别 -->
+	<appender name="info_appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<File>${log.dir}/info.log</File>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>INFO</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>
+				${log.dir}/info/info.%d{yyyy-MM-dd}.%i.log
+			</FileNamePattern>
+			<MaxHistory>${log.maxHistory}</MaxHistory>
+			<TimeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<!-- 默认值是 10MB,文档最大值 -->
+				<MaxFileSize>10MB</MaxFileSize>
+			</TimeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${log.default.pattern}</pattern>
+		</encoder>
+	</appender>
+
+
+	<!-- WARN级别 -->
+	<appender name="warn_appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<File>${log.dir}/warn.log</File>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>WARN</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>
+				${log.dir}/warn/warn.%d{yyyy-MM-dd}.%i.log
+			</FileNamePattern>
+			<MaxHistory>${log.maxHistory}</MaxHistory>
+			<TimeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<MaxFileSize>10MB</MaxFileSize>
+			</TimeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${log.default.pattern}</pattern>
+		</encoder>
+	</appender>
+	
+	<!-- Error -->
+	<appender name="error_appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<File>${log.dir}/error.log</File>
+		<filter class="ch.qos.logback.classic.filter.LevelFilter">
+			<level>ERROR</level>
+			<onMatch>ACCEPT</onMatch>
+			<onMismatch>DENY</onMismatch>
+		</filter>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>
+				${log.dir}/error/error.%d{yyyy-MM-dd}.%i.log
+			</FileNamePattern>
+			<MaxHistory>${log.maxHistory}</MaxHistory>
+			<TimeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<MaxFileSize>10MB</MaxFileSize>
+			</TimeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${log.default.pattern}</pattern>
+		</encoder>
+	</appender>
+	
+	
+	<!-- 自定义业务流程日志 -->
+	<appender name="biz_einv_appender" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<Encoding>UTF-8</Encoding>
+		<File>${log.dir}/biz.einv.log</File>
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<FileNamePattern>
+				${log.dir}/biz/einv/einv.%d{yyyy-MM-dd}.%i.log
+			</FileNamePattern>
+			<MaxHistory>${log.maxHistory}</MaxHistory>
+			<TimeBasedFileNamingAndTriggeringPolicy
+				class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<MaxFileSize>10MB</MaxFileSize>
+			</TimeBasedFileNamingAndTriggeringPolicy>
+		</rollingPolicy>
+		<encoder>
+			<pattern>${log.default.pattern}</pattern>
+		</encoder>
+	</appender>
+	
+	
+	 <!--
+		* 用来设置某一个包或者具体的某一个类的日志打印级别、以及appender
+		* logger 仅有一个 name 属性，一个可选的 level 和一个可选的 addtivity 属性
+		* name: 		用来指定受此logger约束的某一个包或者具体的某一个类。
+		* level:  		用来设置打印级别，大小写无关：TRACE, DEBUG, INFO, WARN, ERROR, ALL 和  OFF，
+		*  				如果未设置此属性，那么当前logger将会继承上级的级别。
+		* additivity: 	是否向上级loger传递打印信息。默认是true。
+		* appender-ref:	标识这个 appender 将会添加到这个logger
+    -->
+    <logger name="java.sql" level="INFO"/>
+    <logger name="java.sql.Statement" level="INFO"/>
+    <logger name="java.sql.ResultSet" level="INFO"/>
+    <logger name="java.sql.Connection" level="DEBUG"/>
+    <logger name="java.sql.PreparedStatement" level="DEBUG"/>
+    <logger name="org.springframework" level="DEBUG"/>
+    <logger name="org.springframework.web.servlet.DispatcherServlet" level="DEBUG"/>
+    <logger name="org.springframework.web.context.support.XmlWebApplicationContext" level="DEBUG"/>
+    <logger name="org.springframework.web.servlet.handler.SimpleUrlHandlerMapping" level="DEBUG"/>
+	<logger name="com.ibatis" level="DEBUG"/>
+    <logger name="com.ibatis.common.jdbc.SimpleDataSource" level="DEBUG"/>
+    <logger name="com.ibatis.common.jdbc.ScriptRunner" level="DEBUG"/>
+    <logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG"/>
+    <logger name="org.apache.commons" level="DEBUG"/>
+    
+    <!-- show parameters for hibernate sql 专为 Hibernate 定制 -->
+	<logger name="org.hibernate.type.descriptor.sql.BasicBinder" level="TRACE" />
+	<logger name="org.hibernate.type.descriptor.sql.BasicExtractor" level="DEBUG" />
+	<logger name="org.hibernate.SQL" level="DEBUG" />
+	<logger name="org.hibernate.engine.QueryParameters" level="DEBUG" />
+	<logger name="org.hibernate.engine.query.HQLQueryPlan" level="DEBUG" />
+	
+	
+	<!-- 
+		* additivity="true"	将当前的 logger 添加到 root 中
+		* 默认为 true
+	 -->
+	<logger name="edu.hit" level="${log.level}" additivity="true">
+		<appender-ref ref="debug_appender" />
+		<appender-ref ref="info_appender" />
+		<appender-ref ref="warn_appender" />
+		<appender-ref ref="error_appender" />
+	</logger>
+	<logger name="edu.neu" level="${log.level}" additivity="true">
+		<appender-ref ref="debug_appender" />
+		<appender-ref ref="info_appender" />
+		<appender-ref ref="warn_appender" />
+		<appender-ref ref="error_appender" />
+	</logger>
+	<logger name="edu.neuq" level="${log.level}" additivity="true">
+		<appender-ref ref="debug_appender" />
+		<appender-ref ref="info_appender" />
+		<appender-ref ref="warn_appender" />
+		<appender-ref ref="error_appender" />
+	</logger>
+	<logger name="org.ivybest" level="${log.level}" additivity="true">
+		<appender-ref ref="debug_appender" />
+		<appender-ref ref="info_appender" />
+		<appender-ref ref="warn_appender" />
+		<appender-ref ref="error_appender" />
+	</logger>
+	<!-- 
+		* 根据业务 einv 制定追踪日志，存放到指定目录中
+		* 业务标识 biz.einv
+	 -->
+	<logger name="biz.einv" level="${log.level}" additivity="true">
+		<appender-ref ref="biz_einv_appender" />
+	</logger>
+	
+	<!-- the level of the root level is set to DEBUG by default. -->
+	<root level="${log.level}">
+		<appender-ref ref="console_appender" />
+	</root>
+	
+</configuration>
+
+
+
+
+

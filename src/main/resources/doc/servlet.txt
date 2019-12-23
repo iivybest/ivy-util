@@ -1,0 +1,359 @@
+
+sun公司制定的一种用例扩展web服务器功能的组件规范
+	（1）扩展展web服务器功能
+		apache web server	静态资源，不能处理动态资源
+		iis
+		
+	（2）组件规范
+
+servlet 服务端运行的程序
+	mail server
+	ftp server
+	web server
+	
+生命周期：
+	ClassLoader
+	Constructor
+	init(ServletConfig config) / [init() - 很少用]
+	service - (doGet、doPost)
+	destroy	webapp退出时调用
+	
+J2EE要求servlet只能new一个，但有些server会new多个，以池的形式对外提供服务
+	container one object
+
+servlet实现singleThreadModel，每个请求过来，就会new一个servlet对象，已废弃，不建议使用
+	
+请求处理方法：
+	1、doGet		响应GET请求
+	2、doPost	响应POST请求
+	3、doPut		准备往server放东西		HTTP1.1协议
+	4、doDelete	准备删除server上的东西	HTTP1.1协议
+	5、doHead	仅相应GET请求的头信息	HTTP1.1协议
+	6、doOpions	对server进行配置			HTTP1.1协议
+	7、doTrace	跟踪，做调试用			HTTP1.1协议
+
+Http 协议 的无连接性 - client 和 server 通信完成后， socket就close了
+
+
+
+
+
+---------------------------------------------------------------------------------
+Cookie - 
+	client存放的文本文件，
+	以名值对存储，
+	cookie存有browser独一无二的标识
+	
+cookie有两种
+	一种属于窗口/子窗口 	临时的
+	一种属于文本			可以保存的
+	
+一个servlet/jsp设置的Cookie，能够被同一个路径下面或子路径下面的servlet/jsp读到。
+(路径指web.xml中的url配置，不是真实路径)。
+
+
+
+----------------------------------------------------------------------------------
+http协议是非连接的，
+Session - 跟browser的win或subwin关联在一起
+
+Session -创建的两种方式
+	cookie - 将session id放到cookie里
+	url重写
+	
+若browser支持cookie，创建session时，将sessionId存入cokkie
+若不支持，必须使用URL重写来实现session
+	response.encodeURL();
+		1、转码
+		2、URL后面加入SessionId
+
+同一 app 下的 servlet/jsp 共享一个 session，同一窗口下		
+
+		
+Application - 
+	ServletContext
+	所有client都可以访问
+	每一个web application的运行环境成为一个context
+	
+Bean
+	Java组件的叫javaBean 
+	一系列的类综合在一起，对外提供服务
+	javaBean标准-
+		狭义 - sun的标准，有个一界面的体现
+		广义 - 一个pojo - field（private） 第一个字母小写有getter & setter方法
+			  Bean不应该具有GUI表现
+			  一般用来实现某一业务逻辑或取特定的结果
+	Bean的基本要素：
+		* 必须有无参构造器
+		* 
+	
+	POJO - 定义类时候的统称
+	VO - 为bean中的每个对象赋值之后
+	TO - 传输对象，实现了Serializable接口对象
+	
+
+filter(Servlet2.3)
+Listener(Serevlet2.4)
+
+
+
+
+
+--------------------------------------------
+JSP
+	jsp由JSP Engine转换成Servlet代码，接着将他编译成类文件载入执行。
+	client第一次请求JSP时才需要将其转换、编译。
+优点：
+	优良的性能
+		优于CGI、PHP、ASP
+	平台无关性
+	可扩展性
+		tag的扩展机制，简化界面开发
+		
+	jspEngine
+jsp ---------> servlet 
+		
+		
+JSP传统语法
+	Declaration		声明
+	Scriptlet		小程序段
+	Expression		表达式
+	Comment			注释
+	Directives		编译指令
+	Action			动作指令 - runtime指令
+	内置对象
+JSTL
+JSF
+----------------------------------
+Declaration
+	<%! %>	- 成员变量
+	<% %>	- 局部变量
+Scriptlet
+	<%程序代码段%>
+Expression
+	<%= %>	- 必须是String或可以转为String的类型
+	<%= exception.getMessage() %>
+Directive
+	相当于编译期间的命令
+	<%@Directive key="value"%>
+	常见Directive:
+		page
+		include
+		taglib
+		
+Directive-page:指明与JSP Container的沟通方式
+	<%@page language="script langauge"	|	--目前只支持java
+			extends="className"			| 	--jsp继承自哪个类 JspBase，很少指定这个值
+			import="importList"			|	--页面引入哪些类
+			buffer="none|kb size"		|	--none:不缓冲，默认8K；
+			session="true|false"		|	--是否使用session，默认true；
+			autoFlush="true|false"		|	--缓冲器是否自动清除，默认true；极少改为false；
+			isThreadSafe="true|false"	|	--相当于servlet实现singleThreadModel；默认值false；已废弃，
+			info="infoText"				|	--JSP相关描述信息
+			errorPage="errorPageUrl"	|	--页面出错显示哪个页面内容
+			isErrorPage="true|false"	|	--是否是显示错误的页面
+			pageEncoding="encoding"		|	--编码方式utf-8；
+			contentType="contentTypeInfo"|	-- text/html;charset=utf-8
+	%>
+	<!-- page的重要属性 -->
+	<%@page import="importList"			|	--页面引入哪些类
+			errorPage="errorPageUrl"	|	--页面出错显示哪个页面内容
+			isErrorPage="true|false"	|	--是否是显示错误的页面
+			contentType="contentTypeInfo"|	-- text/html;charset=utf-8
+	%>
+	<%@page import="java.util.*,java.text.*"%>	|以逗号分隔
+	
+	
+	
+Directive-include:将指定的JSP或HTML文件包含进来
+	JSP Engine会在JSP程序转换时期先把file文件包含进来
+	<%include file="fileUrl"%>	-- 不能向url中传参数
+	编译指令不能传参数
+	
+Action - 在运行期间的命令
+	常见的：
+	jsp:userBean
+		jsp:setProperty
+		jsp:getProperty
+	jsp:include		-- 将文件包含到jsp中，(动态包含，运行时包含，不如指令效率高)
+		jsp:param	-- 用来设定include文件时的参数及对应值
+	jsp:forward		-- 页面跳转
+		<jsp:forward page="common.jsp">
+			<jsp:param name="key1" value="val1" />
+			<jsp:param name="key2" value='<%=request.getParameter("name")%>'>
+		</jsp:forward>
+			
+	jsp:plugin		-- 用于嵌入applet小程序
+	
+	
+	<!-- Demo -->
+	<jsp:include page="pageUrl" flush="true"/>
+	
+	<jsp:include page="pageUrl" flush="true">
+		<jsp:param name="paramName" value="paramValue"/>
+	</jsp:include>
+	
+jsp:forward - 用于将一个jsp的内容传送到page指定的jsp程序或servlet处理
+	<jsp:forward page="urlSpec" flush="true"/>
+	
+	<jsp:forward page="urlSpec" flush="true">
+		<jsp:param name="paramName" value="paramValue"/>
+	</jsp:forward>
+	
+	<!-- 重定向 -->
+	<%
+		response.sendRedirect("urlSpec");
+	%>
+	
+	forward: 发生在server端，使用的同一个request 一次请求
+	redirect:发生在client端，使用不同的request（两次请求）
+			(client访问server，server使用redirect，是server告知client，重新访问另一个页面)
+			
+jsp:userBean - 通过useBean，可以在JSP使用定义好的Bean
+	Bean的基本要素：
+		* 必须有无参构造器，在JSP元素创建Bean时会条用空构造器
+		* 无任何公共实例变量，不允许直接访问实例变量，变量首字母必须小写
+		* 通过getter/setter读写变量，并且对应变量首字母改成大写
+		* jsp使用的bean不能是裸体类
+		
+	<jsp:userBean id="beanName" scope="page|request|session|application" 
+			class="package.beanClass" type="typeName" />
+	<jsp:userBean ...>
+		<jsp:setProperty ...>
+	</jsp:useBean>
+	
+	id - 实例名称
+	scope - bean的作用域，默认为page，对整个jsp页面有效
+	class - bean类名称
+	type - 一般和class相同即可
+	
+	* Scope各项参数的含义
+		page - 当前使用bean页面
+		request - 有效范围仅限于使用Bean的请求
+		session - 整个回话阶段
+		application - 整个应用程序
+	
+	
+	<jsp:setProperty name="beanName" property="attribute1"
+					 value="<%= requets.getParameter("paramName")bean %>"/>
+	<jsp:setProperty name="beanName" property="attribute1"
+					 param="paramName"/>
+
+
+	userBean的自省方式赋值*
+
+JSP的9个内置对象
+JSP常用内置对象及常用方法	
+	out	- javax.servlet.jsp.JspWriter实例，是一个缓冲输出流，用来给client返回信息
+				write();	
+				println();
+				newLine();	输出一个换行符
+				close();	关闭输出流
+				flush();	输出缓冲区数据
+				clearBuffer();	清除缓冲区数据，同时把数据输出到client
+				clear();	清除缓冲区数据，但不把数据输出到client
+				getBufferSize(); 返回缓冲区大小
+	request	- javax.servlet.http.HttpServletRequest实例
+				getMethod();	返回client向server传送数据的方法
+				getParameter();	
+				getParameterNames();
+				getParameterValues();
+				getRequestURI();	获取发出请求字符串的客户端地址
+				getRomoteAddr();	获取client的ip
+				getRomoteHost();	获取client机器名称
+				getServerName();	获取服务器名称
+				getServletName();	客户端请求的脚本文件路径
+				getServerPost();	获取server端口
+	response - javax.servlet.http.HttpServletResponse实例
+				addCookie();
+				addHeader();
+				containsHeader(String name); 判断是定名字的http文件头是否存在
+				sendErrot(int);	向client发送错误信息(错误码)
+				sendRedirect();	重定向
+				setContentType();	
+	pageContext	- javax.servlet.jsp.PageContext
+	
+	session	- javax.servlet.http.HttpSession
+				setAttribute();
+				getAttribute();
+				isNew();
+	application	- javax.servlet.ServletContext
+				setAttribute();
+				getAttribute();
+	config - javax.servlet.ServletConfig
+	
+	exception - isErrorPage="true", 可以使用
+	
+	page - this
+
+
+	request.setCharacterEncoding("UTF-8"); // 告诉request，先将所有内容按 UTF-8转码
+	<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
+	<%@page language="java" contentType="text/html;charset=utf-8" pageEncoding="UTF-8" %>
+
+
+
+	
+JSP/Servlet通信			
+
+	this.getServletConfig().getServletContext().getRequestDispatcher(pageUrl).forward(request, response);
+	response.sendRedirect(pageUrl);
+	
+
+
+---------------------------------------------------
+
+
+DB
+AppServer	
+Client vb vc delphi java
+
+三层网络结构 需要自定义协议
+	告诉通信双方，发送数据的大小，从哪开始，到哪结束
+
+TCP/IP协议
+	拆包问题
+		client --> (hello world) --> server
+		
+		client --> (hello) --> server
+		client --> (world) --> server
+	
+	沾包问题
+		client --> (hello) --> server
+		client --> (world) --> server
+		
+		client --> (hello world) --> server
+
+-------------------------------------------------
+		
+		
+CTS
+
+CGI  COMMON gateway Inteface	通用网关接口
+	perl / C/C++
+	需要自己解析请求数据
+	可移植性差
+	性能差，收到一个请求启动一个cgi进程，
+	
+Server
+	apache web server / iis 静态资源服务器，早期使用cgi处理动态资源请求
+
+
+servlet容器可以简单的看做web服务器使用
+	既可以处理静态资源的请求
+	也可以处理动态资源的请求
+	
+	
+大型的网站使用静态服务器，只用tomcat很容易宕机
+browser --> Apacher WS --> Servelt 容器
+
+
+
+
+// String aa= request.getCharacterEncoding();
+// request.setCharacterEncoding("UTF-8"); // 对浏览器发送来的数据进行重新编码（或者称为解码）
+// response.setCharacterEncoding("utf-8"); // 服务器在将数据发送到浏览器前，对数据进行重新编码
+// response.setContentType("text/xml;charset=utf-8");
+	
+
+

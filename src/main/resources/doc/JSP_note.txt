@@ -1,0 +1,273 @@
+
+jsp:(java server page ：java 服务器端页面技术)
+---------------------------2010/11/23-------------------------pm
+
+(1) 什么是JSP：
+	sun公司开发的一种 web server 端动态页面生成技术。
+	servlet也可以生成动态页面（但繁琐）。
+
+(2) jsp作用：
+	因为 servlet生成动态页面过于繁琐，jsp技术是为了简化 动态页面 的开发。
+
+(3) sun公司的建议：
+	servlet：	负责处理业务逻辑；
+	jsp：		负责表现逻辑；(jsp也可以处理业务逻辑)。
+
+(4) jsp 的运行过程：
+	当请求到达server，要访问某个jsp(以.jsp结尾的一个文件)。
+	server 会将该文件转换成一个servlet，
+	转换是由server的 jsp Engine 的模块完成；然后编译，最后调用其service()方法。
+	client第一次请求JSP时才需要将其转换、编译。
+		jspEngine
+	jsp ---------> servlet 
+	
+	优点：
+	、优良的性能 优于CGI、PHP、ASP
+	、平台无关性
+	、可扩展性 tag的扩展机制，简化界面开发
+	
+(5) JSP传统语法
+	主要由html ＋ 少量的java代码。在html页面当中嵌入少量的java代码来实现动态页面的技术。 
+	、Declaration	// 声明
+	、Scriptlet		// 小程序段
+	、Expression		// 表达式
+	、Comment		// 注释
+	、Directives		// 编译指令
+	、Action			// 动作指令 - runtime指令
+	、内置对象		// 
+	
+	
+	(1)java代码：
+		A. java代码：	<%java代码片段%>
+		B. jsp表达式：	<%=java表达式%>
+		C. 声明 ：		<%!  %> 	// Servlet 添加 属性 和 方法。
+　　 (2)html:
+		html元素：css、javascript
+	(3)指令：<%@page %>	告诉 引擎 ，将 .jsp 变成 .java 时 的 执行
+	A.	import="java.util.*"
+		pageEncoding="UTF-8"
+		contentType="text/html;charset=UTF-8"
+		session="true/false" 		// true表示jsp支持session，也就是说在jsp源文件中支持session隐含对象
+		errrorPage="err.jsp"：		// 告诉 jsp 引擎 ，错误处理页面 是 哪个。
+		isErrorPage="true"：			// 该页面 是一个错误页面。
+		isELIgnored="true/false"：	// 是否忽略 el 表达式
+		language="java" 			//
+	B. include
+		file=""
+	C.taglib：引入标签库
+		uri
+		prefix
+		
+(6) jsp隐含对象：
+	在 jsp文件 中，不用声明就可以直接使用的对象。因为jsp引擎 负责声明
+	并创造隐含对象。一共9个：
+		/request、
+		/response、
+		/session、
+		/application(ServletContext)
+		/out、
+		/exception(只能在 isErrorPage="true" 的页面使用)、
+		/page、
+		/pageContext、
+		/config
+		
+	、exception.getMessage(); 	//获得错误信息
+	、page：			相挡于 this，表示 当前 jsp实例。(基本不用)
+	、PageContext：	是PageContext的实例；jsp引擎会为每个jsp实例创建一个PageContext实例。作用：
+		1、绑定数据；
+			\PageContext.setAttribute(String key, Object value);
+			\Object getAttribute(String key);
+		2、获得其他隐含对象。
+			当找到 pageContext 对象后，可以调用 其方法 来获得其他隐含对象
+	、config：相当于 ServletConfig
+		\config.getInitParameter("someKey");
+			
+(7)注释：
+	<!--注释内容-->		注释的内容会执行，但不会在browser输出
+	<%--注释内容--%>		注释的内容不会执行，也不会在browser输出
+
+(8)活动元素：
+	jsp 已经 运行了 ，告诉 引擎 做 一些 处理；
+	scop后面可以写session、application、request、page
+
+<8>  jsp 如何主那换成 servlet；
+	、<% %>		// 直接放到 service() 方法中；
+	、<%= %>		// 直接放到 service() 中，使用out.print() 输出；
+	、html元素	// 放在service()中，使用out.write() 输出
+	、指令		// 影响 servlet 的生成，比如导包。
+
+-------------------------2010/11/24--------------------------------am
+
+JSP中尽量少写 java 代码，目的：负责逻辑；便于维护。
+
+1、Jstl 和 el 表达式：
+-----------------------------------------------------------------------------------	
+①标签：sun开发的一种技术，目的为减少JSP中的java代码，<%= %> 用标签来代替。
+	、标签与 html 中的标签类似。
+	、好处：jsp页面代码好维护(因为java 代码 大大减少，甚至可以不写)；
+	、jsp 容易开发(因为一些通用的功能 , 需要 java代码的部分，可以使用 jstl标签来代替)。
+
+Jstl：java standard taglib 标准标签库。
+	\标准标签库：sun 将 apache 开发的一套 标签 标准化了，称之为 jstl ；
+	\命名空间一般为URL
+	\组成：
+		、Core			// 核心
+		、Format			// 国际化
+		、SQL			// 
+		、XML			// 
+		、Functions：	// el函数
+	
+	<c:if test="${!empty param.user}">
+		welcome ${param.user}
+	</c:if>
+	
+	属性：test
+	属性值：${ }
+----------------------------------------------------------------------------------
+②：el 表达式：作为标签的属性值
+	A.什么是EL：
+		jstl 标签当中，定义了一种 语法规则 用于 计算 标签表达式 的值；
+		现在，也可以直接出现在 jsp 页面当中，其结果直接输出。
+	B.语法： ${表达式 }
+	
+	C. EL具体功能详解
+		1、获取数据		可在四大域中获取
+		2、进行数学逻辑运算
+		3、11个隐式对象
+		4、EL函数
+		
+	D.表达式的基本使用：
+	#1、访问 bean 的属性：
+		${user.name} = ${user['name']} = ${user["name"]} 	// 相当于 user.getName(); 
+		${sessionScope.user.name} 	// 指定 在 session 中 找
+		${user["name"]}  			// 这种写法 允许 属性 是 一个 变量；
+		${array[0]} 				// 如果属性是一个 List 或者 数组，采用 下标访问其元素
+		${list[0]}					// 
+		${map.key}					// map取值
+		------------------------------------------------
+		jsp 引擎 先从pageContext.getAttributr("user")执行；
+			若找不到(即返回null), 依次执行 request \ session \ application 
+			的  getAttribute("user"). 如果找到，则不再向下寻找 。
+			=========================================================================
+			| #注：el会将 null 转换成 "" 输出；若找不到 user不抛出空指针异常，会输出 ""。|
+			=========================================================================
+		
+		
+	#2、作为 jstl 的 属性值：
+		<c:out value="${user}" />
+		
+	#3、计算 表达式 的 结果 直接输出：
+		____________________________
+		| + - * / %   				|
+		| == , != , < , > , <= , >=	|
+		| && || !					|
+		| ? :						|
+		| empty						|
+		|___________________________|
+		对象是否为null，字符串是否为“”，集合是否有元素
+		
+		${ 1 + 1 }				// 算数运算中 不能对字符串进行"+"操作
+		${empty abc}
+			A. 找不到对象 abc 返回 true；
+			B. 集合 内 无 任何 元素  返回 true；
+			C. 字符串 为空 返回 true；
+			D. 对象 赋值 为 null 返回 true
+		======================
+		| ## 不支持字符串拼接 |
+		======================
+	
+	#4、访问请求参数值
+		${param.参数名}				// request.getparameter("参数名")
+		${paramValues.参数名}			// request.getParamerValues("参数名")
+		${paremValues.interest[0]}	// 操作数组或list
+	
+	#5、el函数：可以对表达式的结果进行再次处理。需要自己写处理类和tld文件
+		${fn:uppper("this is string")};	// 转换成大写
+		${fn:length(list) };  			// 输出 list 的 size( )
+		
+	#6、11个隐式对象, 如果要指定从哪个范围进行查找，可以使用 el 的隐对象	
+			\ pageContext		--> 同JSP pageContext
+			\ pageScope 		--> 
+			\ requestScope 		--> 
+			\ sessionScope 		--> 
+			\ applicationScope	--> 
+			\ param				-->	Map 单个请求参数		
+			\ paramValues		--> Map 数组请求参数
+			\ header			--> 
+			\ herderValues		--> 
+			\ initParam			--> 
+			\ cookie 			--> Map<String, Cookie>
+-------------------------------------------------------------------pm
+2、jstl 核心标签：
+（1）编程：
+	step1、导入jstl相关的jar jstl.jar 和 standard.jar (如果使用 javaEE 5.0及以上版本，可以不用)
+	step2、使用<%@taglib prefix="" uri=""%>
+		prefix：指定一个前缀(任意的字符串,对于核心标签库，使用"c").。
+		uri：命名空间，按照 .tld 文件的要求。
+	step3、使用标签：
+
+（2）核心标签
+	<c:out value="this is a tag" />				--> this is a tag 
+	<c:out value="${user}" />					--> ${user } ;
+	<c:out value="${u}" default="not found"/>	--> 如果没有值，显示默认值
+	<c:out value="<table>" />					--> 在页面上打印<table>
+	<c:out value="<br/>" escapeXml="true" />	--> 标签转义，输出到页面<br/>
+	<c:out value="<br/>" escapeXml="false" />	--> 页面无显示
+
+	// 把某个值放到指定区域
+	<c:set var="s" value="a" scope="request"/>	--> request.setAttribute("s","a");
+	<c:remove var="s" scope="request">			--> requset.removeAttribute("s");
+	
+	<c:catch var="ex">							--> try catch 中的 catch
+		<%=Integer.parseInt("123a");%>
+	</c:catch>  								--> pageContext.setAttribute("ex",obj);
+	${ex} 										--> 输出错误信息
+
+	<c:if test="${a>18}" var="p" scope="page">	--> request.setAttribute("p", ${a>18});
+		a Adult
+	</c:if>										
+
+	<c:choose>
+		<c:when test="${grage == 'A'}"> 优秀 </c:when>
+		<c:when test="${grage == 'B'}"> 良好 </c:when>
+		<c:when test="${grage == 'C'}"> 及格 </c:when>
+		<c:otherwise> 尚需努力 </c:otherwise>
+	</c:choose>
+
+	<c:forEach items="${users}" var="u" varStatus="vs">	
+		<tr>...</tr>
+	</c:forEach>
+
+	<c:import url="/jstl05.jsp"> 		--> 会生成一个绝对路径，在其前面	+ /应用名
+	<c:import url="jstl05.jsp">  		--> 相对路径
+		
+	<c:redirect url="">					-->重定向
+	<c:url value="index.html"/>
+		用于 url 重写
+		用于生成一个绝对地址
+	<c:url value="index.html" var="url" scope="page"/>
+
+---------------------------------2010/11/25----------------------------am
+1、el函数：
+①、标准el函数：使用方式 同 标准标签：
+	${fn:length(list)}	 --> 先 在四个范围中找 list，找到后 执行 函数 length 
+	String 	字符 的个数
+	list 	的 size();
+	indexOf：一个 字符串 第一次出现的 位置
+
+②、自定义函数
+	step1、写一个 java 类，提供 public static 方法，每一个 方法 相当于 一个 函数
+	step2、在 .tld 文件中，描述该函数
+	step3、在 jsp 文件中，使用 taglib 导入函数库
+	===============================
+	| ##注：方法名最好和类名保持一致 |
+	===============================
+
+2、自定义标签：
+	step1、写一个 java 类 ，继承 SimpleTagSupport(实现 SimpleTag 接口)。
+	step2、 override doTag() 方法，实现标签的业务逻辑
+	step3、在 .tld 文件 中 ，描述 该标签
+	step4、在 jsp 文件中，使用 taglib 导入该标签
+
+	<required>true</required> 			// 属性是否必须有
+	<rtexprvalue>false</rtexprvalue>	// 是否支持 el 表达式
