@@ -160,7 +160,8 @@ fabric.properties
 
 ### added by ivybest
 *.iml
-
+*.ipr
+*.iws
 .classpath
 .project
 
