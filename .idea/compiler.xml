@@ -8,6 +8,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="ivy-util-annotation" />
         <module name="ivy-util-x" />
+        <module name="ivy-util-bom" />
         <module name="ivy-util-test" />
         <module name="ivy-util-cfg" />
         <module name="ivy-util-common" />

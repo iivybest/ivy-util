@@ -14,7 +14,7 @@
  * --------------------------------------------------------
  * 2017年9月13日		ivybest		1.0			new create
  */
-package org.ivy.util.tool;
+package org.ivy;
 
 import com.google.common.util.concurrent.RateLimiter;
 

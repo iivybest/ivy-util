@@ -29,6 +29,12 @@
             <artifactId>oshi-core</artifactId>
             <version>3.4.4</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
+        <dependency>
+            <groupId>org.freemarker</groupId>
+            <artifactId>freemarker</artifactId>
+            <version>2.3.26-incubating</version>
+        </dependency>
     </dependencies>
 
     <build>

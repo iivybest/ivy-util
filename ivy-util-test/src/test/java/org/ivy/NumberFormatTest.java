@@ -1,4 +1,4 @@
-package org.ivy.util.tool;
+package org.ivy;
 
 public class NumberFormatTest {
 

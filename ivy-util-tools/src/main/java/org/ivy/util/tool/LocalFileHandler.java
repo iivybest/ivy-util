@@ -1,17 +1,3 @@
-/**
- * @Filename FilenameRename
- * @author Ivybest
- * @version V1.0
- * @CreateDate 2018年7月4日 下午4:20:28
- * @Company IB.
- * @Copyright Copyright(C) 2010-
- * All rights Reserved, Designed By Ivybest
- * <p>
- * Modification History:
- * Date				Author		Version		Discription
- * --------------------------------------------------------
- * 2018年7月4日	Ivybest			1.0			new create
- */
 package org.ivy.util.tool;
 
 import org.ivy.util.common.FileUtil;
@@ -31,17 +17,19 @@ import java.util.stream.Stream;
 
 
 /**
- * <p> description:
- * <br>----------------------------------------
- * 	<br> 本地文件名修改
- * 	<br> 本地文件处理
- * 	<br> 本地文件删除
- * <br>----------------------------------------
+ * <p>  classname: LocalFileHandler
+ * <br> description:
+ * <br>---------------------------------------------------------
+ * <br> 本地文件名修改
+ * <br> 本地文件处理
+ * <br> 本地文件删除
+ * <br>---------------------------------------------------------
+ * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
- * @className LocalFileHandler
- * @author Ivybest (ivybestdev@163.com)
- * @createDate 2019/11/28 10:05
+ *
+ * @author ivybest (ivybestdev@163.com)
  * @version 1.0
+ * @date 2019/12/24 0:45
  */
 public class LocalFileHandler {
     private Logger logger = LoggerFactory.getLogger(this.getClass());
