@@ -43,9 +43,9 @@ public class StringUtilTest {
         log.debug("{value:{}, type: {}", hex, "byte array");
         hex = DigitUtil.toHexString(text.charAt(0));
         log.debug("{value:{}, type: {}", hex, "char");
-        hex = DigitUtil.toHexString((int)text.charAt(0));
+        hex = DigitUtil.toHexString((int) text.charAt(0));
         log.debug("{value:{}, type: {}", hex, "int");
-        hex = DigitUtil.toHexString((long)text.charAt(0));
+        hex = DigitUtil.toHexString((long) text.charAt(0));
         log.debug("{value:{}, type: {}", hex, "long");
     }
 

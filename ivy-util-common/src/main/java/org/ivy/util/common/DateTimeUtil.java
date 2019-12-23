@@ -17,68 +17,69 @@ import java.util.Date;
  * <br>--------------------------------------------------------
  * <br>Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
- * @className DateTimeUtil
+ *
  * @author Ivybest (ivybestdev@163.com)
- * @date 2019/12/9 7:59
  * @version 1.0
+ * @className DateTimeUtil
+ * @date 2019/12/9 7:59
  * @since 1.8+
  */
 public class DateTimeUtil {
     // ----默认日期格式
     private static String defaultPattern = "yyyy-MM-dd HH:mm:ss";
 
-	/**
-	 * 获取当前日期
-	 *
-	 * @return LocalDateTime
-	 */
-	public static LocalDateTime currentDateTime(){
-		return LocalDateTime.now();
-	}
+    /**
+     * 获取当前日期
+     *
+     * @return LocalDateTime
+     */
+    public static LocalDateTime currentDateTime() {
+        return LocalDateTime.now();
+    }
 
-	/**
-	 * 按照指定的格式，获取当前日期
-	 *
-	 * @param pattern
-	 * @return String
-	 */
-	public static String currentDateTime(String pattern) {
-		String _pattern = StringUtil.isBlank(pattern) ? defaultPattern : pattern;
-		return format(currentDateTime(), pattern);
-	}
+    /**
+     * 按照指定的格式，获取当前日期
+     *
+     * @param pattern
+     * @return String
+     */
+    public static String currentDateTime(String pattern) {
+        String _pattern = StringUtil.isBlank(pattern) ? defaultPattern : pattern;
+        return format(currentDateTime(), pattern);
+    }
 
-	/**
-	 * formate Date
-	 * @param dateTime
-	 * @param pattern
-	 * @return
-	 *
-	 * @author miao.xl
-	 * @date 2014年11月17日 下午7:30:56
-	 * @version 1.0
-	 */
-	public static String format(TemporalAccessor dateTime, String pattern){
-		return DateTimeFormatter.ofPattern(pattern).format(dateTime);
-	}
+    /**
+     * formate Date
+     *
+     * @param dateTime
+     * @param pattern
+     * @return
+     * @author miao.xl
+     * @date 2014年11月17日 下午7:30:56
+     * @version 1.0
+     */
+    public static String format(TemporalAccessor dateTime, String pattern) {
+        return DateTimeFormatter.ofPattern(pattern).format(dateTime);
+    }
 
-	/**
-	 * <p>formatDate</p>
-	 * @param date
-	 * @return String
-	 *
-	 * @author miao.xl
-	 * @date 2016年3月8日-上午11:15:08
-	 */
-	public static String format(LocalDateTime date) {
-		return format(date, defaultPattern);
-	}
+    /**
+     * <p>formatDate</p>
+     *
+     * @param date
+     * @return String
+     * @author miao.xl
+     * @date 2016年3月8日-上午11:15:08
+     */
+    public static String format(LocalDateTime date) {
+        return format(date, defaultPattern);
+    }
 
-	public static String format(Date date, String pattern) {
-	    return format(getDateTime(date), pattern);
+    public static String format(Date date, String pattern) {
+        return format(getDateTime(date), pattern);
     }
 
     public static String formate(Date date) {
-	    return format(date, defaultPattern);
+        return format(date, defaultPattern);
     }
 
 
@@ -124,11 +125,11 @@ public class DateTimeUtil {
     }
 
     /**
-     * @Title: datePatternAdapte
-     * @Description: 将时间戳适配为默认格式 "yyyy-MM-dd HH:mm:ss" 时间字符串
      * @param timestamp
      * @param unit
      * @return String
+     * @Title: datePatternAdapte
+     * @Description: 将时间戳适配为默认格式 "yyyy-MM-dd HH:mm:ss" 时间字符串
      */
     public static String datePatternAdapte(Long timestamp, TemporalUnit unit) {
         return datePatternAdapte(timestamp, unit, defaultPattern);
@@ -152,7 +153,7 @@ public class DateTimeUtil {
      * @return LocalDateTime
      */
     public static LocalDateTime getDateTime(Date date) {
-        LocalDateTime dateTime = LocalDateTime.ofInstant(date.toInstant(),ZoneId.systemDefault());
+        LocalDateTime dateTime = LocalDateTime.ofInstant(date.toInstant(), ZoneId.systemDefault());
         return dateTime;
     }
 
@@ -172,18 +173,18 @@ public class DateTimeUtil {
     }
 
     /**
+     * @return Long
      * @Title: getCurrentTimestamp
      * @Description: 获取当前时间戳--毫秒数
-     * @return Long
      */
     public static Long getCurrentTimestamp() {
         return getTimestamp();
     }
 
     /**
+     * @return Long
      * @Title: getCurrentUnixTimestamp
      * @Description: 获取当前时间UNIX时间戳戳--秒数
-     * @return Long
      */
     public static Long getCurrentUnixTimestamp() {
         return getUnixTimestamp();
@@ -232,9 +233,9 @@ public class DateTimeUtil {
     /**
      * 获取一个距离from间隔为to的时间戳
      *
-     * @param from    起点时间（时间戳） -- from == null起点时间为now
-     * @param to    间隔时间（指定值）-- 距离起点时间间隔To
-     * @param unit    时间单位（用户指定的时间单位）
+     * @param from 起点时间（时间戳） -- from == null起点时间为now
+     * @param to   间隔时间（指定值）-- 距离起点时间间隔To
+     * @param unit 时间单位（用户指定的时间单位）
      * @return Long
      */
     public static Long getTimestamp(Long from, Long to, TemporalUnit unit) {
@@ -248,9 +249,9 @@ public class DateTimeUtil {
     /**
      * 获取一个距离 from 间隔为 to 的 UNIX 时间戳
      *
-     * @param from    起点时间（UNIX时间戳） -- from == null起点时间为now
-     * @param to    间隔时间（指定值）-- 距离起点时间间隔To
-     * @param unit    时间单位（用户指定的时间单位）
+     * @param from 起点时间（UNIX时间戳） -- from == null起点时间为now
+     * @param to   间隔时间（指定值）-- 距离起点时间间隔To
+     * @param unit 时间单位（用户指定的时间单位）
      * @return Long
      */
     public static Long getUnixTimestamp(long from, long to, TemporalUnit unit) {

@@ -7,8 +7,6 @@ import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
-import java.util.stream.IntStream;
-
 /**
  * <p> description:
  * <br>--------------------------------------------------------
@@ -86,14 +84,14 @@ public class DigitUtilPerformanceTest {
 
     public static String toBinString2(int data) {
         StringBuilder sb = new StringBuilder();
-        for (int j = 31; j >= 0; sb.append((data >>> j--) & 1));
+        for (int j = 31; j >= 0; sb.append((data >>> j--) & 1)) ;
         return sb.toString();
     }
 
 
     public static String toBinString3(int data) {
         char[] sequence = new char[32];
-        for (int j = 31, cursor = 0; j >= 0; sequence[cursor++] = digitArr[((data >>> j--) & 1)]);
+        for (int j = 31, cursor = 0; j >= 0; sequence[cursor++] = digitArr[((data >>> j--) & 1)]) ;
         return new String(sequence);
     }
 

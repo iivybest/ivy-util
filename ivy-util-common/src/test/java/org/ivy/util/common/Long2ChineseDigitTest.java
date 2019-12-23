@@ -18,12 +18,12 @@ public class Long2ChineseDigitTest {
     /**
      * 汉字
      */
-    private static final char [] CN_CHARS = {'零', '一', '二', '三', '四', '五', '六', '七', '八', '九'};
+    private static final char[] CN_CHARS = {'零', '一', '二', '三', '四', '五', '六', '七', '八', '九'};
 
     /**
      * 将长整型数字转换为中文数字
      *
-     * @param data          需要转换的数值
+     * @param data         需要转换的数值
      * @param isColloquial 是否口语化。例如12转换为'十二'而不是'一十二'。
      * @return
      */
@@ -88,7 +88,7 @@ public class Long2ChineseDigitTest {
         }
 
         char[] tempArr = new char[cnchars.size()];
-        for(int i = 0, size = cnchars.size(); i < size; i++) {
+        for (int i = 0, size = cnchars.size(); i < size; i++) {
             tempArr[i] = cnchars.get(i);
         }
         return new String(tempArr);

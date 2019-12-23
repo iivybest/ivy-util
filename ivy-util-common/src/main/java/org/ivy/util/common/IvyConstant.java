@@ -13,10 +13,10 @@ package org.ivy.util.common;
  * <br>Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
  *
- * @className IvyConstant
  * @author Ivybest (ivybestdev@163.com)
- * @date 2019/12/17 16:01
  * @version 1.0
+ * @className IvyConstant
+ * @date 2019/12/17 16:01
  */
 public interface IvyConstant {
 

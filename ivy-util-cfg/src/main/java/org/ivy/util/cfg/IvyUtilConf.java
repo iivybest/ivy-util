@@ -17,11 +17,11 @@ import java.util.Properties;
  * <br>--------------------------------------------------------
  * <br>Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
- * 
- * @className IvyUtilConf
+ *
  * @author Ivybest (ivybestdev@163.com)
- * @date 2016/3/22 09:03
  * @version 1.0
+ * @className IvyUtilConf
+ * @date 2016/3/22 09:03
  */
 public class IvyUtilConf {
     private static String classPath;
@@ -59,9 +59,9 @@ public class IvyUtilConf {
     private static void initProp() {
         // 将系统classpath位置保存到SystemConf中。
         setProperty("classPath", classPath);
-		File file = null;
+        File file = null;
         for (int i = propertiesUrlMap.size(); i >= 1; i--) {
-			file = new File(propertiesUrlMap.get(String.valueOf(i)));
+            file = new File(propertiesUrlMap.get(String.valueOf(i)));
             if (file.exists()) {
                 try {
                     Properties prop = PropertiesUtil.load(file.getAbsolutePath());

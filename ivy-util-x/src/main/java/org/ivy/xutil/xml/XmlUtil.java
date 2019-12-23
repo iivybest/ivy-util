@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.ivy.xutil.xml;
 
@@ -22,37 +22,37 @@ import java.io.StringWriter;
  * @version 1.0
  */
 public class XmlUtil {
-	private static String encoding = "utf-8";
-	
-	
-	/**
-	 * format a xml string
-	 * @param str
-	 * @return
-	 * 
-	 * @author miao.xl
-	 * @date 2014年9月2日 下午3:56:12
-	 * @version 1.0
-	 */
-	public static String format(String str) {
-		StringWriter out = new StringWriter();
-		SAXReader reader = new SAXReader();
-		StringReader in = new StringReader(str);
-		Document doc;
-		try {
-			doc = reader.read(in);
-			OutputFormat formater = OutputFormat.createPrettyPrint();
-			formater.setEncoding(encoding);
-			XMLWriter writer = new XMLWriter(out, formater);
-			writer.setEscapeText(true);
-			writer.write(doc);
-			writer.flush();
-			writer.close();
-		} catch (DocumentException e) {
-			e.printStackTrace();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return out.getBuffer().toString();
-	}
+    private static String encoding = "utf-8";
+
+
+    /**
+     * format a xml string
+     * @param str
+     * @return
+     *
+     * @author miao.xl
+     * @date 2014年9月2日 下午3:56:12
+     * @version 1.0
+     */
+    public static String format(String str) {
+        StringWriter out = new StringWriter();
+        SAXReader reader = new SAXReader();
+        StringReader in = new StringReader(str);
+        Document doc;
+        try {
+            doc = reader.read(in);
+            OutputFormat formater = OutputFormat.createPrettyPrint();
+            formater.setEncoding(encoding);
+            XMLWriter writer = new XMLWriter(out, formater);
+            writer.setEscapeText(true);
+            writer.write(doc);
+            writer.flush();
+            writer.close();
+        } catch (DocumentException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return out.getBuffer().toString();
+    }
 }

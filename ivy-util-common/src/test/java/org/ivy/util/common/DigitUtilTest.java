@@ -134,6 +134,7 @@ public class DigitUtilTest {
             "10360201",
             "1000000000"
     };
+
     @Before
     public void setUp() {
 
@@ -150,7 +151,7 @@ public class DigitUtilTest {
         int max = Integer.MAX_VALUE;
 
         int[] data = {min, max, 0, 1, -1, 3, -3, 123456789};
-        for(int e : data)
+        for (int e : data)
             log.debug("{\nval: {}, \nhex: {}, \nbin: {}, \nbin: {}}",
                     e, DigitUtil.toHexString(e), DigitUtil.toBinString(e), Integer.toBinaryString(e));
 
@@ -223,7 +224,7 @@ public class DigitUtilTest {
     public void test_05_long2ChineseDigit() {
         String format;
         long num;
-        for(int i = 0; i < 10000; i++) {
+        for (int i = 0; i < 10000; i++) {
             for (String e : this.numbers) {
                 num = Long.parseLong(e);
                 format = Long2ChineseDigitTest.long2ChineseDigit(num, true);
@@ -236,7 +237,7 @@ public class DigitUtilTest {
     public void test_06_advLong2ChineseDigit() {
         long num;
         String format;
-        for(int i = 0; i < 1; i++) {
+        for (int i = 0; i < 1; i++) {
             for (String e : this.numbers) {
                 num = Long.parseLong(e);
                 format = AdvLong2ChineseDigitTest.long2ChineseDigit(num, true);

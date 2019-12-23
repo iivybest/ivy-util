@@ -34,8 +34,8 @@ import java.lang.annotation.*;
 public @interface Description {
 
     /**
-     *
      * 注释内容
+     *
      * @return String
      */
     public String[] value();

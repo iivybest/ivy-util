@@ -13,14 +13,14 @@ import java.util.Arrays;
  * <p>  classname: ArrayxTest
  * <br> description: Arrayx tase case
  * <br>---------------------------------------------------------
- * <br> 
+ * <br>
  * <br>---------------------------------------------------------
  * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
- * 
+ *
  * @author Ivybest (ivybestdev@163.com)
- * @date 2019/12/23 11:27
  * @version 1.0
+ * @date 2019/12/23 11:27
  */
 @Slf4j
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -31,10 +31,10 @@ public class ArrayxTest {
 
     @Before
     public void setUp() {
-        this.data = new byte[] {12, 11, -9, 36, 1, 0 , -1, 41, 54};
+        this.data = new byte[]{12, 11, -9, 36, 1, 0, -1, 41, 54};
     }
 
-//    @After
+    //    @After
     public void tearDown() {
         log.debug("====> split line-----------------------------");
     }

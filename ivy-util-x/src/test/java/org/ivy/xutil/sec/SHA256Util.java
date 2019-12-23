@@ -5,19 +5,19 @@ import java.security.NoSuchAlgorithmException;
 
 public class SHA256Util {
 
-	/* Test */
+    /* Test */
     public static void main(String[] args) {
         String origin = "航天信息股份有限公司";
         String signature = byteArr2Hex(sha256(origin));
         System.out.println(signature);
     }
 
-	/**
-	 *  计算 SHA256 摘要
-	 *
-	 * @param data
-	 * @return
-	 */
+    /**
+     * 计算 SHA256 摘要
+     *
+     * @param data
+     * @return
+     */
     public static byte[] sha256(String data) {
         MessageDigest instance = null;
         try {
@@ -28,13 +28,13 @@ public class SHA256Util {
         return instance.digest(data.getBytes());
     }
 
-	/**
-	 * byte array 转 Hex String
-	 *
-	 * @param arr
-	 * @return
-	 */
-	public static String byteArr2Hex(byte[] arr) {
+    /**
+     * byte array 转 Hex String
+     *
+     * @param arr
+     * @return
+     */
+    public static String byteArr2Hex(byte[] arr) {
         StringBuilder builder = new StringBuilder();
         String stmp;
         for (int i = 0; arr != null && i < arr.length; i++) {
@@ -43,7 +43,7 @@ public class SHA256Util {
                 builder.append('0');
             builder.append(stmp);
         }
-		return builder.toString().toUpperCase();
+        return builder.toString().toUpperCase();
     }
 }
 

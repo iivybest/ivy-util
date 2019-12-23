@@ -41,324 +41,317 @@ import java.util.Map;
 
 /**
  * HTTP 请求工具类
- * 
+ *
  * @author : liii
  * @version : 1.0.0
  * @date : 2015/7/21
  * @see : TODO
  */
 public class HttpUtil {
-	private static PoolingHttpClientConnectionManager connMgr;
-	private static RequestConfig requestConfig;
-	private static final int MAX_TIMEOUT = 7000;
+    private static PoolingHttpClientConnectionManager connMgr;
+    private static RequestConfig requestConfig;
+    private static final int MAX_TIMEOUT = 7000;
 
-	static {
-		// 设置连接池
-		connMgr = new PoolingHttpClientConnectionManager();
-		// 设置连接池大小
-		connMgr.setMaxTotal(100);
-		connMgr.setDefaultMaxPerRoute(connMgr.getMaxTotal());
-		connMgr.setValidateAfterInactivity(100);
+    static {
+        // 设置连接池
+        connMgr = new PoolingHttpClientConnectionManager();
+        // 设置连接池大小
+        connMgr.setMaxTotal(100);
+        connMgr.setDefaultMaxPerRoute(connMgr.getMaxTotal());
+        connMgr.setValidateAfterInactivity(100);
 
-		RequestConfig.Builder configBuilder = RequestConfig.custom();
-		// 设置连接超时
-		configBuilder.setConnectTimeout(MAX_TIMEOUT);
-		// 设置读取超时
-		configBuilder.setSocketTimeout(MAX_TIMEOUT);
-		// 设置从连接池获取连接实例的超时
-		configBuilder.setConnectionRequestTimeout(MAX_TIMEOUT);
-		// 在提交请求之前 测试连接是否可用
-		// use connMgr.setValidateAfterInactivity(100) instead of this method
+        RequestConfig.Builder configBuilder = RequestConfig.custom();
+        // 设置连接超时
+        configBuilder.setConnectTimeout(MAX_TIMEOUT);
+        // 设置读取超时
+        configBuilder.setSocketTimeout(MAX_TIMEOUT);
+        // 设置从连接池获取连接实例的超时
+        configBuilder.setConnectionRequestTimeout(MAX_TIMEOUT);
+        // 在提交请求之前 测试连接是否可用
+        // use connMgr.setValidateAfterInactivity(100) instead of this method
 //		configBuilder.setStaleConnectionCheckEnabled(true);
-		requestConfig = configBuilder.build();
-	}
+        requestConfig = configBuilder.build();
+    }
 
-	/**
-	 * 发送 GET 请求（HTTP），不带输入数据
-	 * 
-	 * @param url
-	 * @return
-	 */
-	public static byte[] doGet(String url) {
-		return doGet(url, new HashMap<String, Object>());
-	}
+    /**
+     * 发送 GET 请求（HTTP），不带输入数据
+     *
+     * @param url
+     * @return
+     */
+    public static byte[] doGet(String url) {
+        return doGet(url, new HashMap<String, Object>());
+    }
 
-	/**
-	 * 发送 GET 请求（HTTP），K-V形式
-	 * 
-	 * @param url
-	 * @param params
-	 * @return
-	 */
-	public static byte[] doGet(String url, Map<String, Object> params) {
-		String apiUrl = url;
-		StringBuffer param = new StringBuffer();
-		int i = 0;
-		for (String key : params.keySet()) {
-			if (i == 0) param.append("?");
-			else param.append("&");
-			param.append(key).append("=").append(params.get(key));
-			i++;
-		}
-		apiUrl += param;
-		byte[] result = null;
-		HttpClient httpclient = new DefaultHttpClient();
-		try {
-			HttpGet httpPost = new HttpGet(apiUrl);
-			HttpResponse response = httpclient.execute(httpPost);
-			int statusCode = response.getStatusLine().getStatusCode();
+    /**
+     * 发送 GET 请求（HTTP），K-V形式
+     *
+     * @param url
+     * @param params
+     * @return
+     */
+    public static byte[] doGet(String url, Map<String, Object> params) {
+        String apiUrl = url;
+        StringBuffer param = new StringBuffer();
+        int i = 0;
+        for (String key : params.keySet()) {
+            if (i == 0) param.append("?");
+            else param.append("&");
+            param.append(key).append("=").append(params.get(key));
+            i++;
+        }
+        apiUrl += param;
+        byte[] result = null;
+        HttpClient httpclient = new DefaultHttpClient();
+        try {
+            HttpGet httpPost = new HttpGet(apiUrl);
+            HttpResponse response = httpclient.execute(httpPost);
+            int statusCode = response.getStatusLine().getStatusCode();
 
-			System.out.println("执行状态码 : " + statusCode);
+            System.out.println("执行状态码 : " + statusCode);
 
-			HttpEntity entity = response.getEntity();
-			if (entity != null) {
-				InputStream instream = entity.getContent();
-				BufferedInputStream bis = new BufferedInputStream(instream);
-				ByteArrayOutputStream baos = new ByteArrayOutputStream();
-				
-				byte [] buf = new byte[1024];
-				int len;
-				while((len = bis.read(buf)) > 0) baos.write(buf, 0, len);
-				result = baos.toByteArray();
-				
-				instream.close();
-				bis.close();
-				baos.close();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		return result;
-	}
+            HttpEntity entity = response.getEntity();
+            if (entity != null) {
+                InputStream instream = entity.getContent();
+                BufferedInputStream bis = new BufferedInputStream(instream);
+                ByteArrayOutputStream baos = new ByteArrayOutputStream();
 
-	/**
-	 * 发送 POST 请求（HTTP），不带输入数据
-	 * 
-	 * @param apiUrl
-	 * @return
-	 */
-	public static byte[] doPost(String apiUrl) {
-		return doPost(apiUrl, new HashMap<String, Object>());
-	}
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = bis.read(buf)) > 0) baos.write(buf, 0, len);
+                result = baos.toByteArray();
 
-	/**
-	 * 发送 POST 请求（HTTP），K-V形式
-	 * 
-	 * @param apiUrl
-	 *            API接口URL
-	 * @param params
-	 *            参数map
-	 * @return
-	 */
-	public static byte[] doPost(String apiUrl, Map<String, Object> params) {
-		CloseableHttpClient httpClient = HttpClients.createDefault();
-		byte[] httpStr = null;
-		HttpPost httpPost = new HttpPost(apiUrl);
-		CloseableHttpResponse response = null;
+                instream.close();
+                bis.close();
+                baos.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
-		try {
-			httpPost.setConfig(requestConfig);
-			List<NameValuePair> pairList = new ArrayList<>(params.size());
-			for (Map.Entry<String, Object> entry : params.entrySet()) {
-				NameValuePair pair = new BasicNameValuePair(entry.getKey(), entry.getValue().toString());
-				pairList.add(pair);
-			}
-			httpPost.setEntity(new UrlEncodedFormEntity(pairList, Charset.forName("UTF-8")));
-			response = httpClient.execute(httpPost);
-			System.out.println(response.toString());
-			HttpEntity entity = response.getEntity();
-			httpStr = EntityUtils.toByteArray(entity);
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (response != null) {
-				try {
-					EntityUtils.consume(response.getEntity());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return httpStr;
-	}
+    /**
+     * 发送 POST 请求（HTTP），不带输入数据
+     *
+     * @param apiUrl
+     * @return
+     */
+    public static byte[] doPost(String apiUrl) {
+        return doPost(apiUrl, new HashMap<String, Object>());
+    }
 
-	/**
-	 * 发送 POST 请求（HTTP），JSON形式
-	 * 
-	 * @param apiUrl
-	 * @param json
-	 *            json对象
-	 * @return
-	 */
-	public static String doPost(String apiUrl, Object json) {
-		CloseableHttpClient httpClient = HttpClients.createDefault();
-		String httpStr = null;
-		HttpPost httpPost = new HttpPost(apiUrl);
-		CloseableHttpResponse response = null;
+    /**
+     * 发送 POST 请求（HTTP），K-V形式
+     *
+     * @param apiUrl API接口URL
+     * @param params 参数map
+     * @return
+     */
+    public static byte[] doPost(String apiUrl, Map<String, Object> params) {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        byte[] httpStr = null;
+        HttpPost httpPost = new HttpPost(apiUrl);
+        CloseableHttpResponse response = null;
 
-		try {
-			httpPost.setConfig(requestConfig);
-			StringEntity stringEntity = new StringEntity(json.toString(), "UTF-8");// 解决中文乱码问题
-			stringEntity.setContentEncoding("UTF-8");
-			stringEntity.setContentType("application/json");
-			httpPost.setEntity(stringEntity);
-			response = httpClient.execute(httpPost);
-			HttpEntity entity = response.getEntity();
-			System.out.println(response.getStatusLine().getStatusCode());
-			httpStr = EntityUtils.toString(entity, "UTF-8");
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (response != null) {
-				try {
-					EntityUtils.consume(response.getEntity());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return httpStr;
-	}
+        try {
+            httpPost.setConfig(requestConfig);
+            List<NameValuePair> pairList = new ArrayList<>(params.size());
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                NameValuePair pair = new BasicNameValuePair(entry.getKey(), entry.getValue().toString());
+                pairList.add(pair);
+            }
+            httpPost.setEntity(new UrlEncodedFormEntity(pairList, Charset.forName("UTF-8")));
+            response = httpClient.execute(httpPost);
+            System.out.println(response.toString());
+            HttpEntity entity = response.getEntity();
+            httpStr = EntityUtils.toByteArray(entity);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (response != null) {
+                try {
+                    EntityUtils.consume(response.getEntity());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return httpStr;
+    }
 
-	/**
-	 * 发送 SSL POST 请求（HTTPS），K-V形式
-	 * 
-	 * @param apiUrl
-	 *            API接口URL
-	 * @param params
-	 *            参数map
-	 * @return
-	 */
-	public static byte[] doPostSSL(String apiUrl, Map<String, Object> params) {
-		CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(createSSLConnSocketFactory())
-				.setConnectionManager(connMgr).setDefaultRequestConfig(requestConfig).build();
-		HttpPost httpPost = new HttpPost(apiUrl);
-		CloseableHttpResponse response = null;
-		byte[] httpStr = null;
+    /**
+     * 发送 POST 请求（HTTP），JSON形式
+     *
+     * @param apiUrl
+     * @param json   json对象
+     * @return
+     */
+    public static String doPost(String apiUrl, Object json) {
+        CloseableHttpClient httpClient = HttpClients.createDefault();
+        String httpStr = null;
+        HttpPost httpPost = new HttpPost(apiUrl);
+        CloseableHttpResponse response = null;
 
-		try {
-			httpPost.setConfig(requestConfig);
-			List<NameValuePair> pairList = new ArrayList<NameValuePair>(params.size());
-			for (Map.Entry<String, Object> entry : params.entrySet()) {
-				NameValuePair pair = new BasicNameValuePair(entry.getKey(), entry.getValue().toString());
-				pairList.add(pair);
-			}
-			httpPost.setEntity(new UrlEncodedFormEntity(pairList, Charset.forName("utf-8")));
-			response = httpClient.execute(httpPost);
-			int statusCode = response.getStatusLine().getStatusCode();
-			if (statusCode != HttpStatus.SC_OK) {
-				return null;
-			}
-			HttpEntity entity = response.getEntity();
-			if (entity == null) {
-				return null;
-			}
-			httpStr = EntityUtils.toByteArray(entity);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (response != null) {
-				try {
-					EntityUtils.consume(response.getEntity());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return httpStr;
-	}
+        try {
+            httpPost.setConfig(requestConfig);
+            StringEntity stringEntity = new StringEntity(json.toString(), "UTF-8");// 解决中文乱码问题
+            stringEntity.setContentEncoding("UTF-8");
+            stringEntity.setContentType("application/json");
+            httpPost.setEntity(stringEntity);
+            response = httpClient.execute(httpPost);
+            HttpEntity entity = response.getEntity();
+            System.out.println(response.getStatusLine().getStatusCode());
+            httpStr = EntityUtils.toString(entity, "UTF-8");
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (response != null) {
+                try {
+                    EntityUtils.consume(response.getEntity());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return httpStr;
+    }
 
-	/**
-	 * 发送 SSL POST 请求（HTTPS），JSON形式
-	 * 
-	 * @param apiUrl
-	 *            API接口URL
-	 * @param json
-	 *            JSON对象
-	 * @return
-	 */
-	public static byte[] doPostSSL(String apiUrl, Object json) {
-		CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(createSSLConnSocketFactory())
-				.setConnectionManager(connMgr).setDefaultRequestConfig(requestConfig).build();
-		HttpPost httpPost = new HttpPost(apiUrl);
-		CloseableHttpResponse response = null;
-		byte[] httpStr = null;
+    /**
+     * 发送 SSL POST 请求（HTTPS），K-V形式
+     *
+     * @param apiUrl API接口URL
+     * @param params 参数map
+     * @return
+     */
+    public static byte[] doPostSSL(String apiUrl, Map<String, Object> params) {
+        CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(createSSLConnSocketFactory())
+                .setConnectionManager(connMgr).setDefaultRequestConfig(requestConfig).build();
+        HttpPost httpPost = new HttpPost(apiUrl);
+        CloseableHttpResponse response = null;
+        byte[] httpStr = null;
 
-		try {
-			httpPost.setConfig(requestConfig);
-			StringEntity stringEntity = new StringEntity(json.toString(), "UTF-8");// 解决中文乱码问题
-			stringEntity.setContentEncoding("UTF-8");
-			stringEntity.setContentType("application/json");
-			httpPost.setEntity(stringEntity);
-			response = httpClient.execute(httpPost);
-			int statusCode = response.getStatusLine().getStatusCode();
-			if (statusCode != HttpStatus.SC_OK) {
-				return null;
-			}
-			HttpEntity entity = response.getEntity();
-			if (entity == null) {
-				return null;
-			}
-			httpStr = EntityUtils.toByteArray(entity);
-		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			if (response != null) {
-				try {
-					EntityUtils.consume(response.getEntity());
-				} catch (IOException e) {
-					e.printStackTrace();
-				}
-			}
-		}
-		return httpStr;
-	}
+        try {
+            httpPost.setConfig(requestConfig);
+            List<NameValuePair> pairList = new ArrayList<NameValuePair>(params.size());
+            for (Map.Entry<String, Object> entry : params.entrySet()) {
+                NameValuePair pair = new BasicNameValuePair(entry.getKey(), entry.getValue().toString());
+                pairList.add(pair);
+            }
+            httpPost.setEntity(new UrlEncodedFormEntity(pairList, Charset.forName("utf-8")));
+            response = httpClient.execute(httpPost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode != HttpStatus.SC_OK) {
+                return null;
+            }
+            HttpEntity entity = response.getEntity();
+            if (entity == null) {
+                return null;
+            }
+            httpStr = EntityUtils.toByteArray(entity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (response != null) {
+                try {
+                    EntityUtils.consume(response.getEntity());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return httpStr;
+    }
 
-	/**
-	 * 创建SSL安全连接
-	 * 
-	 * @return
-	 */
-	private static SSLConnectionSocketFactory createSSLConnSocketFactory() {
-		SSLConnectionSocketFactory sslsf = null;
-		try {
-			SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
+    /**
+     * 发送 SSL POST 请求（HTTPS），JSON形式
+     *
+     * @param apiUrl API接口URL
+     * @param json   JSON对象
+     * @return
+     */
+    public static byte[] doPostSSL(String apiUrl, Object json) {
+        CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(createSSLConnSocketFactory())
+                .setConnectionManager(connMgr).setDefaultRequestConfig(requestConfig).build();
+        HttpPost httpPost = new HttpPost(apiUrl);
+        CloseableHttpResponse response = null;
+        byte[] httpStr = null;
 
-				public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
-					return true;
-				}
-			}).build();
-			sslsf = new SSLConnectionSocketFactory(sslContext, new X509HostnameVerifier() {
+        try {
+            httpPost.setConfig(requestConfig);
+            StringEntity stringEntity = new StringEntity(json.toString(), "UTF-8");// 解决中文乱码问题
+            stringEntity.setContentEncoding("UTF-8");
+            stringEntity.setContentType("application/json");
+            httpPost.setEntity(stringEntity);
+            response = httpClient.execute(httpPost);
+            int statusCode = response.getStatusLine().getStatusCode();
+            if (statusCode != HttpStatus.SC_OK) {
+                return null;
+            }
+            HttpEntity entity = response.getEntity();
+            if (entity == null) {
+                return null;
+            }
+            httpStr = EntityUtils.toByteArray(entity);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (response != null) {
+                try {
+                    EntityUtils.consume(response.getEntity());
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        return httpStr;
+    }
 
-				@Override
-				public boolean verify(String arg0, SSLSession arg1) {
-					return true;
-				}
+    /**
+     * 创建SSL安全连接
+     *
+     * @return
+     */
+    private static SSLConnectionSocketFactory createSSLConnSocketFactory() {
+        SSLConnectionSocketFactory sslsf = null;
+        try {
+            SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
 
-				@Override
-				public void verify(String host, SSLSocket ssl) throws IOException {
-				}
+                public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
+                    return true;
+                }
+            }).build();
+            sslsf = new SSLConnectionSocketFactory(sslContext, new X509HostnameVerifier() {
 
-				@Override
-				public void verify(String host, X509Certificate cert) throws SSLException {
-				}
+                @Override
+                public boolean verify(String arg0, SSLSession arg1) {
+                    return true;
+                }
 
-				@Override
-				public void verify(String host, String[] cns, String[] subjectAlts) throws SSLException {
-				}
-			});
-		} catch (GeneralSecurityException e) {
-			e.printStackTrace();
-		}
-		return sslsf;
-	}
+                @Override
+                public void verify(String host, SSLSocket ssl) throws IOException {
+                }
 
-	/**
-	 * 测试方法
-	 * 
-	 * @param args
-	 */
-	public static void main(String[] args) throws Exception {
+                @Override
+                public void verify(String host, X509Certificate cert) throws SSLException {
+                }
 
-	}
+                @Override
+                public void verify(String host, String[] cns, String[] subjectAlts) throws SSLException {
+                }
+            });
+        } catch (GeneralSecurityException e) {
+            e.printStackTrace();
+        }
+        return sslsf;
+    }
+
+    /**
+     * 测试方法
+     *
+     * @param args
+     */
+    public static void main(String[] args) throws Exception {
+
+    }
 }

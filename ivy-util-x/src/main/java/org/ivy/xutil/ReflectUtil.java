@@ -13,9 +13,8 @@ package org.ivy.xutil;
  * <p>TODO</p>
  *
  * @author miao.xl
- * @date 2016年3月8日-上午10:49:12
  * @version 1.0
- *
+ * @date 2016年3月8日-上午10:49:12
  */
 public class ReflectUtil {
 

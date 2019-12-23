@@ -15,7 +15,7 @@ public class AdvLong2ChineseDigitTest {
     /**
      * 中文数字
      */
-    private  static final char[] cnArr = {'零', '一', '二', '三', '四', '五', '六', '七', '八', '九'};
+    private static final char[] cnArr = {'零', '一', '二', '三', '四', '五', '六', '七', '八', '九'};
 
     /**
      * 将长整型数字转换为中文数字
@@ -60,20 +60,20 @@ public class AdvLong2ChineseDigitTest {
 //                System.out.println("====> cursor: " + cursor);
                 if (cursor > 1 && !(cnArr[0] == cnChars[cursor - 1])) {
                     // 补0
-                    cnChars[++ cursor] = cnArr[0];
+                    cnChars[++cursor] = cnArr[0];
                 }
             }
 
             // 单位进位(万、亿)，或者非0时加上单位
             if (isUnitStep || !isZero) {
-                cnChars[++ cursor] = cnUnit;
+                cnChars[++cursor] = cnUnit;
                 isLastUnitStep = isUnitStep;
             }
             // 当前位为 0 且相邻低位为 0，或者当前位为 0 并且为单位进位时进行省略
             if (isZero && (isZeroLow || isUnitStep))
                 continue;
 
-            cnChars[++ cursor] = cnChar;
+            cnChars[++cursor] = cnChar;
             isLastUnitStep = false;
         }
 
@@ -81,7 +81,7 @@ public class AdvLong2ChineseDigitTest {
         // 清除最后一位的0  
         char chEnd = cnChars[cursor];
         if (cnArr[0] == chEnd || allCnUnits[0] == chEnd) {
-            cnChars[cursor --] = 'x';
+            cnChars[cursor--] = 'x';
         }
 
         // 口语化处理  
@@ -90,7 +90,7 @@ public class AdvLong2ChineseDigitTest {
             char chSecond = cnChars[1];
             // 是否以'一'开头，紧跟'十'
             if (chFirst == cnArr[1] && chSecond == allCnUnits[1]) {
-                cnChars[offset ++] = 'x';
+                cnChars[offset++] = 'x';
             }
         }
         return new String(cnChars, offset, cursor + 1 - offset);

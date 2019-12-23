@@ -48,7 +48,7 @@ public class StringUtil {
      * @return boolean
      */
     public static boolean isNonBlank(String arg0) {
-        return ! isBlank(arg0.trim());
+        return !isBlank(arg0.trim());
     }
 
 
@@ -133,8 +133,6 @@ public class StringUtil {
         }
         return result.toString().substring(0, result.length() - 1);
     }
-
-
 
 
     public static String toHexString(String data) {

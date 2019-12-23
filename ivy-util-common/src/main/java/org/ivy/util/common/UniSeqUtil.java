@@ -1,5 +1,5 @@
 /**
- * 
+ *
  */
 package org.ivy.util.common;
 
@@ -23,44 +23,44 @@ import java.util.UUID;
  */
 public class UniSeqUtil {
 
-	/**
-	 *
-	 * <p> description: 生成一个唯一序列号
-	 * <br>--------------------------------------------------------
-	 * <br> uniseq = timestamp-uuid-sead
-	 * <br> uuid 按照 “-” 进行分割，取第 5 部分
-	 * <br>--------------------------------------------------------
-	 * </p>
-	 *
-	 * @param sead
-	 * @return String
-	 */
-	@Recommend(value = false, msg = "高并发下有重复的可能性")
-	public static String generateUniSeq(String sead) {
-		String uuid = generateUUID();
-		long timestamp = DateTimeUtil.getTimestamp(null);
+    /**
+     *
+     * <p> description: 生成一个唯一序列号
+     * <br>--------------------------------------------------------
+     * <br> uniseq = timestamp-uuid-sead
+     * <br> uuid 按照 “-” 进行分割，取第 5 部分
+     * <br>--------------------------------------------------------
+     * </p>
+     *
+     * @param sead
+     * @return String
+     */
+    @Recommend(value = false, msg = "高并发下有重复的可能性")
+    public static String generateUniSeq(String sead) {
+        String uuid = generateUUID();
+        long timestamp = DateTimeUtil.getTimestamp(null);
 
-		StringBuilder uniSeq = new StringBuilder();
-		uniSeq.append(String.valueOf(timestamp))
-				.append('-')
-				.append(uuid.split("-")[4].toUpperCase())
-				.append('-')
-				.append(StringUtil.isBlank(sead) ? "0000" : sead);
-		return uniSeq.toString();
-	}
-	
-	public static String generateUniSeq() {
-		return generateUniSeq(null);
-	}
-	
-	public static String generateUUID() {
-		return UUID.randomUUID().toString();
-	}
-	
-	public static String generateUUIDFormat() {
-		return generateUUID().replace("-", "").toUpperCase();
-	}
-	
+        StringBuilder uniSeq = new StringBuilder();
+        uniSeq.append(String.valueOf(timestamp))
+                .append('-')
+                .append(uuid.split("-")[4].toUpperCase())
+                .append('-')
+                .append(StringUtil.isBlank(sead) ? "0000" : sead);
+        return uniSeq.toString();
+    }
+
+    public static String generateUniSeq() {
+        return generateUniSeq(null);
+    }
+
+    public static String generateUUID() {
+        return UUID.randomUUID().toString();
+    }
+
+    public static String generateUUIDFormat() {
+        return generateUUID().replace("-", "").toUpperCase();
+    }
+
 }
 
 

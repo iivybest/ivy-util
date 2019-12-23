@@ -1,5 +1,5 @@
 /**
- * @Package edu.hit.utility.cfg 
+ * @Package edu.hit.utility.cfg
  * @author miao.xl
  * @date 2016年3月22日-上午9:12:09
  */
@@ -19,15 +19,15 @@ package org.ivy.util.cfg;
  * @version 1.0
  */
 public interface IvyUtilConstant {
-	/*
-	 * 自定义字段分隔符
-	 */
-	String SEPARATOR = ".";
-	/*
-	 * 自定义字段前缀
-	 */
-	String PRIFIX = "xutil";
-	String ENCODING = "encoding";
-	String LOG_DIR = "log.dir";
-	String DIR = "dir";
+    /*
+     * 自定义字段分隔符
+     */
+    String SEPARATOR = ".";
+    /*
+     * 自定义字段前缀
+     */
+    String PRIFIX = "xutil";
+    String ENCODING = "encoding";
+    String LOG_DIR = "log.dir";
+    String DIR = "dir";
 }

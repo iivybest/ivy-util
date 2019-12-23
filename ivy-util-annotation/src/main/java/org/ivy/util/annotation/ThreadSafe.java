@@ -34,6 +34,6 @@ public @interface ThreadSafe {
      *
      * @return String
      */
-    public String [] msg();
+    public String[] msg();
 
 }

@@ -36,41 +36,44 @@ public class RandomSeqUtilTest {
     @Test
     public void test_01_generateArabic() {
         String sequence = null;
-        for(int i = 0; i < this.count; i++) {
+        for (int i = 0; i < this.count; i++) {
             sequence = RandomSeqUtil.generateRandomArabic(8);
             log.debug("{sequence: {}}", sequence);
         }
     }
+
     @Test
     public void test_02_generateLetter() {
         String sequence = null;
-        for(int i = 0; i < this.count; i++) {
+        for (int i = 0; i < this.count; i++) {
             sequence = RandomSeqUtil.generateRandomLetter(8);
             log.debug("{sequence: {}}", sequence);
         }
     }
+
     @Test
     public void test_03_generateCapitalLetter() {
         String sequence = null;
-        for(int i = 0; i < this.count; i++) {
+        for (int i = 0; i < this.count; i++) {
             sequence = RandomSeqUtil.generateRandomCapitalLetter(8);
             log.debug("{sequence: {}}", sequence);
         }
     }
+
     @Test
     public void test_04_generateHex() {
         String sequence = null;
-        for(int i = 0; i < this.count; i++) {
+        for (int i = 0; i < this.count; i++) {
             sequence = RandomSeqUtil.generateRandomHex(8);
             log.debug("{sequence: {}}", sequence);
         }
     }
 
     @Test
-    @Description ("生成随机序列测试")
+    @Description("生成随机序列测试")
     public void test_05_generateSequence() {
         String sequence = null;
-        for(int i = 0; i < this.count; i++) {
+        for (int i = 0; i < this.count; i++) {
             sequence = RandomSeqUtil.generateRandomSequence(16);
             log.debug("{sequence: {}}", sequence);
         }
