@@ -23,6 +23,9 @@ public interface IvyConstant {
     // *.xml
     String REGEXP_XML = "^[^\\.]+.*\\.[x|X][m|M][l|L]$";
 
+    String UNIX_SEPARATOR = "/";
+    String WIN_SEPARATOR = "\\";
+
     // 阿拉伯数字数组
     char[] digitArr = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
     // 大写英文字母数组

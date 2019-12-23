@@ -4,16 +4,16 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * <p> description: 摘要工具
+ * <p>  classname: MessageDigestUtil
+ * <br> description: 摘要工具
  * <br>--------------------------------------------------------
- * <br> TODO
+ * <br>
  * <br>--------------------------------------------------------
  * <br>Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
  *
  * @author Ivybest (ivybestdev@163.com)
  * @version 1.0
- * @className MessageDigestUtil
  * @date 2014/6/11 15:58
  */
 public class MessageDigestUtil {
@@ -65,9 +65,9 @@ public class MessageDigestUtil {
     /**
      * 计算摘要
      *
-     * @param data
+     * @param data      data
      * @param algorithm 摘要算法
-     * @return
+     * @return byte[]
      */
     public static byte[] digest(String algorithm, byte[] data) {
         MessageDigest instance = null;

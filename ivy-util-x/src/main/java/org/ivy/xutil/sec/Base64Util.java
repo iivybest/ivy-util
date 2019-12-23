@@ -3,11 +3,18 @@ package org.ivy.xutil.sec;
 import java.util.Base64;
 
 /**
- * @author Ivybest imiaodev@163.com
- * @Classname Base64Util
- * @Createdate 2018年4月19日 下午4:22:44
- * @Version 1.0 ------------------------------------------
- * @Description 使用JDK8提供的base64工具
+ * <p>  classname: Base64Util
+ * <br> description: Base64 Util
+ * <br>---------------------------------------------------------
+ * <br>
+ * <br>---------------------------------------------------------
+ * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
+ * </p>
+ *
+ * @author Ivybest (ivybestdev@163.com)
+ * @version 1.0
+ * @date 2018/4/19 18:17
+ * @since 1.8+
  */
 public class Base64Util {
 

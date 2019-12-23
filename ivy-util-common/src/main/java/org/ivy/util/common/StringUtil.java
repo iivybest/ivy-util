@@ -10,7 +10,8 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * <p> description:
+ * <p>  classname：StringUtil
+ * <br> description:
  * <br>--------------------------------------------------------
  * <br> String 工具类
  * <br>--------------------------------------------------------
@@ -19,7 +20,6 @@ import java.util.concurrent.ConcurrentHashMap;
  *
  * @author Ivybest (ivybestdev@163.com)
  * @version 1.0
- * @className StringUtil
  * @date 2014/6/13 19:10
  */
 public class StringUtil {
@@ -44,8 +44,8 @@ public class StringUtil {
     /**
      * 检查字符串是否非空
      *
-     * @param arg0
-     * @return boolean
+     * @param arg0 argument
+     * @return boolean result
      */
     public static boolean isNonBlank(String arg0) {
         return !isBlank(arg0.trim());
@@ -55,18 +55,18 @@ public class StringUtil {
     /**
      * 检查字符串是否为空
      *
-     * @param arg0
-     * @return boolean
+     * @param arg0 argument
+     * @return boolean result
      */
     public static boolean isBlank(String arg0) {
         return arg0 == null || arg0.length() == 0;
     }
 
     /**
+     *  多个字段中是否包含空字段
+     *
      * @param args
-     * @return boolean
-     * @Title: containsBlank
-     * @Description: 多个字段中是否包含空字段
+     * @return boolean result
      */
     public static boolean containsBlank(String... args) {
         if (args == null) return true;
@@ -78,34 +78,28 @@ public class StringUtil {
     /**
      * fist Char Uppercase
      *
-     * @param origin
-     * @return
-     * @author miao.xl
-     * @date 2014年11月17日 下午8:20:30
-     * @version 1.0
+     * @param arg0 argument
+     * @return String
      */
-    public static String fistCharUppercase(String origin) {
-        return origin.substring(0, 1).toUpperCase() + origin.substring(1, origin.length());
+    public static String fistCharUppercase(String arg0) {
+        return arg0.substring(0, 1).toUpperCase() + arg0.substring(1, arg0.length());
     }
 
     /**
      * first Char Lowercase
      *
-     * @param origin
-     * @return
-     * @author miao.xl
-     * @date 2014年11月18日 上午10:36:44
-     * @version 1.0
+     * @param arg0 argument
+     * @return String 
      */
-    public static String firstCharLowerCase(String origin) {
-        return origin.substring(0, 1).toLowerCase() + origin.substring(1, origin.length());
+    public static String firstCharLowerCase(String arg0) {
+        return arg0.substring(0, 1).toLowerCase() + arg0.substring(1, arg0.length());
     }
 
     /**
      * 将异常中所有堆栈信息转换为String
      *
-     * @param t
-     * @return
+     * @param t throwable
+     * @return String String
      */
     public static String getFullStackTrace(Throwable t) {
         String fullStackTraceMessage = null;
@@ -203,10 +197,7 @@ public class StringUtil {
      * 打印bean类所有信息
      *
      * @param bean
-     * @return
-     * @author miao.xl
-     * @date 2015年10月23日 上午10:04:06
-     * @version 1.0
+     * @return String
      */
     public static <T> String bean2String(T bean) {
         if (bean == null) {

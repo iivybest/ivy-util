@@ -1,21 +1,22 @@
 package org.ivy.util.common;
 
+import static org.ivy.util.common.IvyConstant.*;
+
 /**
- * <p> description:
- * <br>--------------------------------------------------------
- * <br> TODO
- * <br>--------------------------------------------------------
- * <br>Copyright@2019 www.ivybest.org Inc. All rights reserved.
+ * <p>  classname：SystemUtil
+ * <br> description：系统工具类
+ * <br>---------------------------------------------------------
+ * <br>
+ * <br>---------------------------------------------------------
+ * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
  *
  * @author Ivybest (ivybestdev@163.com)
  * @version 1.0
- * @className SystemUtil
  * @date 2015/10/22 15:18
  */
 public class SystemUtil {
-    public static String classpath;
-    public static final String UNIX_SEPARATOR = "/";
+    private static String classpath;
 
     static {
         initClasspath();
@@ -32,23 +33,23 @@ public class SystemUtil {
         String root = Thread.currentThread().getContextClassLoader().getResource("").getPath().replace("%20", " ");
 
         switch (fileSeparator) {
-            case "\\":    // 若是 win 系统，去掉第一个字符
+            // 若是 win 系统，去掉第一个字符
+            case WIN_SEPARATOR:
                 classpath = root.substring(1);
                 break;
-            case "/":
+            case UNIX_SEPARATOR:
                 classpath = root;
                 break;
             default:
                 classpath = root;
         }
 
-        // 将win 分隔符，装换为 linux分隔符
-        if (fileSeparator.equals("\\")) {
-            root = root.replace("\\", UNIX_SEPARATOR);
+        // 将 win 分隔符，装换为 linux分隔符
+        if (fileSeparator.equals(WIN_SEPARATOR)) {
+            root = root.replace(WIN_SEPARATOR, UNIX_SEPARATOR);
         }
-
         // root 路径补全
-        if (!classpath.endsWith(UNIX_SEPARATOR)) {
+        if (! classpath.endsWith(UNIX_SEPARATOR)) {
             classpath += UNIX_SEPARATOR;
         }
     }

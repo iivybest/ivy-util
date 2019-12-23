@@ -12,7 +12,7 @@
  * --------------------------------------------------------
  * 2018年2月7日	Ivybest			1.0			new create
  */
-package org.ivy.tools;
+package org.ivy.util.tool;
 
 import java.io.*;
 

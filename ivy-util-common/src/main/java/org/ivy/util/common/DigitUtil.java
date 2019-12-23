@@ -1,59 +1,56 @@
 package org.ivy.util.common;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static org.ivy.util.common.IvyConstant.digitArr;
+import static org.ivy.util.common.IvyConstant.hexArr;
+
 /**
- * <p> description: 数字处理统计
- * <br>--------------------------------------------------------
+ * <p>  classname: DigitUtil
+ * <br> description: 数字处理统计
+ * <br>---------------------------------------------------------
  * <br> 功能描述：
  * <br> 1、中文数字、阿拉伯数字转换
  * <br> 2、数字进制转换（十进制、二进制、十六进制）
- * <br>--------------------------------------------------------
+ * <br>---------------------------------------------------------
  * <br> 中文数字		Chinese
  * <br> 中文数字单位	Chinese digit unit
  * <br> 大写中文数字	Capital Chinese digit
  * <br> 阿拉伯数字	Arabic digit
- * <br>--------------------------------------------------------
+ * <br>---------------------------------------------------------
  * <br> 定义：中文数字的值 (value) = 权值(weight) X 基数(radix)
- * <br>--------------------------------------------------------
+ * <br>---------------------------------------------------------
  * <br>	中文数字转 integer/long 思路:
  * <br> 1、将汉字从右向左依次处理，
  * <br> 2、每次处理一个中文数字单位，例如”一万零八百零六“拆分为”(一万)(零八百)(零六)“
  * <br> 3、结果累加起来得到最后结果
- * <br>--------------------------------------------------------
- * <br>Copyright@2019 www.ivybest.org Inc. All rights reserved.
+ * <br>---------------------------------------------------------
+ * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
  *
  * @author Ivybest (ivybestdev@163.com)
  * @version 1.0
- * @className DigitUtil
  * @date 2019/12/10 10:28
  */
 public class DigitUtil {
 
-    /* 小数点*/
+    // 小数点
     private static final char decimalPoint = '.';
     private static final char cnDecimalPoint = '点';
 
-    /* 中文数字单位序列*/
+    // 中文数字单位序列
     private static final char[] cuArr = {'十', '百', '千', '万', '亿'};
     private static final char[] capitalCuArr = {'拾', '佰', '仟', '万', '亿'};
-    /* 中文数字序列*/
+    // 中文数字序列
     private static final char[] cnArr = {'零', '一', '二', '三', '四', '五', '六', '七', '八', '九'};
     private static final char[] capitalCnArr = {'零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'};
-    /* 完整中文数字单位*/
+    // 完整中文数字单位
     private static final char[] allCuArr = {'个', '十', '百', '千', '万', '十', '百', '千', '亿', '十', '百', '千', '万'};
-    /* 单位进位，中文默认为4位即（万、亿）*/
+    // 单位进位，中文默认为4位即（万、亿）
     private static int UNIT_STEP = 4;
 
-    /* 十六进制字符串*/
-    private final static char[] hexArr = "0123456789ABCDEF".toCharArray();
-    private final static char[] digitArr = "0123456789".toCharArray();
-
-    /* 中文数字正则表达式*/
+    // 中文数字正则表达式
     private static String regex = "([零一二三四五六七八九十百千万亿]{1,})";
     private static String regex_capital = "([壹贰叁肆伍陆柒捌玖拾佰仟万亿]+)";
     private static Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
@@ -71,11 +68,13 @@ public class DigitUtil {
      * <br>--------------------------------------------------------
      * </p>
      *
-     * @param unit
-     * @return
+     * @param unit unit
+     * @return int int
      */
     private static int getChineseDigitUnitRadix(int unit) {
-        if (unit < 0 || unit > 5) return Integer.MIN_VALUE;
+        if (unit < 0 || unit > cuArr.length) {
+            return Integer.MIN_VALUE;
+        }
         int weight = -1;
         switch (unit) {
             case 0:
@@ -112,7 +111,7 @@ public class DigitUtil {
      * </p>
      *
      * @param unit arg‘s type is char
-     * @return
+     * @return int int
      */
     private static int getChineseDigitUnitRadix(char unit) {
         // 中文数字单位所在 cuArr 的下标值
@@ -125,7 +124,9 @@ public class DigitUtil {
                 break;
             }
         }
-        if (unitVal > 0) weight = getChineseDigitUnitRadix(unitVal);
+        if (unitVal > 0) {
+            weight = getChineseDigitUnitRadix(unitVal);
+        }
         return weight;
     }
 
@@ -146,8 +147,8 @@ public class DigitUtil {
      * <br>--------------------------------------------------------
      * <p/>
      *
-     * @param data
-     * @return String
+     * @param data data
+     * @return String String
      */
     public static String long2ChineseDigit(long data, boolean isColloquial) {
         /* ====>step-1: 处理负数*/
@@ -184,8 +185,7 @@ public class DigitUtil {
             // 去除相邻的上一个单位进位
             if (isUnitStep && isLastUnitStep) {
                 cnChars[cursor--] = 'x';
-//                System.out.println("====> cursor: " + cursor);
-                if (cursor > 1 && !(cnArr[0] == cnChars[cursor - 1])) {
+                if (cursor > 1 && (cnArr[0] != cnChars[cursor - 1])) {
                     // 补0
                     cnChars[++cursor] = cnArr[0];
                 }
@@ -216,7 +216,7 @@ public class DigitUtil {
             char chSecond = cnChars[1];
             // 是否以'一'开头，紧跟'十'
             if (chFirst == cnArr[1] && chSecond == allCuArr[1]) {
-                cnChars[offset++] = 'x';
+                cnChars[offset ++] = 'x';
             }
         }
         return new String(cnChars, offset, cursor + 1 - offset);
@@ -237,12 +237,17 @@ public class DigitUtil {
 
 
     public static String double2ChineseDigit(double data, boolean isColloquial) {
-        if (data < 0) return "负" + double2ChineseDigit(-data, isColloquial);
-        String _data = String.valueOf(data);
-        if (!_data.contains(".")) return long2ChineseDigit((long) data, isColloquial);
-        String[] arr = _data.split("\\.");
+        if (data < 0) {
+            return "负" + double2ChineseDigit(-data, isColloquial);
+        }
+        String dataStr = String.valueOf(data);
+        if (! dataStr.contains(String.valueOf(decimalPoint))) {
+            return long2ChineseDigit((long) data, isColloquial);
+        }
+
+        String[] arr = dataStr.split("\\" + decimalPoint);
         return long2ChineseDigit(Long.valueOf(arr[0]), isColloquial)
-                + "点"
+                + cnDecimalPoint
                 + long2ChineseDigitDirect(Long.valueOf(arr[1]));
     }
 
@@ -252,16 +257,15 @@ public class DigitUtil {
 
 
     public static int capitalChineseDigit2Integer(String capitalChineseDigit) {
-        int result = Integer.MIN_VALUE;
         // TODO
-        return result;
+        return Integer.MIN_VALUE;
     }
 
     /**
      * 中文数字转整型数字
      *
-     * @param chineseDigit
-     * @return int
+     * @param chineseDigit chineseDigit
+     * @return int int
      */
     public static int chineseDigit2Integer(String chineseDigit) {
         return chineseDigit2Integer(chineseDigit.toCharArray());
@@ -279,8 +283,8 @@ public class DigitUtil {
      * <br>--------------------------------------------------------
      * </p>
      *
-     * @param chineseDigit
-     * @return int
+     * @param chineseDigit chineseDigit
+     * @return int int
      */
     public static int chineseDigit2Integer(char[] chineseDigit) {
         int result = 0;
@@ -295,11 +299,11 @@ public class DigitUtil {
             // 当前元素
             char ele;
             // 判断 ele 是否为数字
-            boolean isDigit = false;
+            boolean isDigit;
             // 当前处理元素（数字或元素）在数组（cnArr，cuArr）中的下标值
             int eleIdx = -1;
             // ele 的权值、基数；如：五万，weight = 5； radix = 10_000;
-            int weight = 0, radix = 0;
+            int weight = 0, radix;
             for (int i = 0, len = chineseDigit.length; i < len; i++) {
                 /* ====> step-1：初始化操作*/
                 // 每次处理前设置 isDigit 为初始值 false
@@ -359,14 +363,16 @@ public class DigitUtil {
             }
         }
         /* ====>step-2：将 valueArr 进行汇总写入到 result 中*/
-        for (int i = 0; i <= cursor; result += valueArr[i++]) ;
+        for (int i = 0; i <= cursor; i++) {
+            result += valueArr[i];
+        }
         return result;
     }
 
     /**
      * 中文数字转长整型数字
      *
-     * @param chineseDigit
+     * @param chineseDigit chineseDigit
      * @return long
      */
     public static long chineseDigit2Long(String chineseDigit) {
@@ -383,7 +389,7 @@ public class DigitUtil {
      * <br>--------------------------------------------------------
      * </p>
      *
-     * @param chineseDigit
+     * @param chineseDigit chineseDigit
      * @return long
      */
     public static long chineseDigit2Long(char[] chineseDigit) {
@@ -403,7 +409,7 @@ public class DigitUtil {
             // 当前处理元素（数字或元素）在数组（cnArr，cuArr）中的下标值
             int eleIdx = -1;
             // ele 的权值、基数；如：五万，weight = 5；radix = 10_000；
-            int weight = 0, radix = 0;
+            int weight = 0, radix;
             for (int i = 0, len = chineseDigit.length; i < len; i++, isDigit = false) {
                 // 当前处理字符
                 ele = chineseDigit[i];
@@ -459,7 +465,9 @@ public class DigitUtil {
             }
         }
         /* ====>step-2：将 valueArr 进行汇总写入到 result 中*/
-        for (int i = 0; i <= cursor; result += valueArr[i++]) ;
+        for (int i = 0; i <= cursor; i++) {
+            result += valueArr[i];
+        }
 
         return result;
     }
@@ -468,9 +476,9 @@ public class DigitUtil {
     /**
      * 中文数字转阿拉伯数字字符串
      *
-     * @param chineseDigit
+     * @param chineseDigit chineseDigit
      * @param level        the length of ArabicDigit  user expect
-     * @return
+     * @return String String
      */
     public static String chineseDigit2Arabic(char[] chineseDigit, int level) {
         int arabicDigit = chineseDigit2Integer(chineseDigit);
@@ -480,7 +488,9 @@ public class DigitUtil {
 
         int detta = level - result.length();
         char[] prifix = new char[detta];
-        for (int i = 0; i < detta; prifix[i++] = '0') ;
+        for (int i = 0; i < detta; i++) {
+            prifix[i] = '0';
+        }
         return new String(prifix) + result;
     }
 
@@ -499,11 +509,11 @@ public class DigitUtil {
      * @param offset   the begin index in sencence
      * @param length   the length which need process in sentence
      * @param level    format the width of arabicDigits
-     * @return ArabicDigit
+     * @return String String
      */
     public static String chineseDigit2Arabic(String sentence, int offset, int length, int level) {
         /* 将 sentence 切割为 3 部分，target 为 用户指定处理部分*/
-        String prifix = "", target = null, suffix = "";
+        String prifix = "", target, suffix = "";
         if (offset < 0 || length < 0) target = sentence;
         else {
             prifix = sentence.substring(0, offset);
@@ -511,15 +521,12 @@ public class DigitUtil {
             target = sentence.substring(offset, length);
         }
 
-        List<String> matchers = new ArrayList<String>();
         Matcher matcher = pattern.matcher(target);
-
         StringBuffer sb = new StringBuffer(prifix);
-
-        String arabDigit = null;
+        String arabic;
         while (matcher.find()) {
-            arabDigit = chineseDigit2Arabic(matcher.group().toCharArray(), level);
-            matcher.appendReplacement(sb, arabDigit);
+            arabic = chineseDigit2Arabic(matcher.group().toCharArray(), level);
+            matcher.appendReplacement(sb, arabic);
         }
         matcher.appendTail(sb);
 
@@ -541,7 +548,9 @@ public class DigitUtil {
 
     public static String toBinString(int data) {
         char[] sequence = new char[32];
-        for (int j = 31, cursor = 0; j >= 0; sequence[cursor++] = digitArr[((data >>> j--) & 1)]) ;
+        for (int j = sequence.length - 1, cursor = 0; j >= 0; ) {
+            sequence[cursor++] = digitArr[((data >>> j--) & 1)];
+        }
         return new String(sequence);
     }
 
@@ -554,9 +563,7 @@ public class DigitUtil {
             hexChars[i * 2] = hexArr[v >>> 4];
             hexChars[i * 2 + 1] = hexArr[v & 0xF];
         }
-        ;
-        String result = new String(hexChars);
-        return result;
+        return new String(hexChars);
     }
 
     public static String toHexString(byte data) {
@@ -564,8 +571,7 @@ public class DigitUtil {
         char[] hexChars = new char[2];
         hexChars[0] = hexArr[v >>> 4];
         hexChars[1] = hexArr[v & 0xF];
-        String result = new String(hexChars);
-        return result;
+        return new String(hexChars);
     }
 
     public static String toHexString(char data) {

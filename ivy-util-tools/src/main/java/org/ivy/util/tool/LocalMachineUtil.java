@@ -1,7 +1,7 @@
 /**
  *
  */
-package org.ivy.tools;
+package org.ivy.util.tool;
 
 /**
  * @ClassName: LocalMachineUtil
