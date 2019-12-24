@@ -197,8 +197,8 @@ public class DesUtil {
     /**
      * @param algorithm
      * @return String
-     *  getAlgorithmType
-     *  ---------------------------------
+     * getAlgorithmType
+     * ---------------------------------
      * AES
      * AES/CBC/PKCS5Padding
      * ---------------------------------

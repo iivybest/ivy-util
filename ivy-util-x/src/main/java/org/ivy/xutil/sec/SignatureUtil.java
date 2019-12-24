@@ -7,14 +7,14 @@ import java.security.*;
  * <p>  classname: SignatureUtil
  * <br> description: 签名工具类
  * <br>---------------------------------------------------------
- * <br> 
+ * <br>
  * <br>---------------------------------------------------------
  * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
- * 
+ *
  * @author Ivybest (ivybestdev@163.com)
- * @date 2019/12/24 19:39
  * @version 1.0
+ * @date 2019/12/24 19:39
  */
 public class SignatureUtil {
     /*
@@ -132,8 +132,8 @@ public class SignatureUtil {
     /**
      * signature
      *
-     * @param algorithm algorithm
-     * @param data      data
+     * @param algorithm  algorithm
+     * @param data       data
      * @param privateKey private key
      * @return byte[]
      */
@@ -159,8 +159,8 @@ public class SignatureUtil {
     /**
      * signature
      *
-     * @param algorithm algorithm
-     * @param data      data
+     * @param algorithm  algorithm
+     * @param data       data
      * @param privateKey private key
      * @return byte[]
      */

@@ -29,13 +29,13 @@ public class IvyUtilConf {
     private static Map<String, String> propertiesUrlMap;
     private static Map<String, String> propertyMap;
 
-    private IvyUtilConf() {
-    }
-
-
     static {
         initArgs();
         initProp();
+    }
+
+
+    private IvyUtilConf() {
     }
 
     /**

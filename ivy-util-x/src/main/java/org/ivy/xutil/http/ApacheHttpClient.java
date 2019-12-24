@@ -52,14 +52,8 @@ import java.security.cert.X509Certificate;
  * @version 1.0
  */
 public class ApacheHttpClient {
-    // ==== step_2 静态内部类持有外部类的静态对象
-    private static class ApacheHttpClientHolder {
-        private static ApacheHttpClient instance = new ApacheHttpClient();
-    }
-
     // slf4j logger
     private Logger log = LoggerFactory.getLogger(this.getClass());
-
     // 连接池管理器
     private HttpClientConnectionManager httpClientConnectionManager;
     // 请求配置参数
@@ -74,19 +68,53 @@ public class ApacheHttpClient {
     private Integer socketTimeout;
     // http client 用于发送http请求
     private CloseableHttpClient client;
-
     // ==== step_1 私有化构造器
     private ApacheHttpClient() {
     }
 
-
-    // ==== step_3 提供工厂方法
     /**
      *  get instance
      * @return ApacheHttpClient
      */
     public static ApacheHttpClient getInstance() {
         return ApacheHttpClientHolder.instance.initialize();
+    }
+
+
+    // ==== step_3 提供工厂方法
+
+    public static void main(String[] args) throws Exception {
+        String url = "https://192.168.15.128:8001/einvoice/v1/user/login";
+        String msg = "{\"id\":\"uploader\",\"pwd\":\"uploader\"}";
+
+        HttpPost post = new HttpPost(url);
+        post.setEntity(new StringEntity(msg, "UTF-8"));
+        post.setHeader("Content-Type", "application/json");
+
+        HttpResponse response;
+
+        response = ApacheHttpClient.getInstance().doPost(post);
+        System.out.println(EntityUtils.toString(response.getEntity(), Consts.UTF_8));
+        for (Header header : response.getAllHeaders())
+            System.out.println(header.getName() + " : " + header.getValue());
+        int statusCode = response.getStatusLine().getStatusCode();
+        System.out.println("statusCode:" + statusCode);
+
+        url = "https://192.168.15.128:8001/einvoice/v1/user/tokenvalide";
+        msg = "{\"token\": \"0qCLEyl6ao6Qjrzyrknj3xIIeixurQWl0HlUj8ftyQ4VqYQYjlwrBcHKJdSgqlCw\"}";
+
+        post = new HttpPost(url);
+        post.setEntity(new StringEntity(msg, "UTF-8"));
+        post.setHeader("Content-Type", "application/json; charset=utf-8");
+
+        response = ApacheHttpClient.getInstance().doPost(post);
+        System.out.println(EntityUtils.toString(response.getEntity(), Consts.UTF_8));
+        for (Header header : response.getAllHeaders())
+            System.out.println(header.getName() + " : " + header.getValue());
+
+
+//		response = ApacheHttpClient.getInstance().doGet("http://www.sohu.com/");
+//		System.out.println(EntityUtils.toString(response.getEntity(), Consts.UTF_8));
     }
 
     @Description({
@@ -342,37 +370,8 @@ public class ApacheHttpClient {
         return this;
     }
 
-    public static void main(String[] args) throws Exception {
-        String url = "https://192.168.15.128:8001/einvoice/v1/user/login";
-        String msg = "{\"id\":\"uploader\",\"pwd\":\"uploader\"}";
-
-        HttpPost post = new HttpPost(url);
-        post.setEntity(new StringEntity(msg, "UTF-8"));
-        post.setHeader("Content-Type", "application/json");
-
-        HttpResponse response;
-
-        response = ApacheHttpClient.getInstance().doPost(post);
-        System.out.println(EntityUtils.toString(response.getEntity(), Consts.UTF_8));
-        for (Header header : response.getAllHeaders())
-            System.out.println(header.getName() + " : " + header.getValue());
-        int statusCode = response.getStatusLine().getStatusCode();
-        System.out.println("statusCode:" + statusCode);
-
-        url = "https://192.168.15.128:8001/einvoice/v1/user/tokenvalide";
-        msg = "{\"token\": \"0qCLEyl6ao6Qjrzyrknj3xIIeixurQWl0HlUj8ftyQ4VqYQYjlwrBcHKJdSgqlCw\"}";
-
-        post = new HttpPost(url);
-        post.setEntity(new StringEntity(msg, "UTF-8"));
-        post.setHeader("Content-Type", "application/json; charset=utf-8");
-
-        response = ApacheHttpClient.getInstance().doPost(post);
-        System.out.println(EntityUtils.toString(response.getEntity(), Consts.UTF_8));
-        for (Header header : response.getAllHeaders())
-            System.out.println(header.getName() + " : " + header.getValue());
-
-
-//		response = ApacheHttpClient.getInstance().doGet("http://www.sohu.com/");
-//		System.out.println(EntityUtils.toString(response.getEntity(), Consts.UTF_8));
+    // ==== step_2 静态内部类持有外部类的静态对象
+    private static class ApacheHttpClientHolder {
+        private static ApacheHttpClient instance = new ApacheHttpClient();
     }
 }

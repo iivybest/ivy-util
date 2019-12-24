@@ -14,9 +14,8 @@ import org.junit.Test;
  * <p>TODO</p>
  *
  * @author miao.xl
- * @date 2016年3月21日-下午4:06:41
  * @version 1.0
- *
+ * @date 2016年3月21日-下午4:06:41
  */
 public class CommonsLangString {
 

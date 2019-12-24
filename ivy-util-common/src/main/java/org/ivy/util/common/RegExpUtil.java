@@ -31,8 +31,8 @@ import java.util.regex.Pattern;
  * </p>
  *
  * @author Ivybest (ivybestdev@163.com)
- * @date 2019/12/24 18:44
  * @version 1.0
+ * @date 2019/12/24 18:44
  */
 public enum RegExpUtil {
     instance;

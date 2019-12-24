@@ -17,12 +17,11 @@ package org.ivy.xutil;
 import java.util.BitSet;
 
 /**
- * @className BloomFilter
  * @author Ivybest imiaodev@163.com
- * @date 2018年5月16日 下午7:47:43
  * @version 1.0
  * ------------------------------------------
- *
+ * @className BloomFilter
+ * @date 2018年5月16日 下午7:47:43
  */
 public class BloomFilter {
     private int bit_size;
@@ -31,6 +30,10 @@ public class BloomFilter {
     private BitSet bits;
 
     private BloomFilter() {
+    }
+
+    public static BloomFilter newInstance(int bit_size) {
+        return new BloomFilter().setBit_size(bit_size).initialize();
     }
 
     private BloomFilter setBit_size(int bit_size) {
@@ -42,11 +45,6 @@ public class BloomFilter {
         this.seeds = new int[]{3, 5, 7, 11, 13, 31, 37, 61};
         this.bits = new BitSet(this.bit_size);
         return this;
-    }
-
-
-    public static BloomFilter newInstance(int bit_size) {
-        return new BloomFilter().setBit_size(bit_size).initialize();
     }
 
 

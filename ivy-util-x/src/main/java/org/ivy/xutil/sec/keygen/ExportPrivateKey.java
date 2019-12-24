@@ -28,6 +28,16 @@ public class ExportPrivateKey {
     private String alias;
     private File exportedFile;
 
+    public static void main(String args[]) throws Exception {
+        ExportPrivateKey export = new ExportPrivateKey();
+        export.keystoreFile = new File("E:/Ivybest/test/Aisino.einv.cmcc.CA.pfx");
+        export.keyStoreType = "PKCS12";
+        export.password = "123456".toCharArray();
+        export.alias = "Aisino.einv.cmcc.CA";
+        export.exportedFile = new File("E:/Ivybest/test/Aisino.einv.cmcc.CA.privkey");
+        export.export();
+    }
+
     public KeyPair getKeyPair(KeyStore keystore, String alias, char[] password) {
         try {
             Key key = keystore.getKey(alias, password);
@@ -60,15 +70,5 @@ public class ExportPrivateKey {
                 .append("\n")
                 .append("----END PRIVATE KEY----");
         FileUtil.write(exportedFile, sb.toString().getBytes());
-    }
-
-    public static void main(String args[]) throws Exception {
-        ExportPrivateKey export = new ExportPrivateKey();
-        export.keystoreFile = new File("E:/Ivybest/test/Aisino.einv.cmcc.CA.pfx");
-        export.keyStoreType = "PKCS12";
-        export.password = "123456".toCharArray();
-        export.alias = "Aisino.einv.cmcc.CA";
-        export.exportedFile = new File("E:/Ivybest/test/Aisino.einv.cmcc.CA.privkey");
-        export.export();
     }
 }

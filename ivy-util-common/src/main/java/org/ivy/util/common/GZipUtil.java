@@ -23,8 +23,8 @@ import java.util.zip.GZIPOutputStream;
  * @date 2019/12/18 17:18
  */
 public class GZipUtil {
-    public static Logger log = LoggerFactory.getLogger(GZipUtil.class);
     private static final int BUF_SIZE;
+    public static Logger log = LoggerFactory.getLogger(GZipUtil.class);
 
     static {
         BUF_SIZE = 1024 * 4;

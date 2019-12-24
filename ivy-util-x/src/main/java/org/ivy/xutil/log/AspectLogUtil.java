@@ -10,8 +10,8 @@ package org.ivy.xutil.log;
  * <p>横切日志工具</p>
  *
  * @author miao.xl
- * @date 2016年3月23日-上午10:15:47
  * @version 1.0
+ * @date 2016年3月23日-上午10:15:47
  */
 public class AspectLogUtil {
     private LogUtil _log;
@@ -34,10 +34,10 @@ public class AspectLogUtil {
 
     /**
      * <p>log</p>
-     *  记录日志
-     * @param t    当前被横切处理的类
-     * @param msg
+     * 记录日志
      *
+     * @param t   当前被横切处理的类
+     * @param msg
      * @author miao.xl
      * @date 2016年3月23日-上午10:21:18
      */
@@ -48,10 +48,9 @@ public class AspectLogUtil {
     /**
      * <p>log</p>
      *
-     * @param t 当前被横切处理的类
-     * @param signature    当前被横切处理方法
-     * @param msg 日志消息
-     *
+     * @param t         当前被横切处理的类
+     * @param signature 当前被横切处理方法
+     * @param msg       日志消息
      * @author miao.xl
      * @date 2016年3月23日-上午10:48:23
      */

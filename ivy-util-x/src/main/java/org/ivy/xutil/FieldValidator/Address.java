@@ -9,22 +9,24 @@ import javax.validation.constraints.Pattern;
 
 public class Address {
 
+    @Range(min = 2, max = 50, message = "Floor out of range")
+    public int floor;
     @NotBlank(message = "linel1 is blank")
     private String line1;
-
     @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "日期格式错误，YYYY-MM-DD")
     private String line2;
-
     private String zip;
     @Status(message = "state 只能取值0，1")
     private String state;
-
     @Length(max = 20)
     @NotNull
     private String country;
 
-    @Range(min = 2, max = 50, message = "Floor out of range")
-    public int floor;
+    public static void main(String[] args) throws FieldValidateException {
+        Address addr = new Address();
+        addr.setLine2("0698-12-01");
+        HiberanteValidatorUtil.validate(addr);
+    }
 
     /**
      * @return the line1
@@ -108,12 +110,6 @@ public class Address {
      */
     public void setFloor(int floor) {
         this.floor = floor;
-    }
-
-    public static void main(String[] args) throws FieldValidateException {
-        Address addr = new Address();
-        addr.setLine2("0698-12-01");
-        HiberanteValidatorUtil.validate(addr);
     }
 
 }

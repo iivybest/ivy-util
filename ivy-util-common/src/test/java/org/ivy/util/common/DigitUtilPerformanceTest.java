@@ -24,12 +24,32 @@ import org.junit.runners.MethodSorters;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DigitUtilPerformanceTest {
 
+    private final static char[] digitArr = "0123456789".toCharArray();
     private int[] data = {
             Integer.MIN_VALUE, Integer.MAX_VALUE, 0, 1, -1, 3, -3, 123456789
     };
-    private final static char[] digitArr = "0123456789".toCharArray();
     private int count = 100_000;
 
+    public static String toBinString(int data) {
+        StringBuilder sb = new StringBuilder();
+        for (int j = 0; j < 32; j++) {
+            sb.append((data & 0x80000000 >>> j) >>> (31 - j));
+        }
+//		for (int j = 31; j >= 0; sb.append((data >>> j--) & 1));
+        return sb.toString();
+    }
+
+    public static String toBinString2(int data) {
+        StringBuilder sb = new StringBuilder();
+        for (int j = 31; j >= 0; sb.append((data >>> j--) & 1)) ;
+        return sb.toString();
+    }
+
+    public static String toBinString3(int data) {
+        char[] sequence = new char[32];
+        for (int j = 31, cursor = 0; j >= 0; sequence[cursor++] = digitArr[((data >>> j--) & 1)]) ;
+        return new String(sequence);
+    }
 
     @Before
     public void setUp() {
@@ -71,28 +91,6 @@ public class DigitUtilPerformanceTest {
         for (int i = 0; i < this.count; i++) {
             for (int e : this.data) toBinString3(e);
         }
-    }
-
-    public static String toBinString(int data) {
-        StringBuilder sb = new StringBuilder();
-        for (int j = 0; j < 32; j++) {
-            sb.append((data & 0x80000000 >>> j) >>> (31 - j));
-        }
-//		for (int j = 31; j >= 0; sb.append((data >>> j--) & 1));
-        return sb.toString();
-    }
-
-    public static String toBinString2(int data) {
-        StringBuilder sb = new StringBuilder();
-        for (int j = 31; j >= 0; sb.append((data >>> j--) & 1)) ;
-        return sb.toString();
-    }
-
-
-    public static String toBinString3(int data) {
-        char[] sequence = new char[32];
-        for (int j = 31, cursor = 0; j >= 0; sequence[cursor++] = digitArr[((data >>> j--) & 1)]) ;
-        return new String(sequence);
     }
 
 }

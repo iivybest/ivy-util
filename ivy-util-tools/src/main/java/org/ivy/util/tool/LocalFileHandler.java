@@ -32,10 +32,8 @@ import java.util.stream.Stream;
  * @date 2019/12/24 0:45
  */
 public class LocalFileHandler {
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
-
     private static int counter = 0;
-
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
     private String base;
     private String path;
     private String done;

@@ -16,6 +16,26 @@ import java.util.*;
  * @date 2016年3月8日-上午10:49:01
  */
 public class IntrospectorUtil {
+    private static <T> String type2String(T t) {
+        String str = "";
+        if (t instanceof Map<?, ?>) {
+
+        } else if (t instanceof Collection<?>) {
+
+        } else if (t instanceof Enumeration<?>) {
+
+        } else if (t instanceof Iterator<?>) {
+
+        } else if (t.getClass().isArray()) {
+
+        } else if (t instanceof Date) {
+//			str = DateTimeUtil.formateDate((Date)t);
+        } else {
+            str = t.toString();
+        }
+        return str;
+    }
+
     public <T> String bean2String(T t) {
         StringBuffer sb = new StringBuffer(t.toString());
         sb.append("[");
@@ -43,26 +63,6 @@ public class IntrospectorUtil {
 
         sb.append("]");
         return sb.toString();
-    }
-
-    private static <T> String type2String(T t) {
-        String str = "";
-        if (t instanceof Map<?, ?>) {
-
-        } else if (t instanceof Collection<?>) {
-
-        } else if (t instanceof Enumeration<?>) {
-
-        } else if (t instanceof Iterator<?>) {
-
-        } else if (t.getClass().isArray()) {
-
-        } else if (t instanceof Date) {
-//			str = DateTimeUtil.formateDate((Date)t);
-        } else {
-            str = t.toString();
-        }
-        return str;
     }
 
 

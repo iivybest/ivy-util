@@ -78,37 +78,6 @@ public class NewFileUtil {
     }
 
     /**
-     * <p>copy 多线程实现 </p>
-     *
-     * @param file  源文件
-     * @param dest  目标路径
-     * @param async 是否异步
-     * @author miao.xl
-     * @date 2016年4月1日-下午1:19:05
-     */
-    public void copy(File file, String dest, boolean async) {
-        if (async) {
-            new Thread(new CopyRunnable(file, dest)).start();
-        } else {
-            this.copy(file, dest);
-        }
-    }
-
-    /**
-     * <p>copy</p>
-     *
-     * @param fileUrl 源文件路径
-     * @param dest    目标路径
-     * @param async   是否异步
-     * @author miao.xl
-     * @date 2016年4月1日-下午1:17:54
-     */
-    public void copy(String fileUrl, String dest, boolean async) {
-        File file = new File(fileUrl);
-        this.copy(file, dest, async);
-    }
-
-    /**
      * 以字节流读文件 --NIO实现
      */
     public static byte[] read(File file) {
@@ -147,6 +116,37 @@ public class NewFileUtil {
             }
         }
         return original;
+    }
+
+    /**
+     * <p>copy 多线程实现 </p>
+     *
+     * @param file  源文件
+     * @param dest  目标路径
+     * @param async 是否异步
+     * @author miao.xl
+     * @date 2016年4月1日-下午1:19:05
+     */
+    public void copy(File file, String dest, boolean async) {
+        if (async) {
+            new Thread(new CopyRunnable(file, dest)).start();
+        } else {
+            this.copy(file, dest);
+        }
+    }
+
+    /**
+     * <p>copy</p>
+     *
+     * @param fileUrl 源文件路径
+     * @param dest    目标路径
+     * @param async   是否异步
+     * @author miao.xl
+     * @date 2016年4月1日-下午1:17:54
+     */
+    public void copy(String fileUrl, String dest, boolean async) {
+        File file = new File(fileUrl);
+        this.copy(file, dest, async);
     }
 
     /**

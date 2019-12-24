@@ -17,12 +17,11 @@ package org.ivy;
 import java.io.*;
 
 /**
- * @className ClassPathTest
  * @author Ivybest imiaodev@163.com
- * @date 2018年2月7日 下午3:35:18
  * @version 1.0
  * ------------------------------------------
- *
+ * @className ClassPathTest
+ * @date 2018年2月7日 下午3:35:18
  */
 public class ClassPathTest {
 

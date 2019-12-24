@@ -9,48 +9,8 @@ import java.util.zip.ZipOutputStream;
 /**
  * @author Createdate    2017年6月26日 下午5:41:53
  * @className ZipUtil
- *
  */
 public class ZipUtil {
-
-    public void zip(File file, String targetName) throws FileNotFoundException, IOException {
-        try (
-                ZipOutputStream outstream = new ZipOutputStream(new FileOutputStream(file));
-                FileInputStream instream = new FileInputStream(targetName);
-        ) {
-            outstream.putNextEntry(new ZipEntry(targetName));
-
-            byte[] buffer = new byte[1024];
-            int len;
-            while ((len = instream.read(buffer)) > 0) outstream.write(buffer, 0, len);
-            outstream.closeEntry();
-        }
-    }
-
-    public void zip(String filename, String targetName) throws FileNotFoundException, IOException {
-        File file = new File(filename);
-        zip(file, targetName);
-    }
-
-
-    public void unzip(File zipFile, String dest) throws IOException {
-        try (
-                FileInputStream fis = new FileInputStream(zipFile);
-                ZipInputStream zis = new ZipInputStream(fis);
-        ) {
-            ZipEntry ze;
-            while ((ze = zis.getNextEntry()) != null) {
-                System.out.println(ze.getName());
-                zis.closeEntry();
-            }
-        }
-    }
-
-    public void upzip(String zipFilename, String dest) throws IOException {
-        File file = new File(zipFilename);
-        unzip(file, dest);
-    }
-
 
     /**
      * 直接读取zip压缩包中的文件
@@ -76,6 +36,43 @@ public class ZipUtil {
         }
         zin.closeEntry();
         return buffer.toString();
+    }
+
+    public void zip(File file, String targetName) throws FileNotFoundException, IOException {
+        try (
+                ZipOutputStream outstream = new ZipOutputStream(new FileOutputStream(file));
+                FileInputStream instream = new FileInputStream(targetName);
+        ) {
+            outstream.putNextEntry(new ZipEntry(targetName));
+
+            byte[] buffer = new byte[1024];
+            int len;
+            while ((len = instream.read(buffer)) > 0) outstream.write(buffer, 0, len);
+            outstream.closeEntry();
+        }
+    }
+
+    public void zip(String filename, String targetName) throws FileNotFoundException, IOException {
+        File file = new File(filename);
+        zip(file, targetName);
+    }
+
+    public void unzip(File zipFile, String dest) throws IOException {
+        try (
+                FileInputStream fis = new FileInputStream(zipFile);
+                ZipInputStream zis = new ZipInputStream(fis);
+        ) {
+            ZipEntry ze;
+            while ((ze = zis.getNextEntry()) != null) {
+                System.out.println(ze.getName());
+                zis.closeEntry();
+            }
+        }
+    }
+
+    public void upzip(String zipFilename, String dest) throws IOException {
+        File file = new File(zipFilename);
+        unzip(file, dest);
     }
 
 }

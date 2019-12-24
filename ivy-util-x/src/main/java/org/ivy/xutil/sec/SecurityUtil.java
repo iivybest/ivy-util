@@ -15,9 +15,8 @@ import java.security.Security;
  * <p>安全相关工具</p>
  *
  * @author miao.xl
- * @date 2016年3月22日-下午3:44:52
  * @version 1.0
- *
+ * @date 2016年3月22日-下午3:44:52
  */
 public interface SecurityUtil {
     public static LogUtil log = new LogUtil(SecurityUtil.class);

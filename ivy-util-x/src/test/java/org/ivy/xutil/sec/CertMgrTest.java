@@ -18,7 +18,6 @@ import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.security.cert.X509Certificate;
-import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -39,7 +38,7 @@ import java.util.Set;
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class CertMgrTest extends TestCase {
-    
+
     private Logger log = LoggerFactory.getLogger(this.getClass());
 
     private String classpath = SystemUtil.getClasspath();
@@ -79,13 +78,13 @@ public class CertMgrTest extends TestCase {
     @Test
     public void test_02_readX509CertExtended() throws Exception {
         // 证书扩展字段
-		Set<String> sets = this.cert.getCriticalExtensionOIDs();
-		Iterator<String> it = sets.iterator();
-		for(; it.hasNext(); log.debug(it.next()));
+        Set<String> sets = this.cert.getCriticalExtensionOIDs();
+        Iterator<String> it = sets.iterator();
+        for (; it.hasNext(); log.debug(it.next())) ;
 
-		List<String> extendedKeys = this.cert.getExtendedKeyUsage();
-		if(null != extendedKeys)
-		    for(int i = 0; i < extendedKeys.size(); log.debug(extendedKeys.get(i++)));
+        List<String> extendedKeys = this.cert.getExtendedKeyUsage();
+        if (null != extendedKeys)
+            for (int i = 0; i < extendedKeys.size(); log.debug(extendedKeys.get(i++))) ;
 
 
         // 根据扩展字段 key = "2.5.29.999.1" 查询对应 value，即证书税号

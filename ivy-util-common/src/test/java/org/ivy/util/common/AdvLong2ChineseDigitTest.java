@@ -3,19 +3,17 @@ package org.ivy.util.common;
 public class AdvLong2ChineseDigitTest {
 
     /**
-     * 单位进位，中文默认为4位即（万、亿）
-     */
-    private static int UNIT_STEP = 4;
-
-    /**
      * 单位
      */
     private static final char[] allCnUnits = {'个', '十', '百', '千', '万', '十', '百', '千', '亿', '十', '百', '千', '万'};
-
     /**
      * 中文数字
      */
     private static final char[] cnArr = {'零', '一', '二', '三', '四', '五', '六', '七', '八', '九'};
+    /**
+     * 单位进位，中文默认为4位即（万、亿）
+     */
+    private static int UNIT_STEP = 4;
 
     /**
      * 将长整型数字转换为中文数字

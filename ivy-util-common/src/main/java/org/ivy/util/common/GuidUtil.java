@@ -16,17 +16,13 @@ import java.util.Random;
  */
 public class GuidUtil {
 
-    private String seedingString = "";
-    private String rawGUID = "";
-    private boolean bSecure = false;
+    public static final int BeforeMD5 = 1;
+    public static final int AfterMD5 = 2;
+    public static final int FormatString = 3;
     private static Random myRand;
     private static SecureRandom mySecureRand;
 
     private static String s_id;
-
-    public static final int BeforeMD5 = 1;
-    public static final int AfterMD5 = 2;
-    public static final int FormatString = 3;
 
     static {
         mySecureRand = new SecureRandom();
@@ -38,6 +34,10 @@ public class GuidUtil {
             e.printStackTrace();
         }
     }
+
+    private String seedingString = "";
+    private String rawGUID = "";
+    private boolean bSecure = false;
 
     /**
      * Default constructor
@@ -53,6 +53,17 @@ public class GuidUtil {
      */
     public GuidUtil(boolean secure) {
         bSecure = secure;
+    }
+
+    public static void main(String args[]) {
+        for (int i = 0; i < 100; i++) {
+            GuidUtil myGUID = new GuidUtil();
+            System.out.println("SeedingString = " + myGUID.createNewGuid(GuidUtil.BeforeMD5));
+            System.out.println("rawGUID = " + myGUID.createNewGuid(GuidUtil.AfterMD5));
+            System.out.println("RandomGUID1 = " + myGUID.createNewGuid(GuidUtil.FormatString));
+            System.out.println("RandomGUID2 = " + new GuidUtil(true).createNewGuid(GuidUtil.FormatString));
+            System.out.println();
+        }
     }
 
     /*
@@ -144,17 +155,6 @@ public class GuidUtil {
         sb.append("-");
         sb.append(raw.substring(20));
         return sb.toString();
-    }
-
-    public static void main(String args[]) {
-        for (int i = 0; i < 100; i++) {
-            GuidUtil myGUID = new GuidUtil();
-            System.out.println("SeedingString = " + myGUID.createNewGuid(GuidUtil.BeforeMD5));
-            System.out.println("rawGUID = " + myGUID.createNewGuid(GuidUtil.AfterMD5));
-            System.out.println("RandomGUID1 = " + myGUID.createNewGuid(GuidUtil.FormatString));
-            System.out.println("RandomGUID2 = " + new GuidUtil(true).createNewGuid(GuidUtil.FormatString));
-            System.out.println();
-        }
     }
 
 }

@@ -7,8 +7,8 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import java.io.IOException;
-import java.security.Security;
 import java.util.Arrays;
+
 /**
  * <p>  classname: Base64UtilTest
  * <br> description: base64 util testcase
@@ -17,10 +17,10 @@ import java.util.Arrays;
  * <br>---------------------------------------------------------
  * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
- * 
+ *
  * @author Ivybest (ivybestdev@163.com)
- * @date 2019/12/24 17:17
  * @version 1.0
+ * @date 2019/12/24 17:17
  */
 @Slf4j
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -41,6 +41,7 @@ public class Base64UtilTest {
         String encode = new String(Base64Util.encode(this.text.getBytes()));
 
     }
+
     @Test
     public void test_02_base64EncodeString() {
         String[] arr = {"", this.text, "helloworld", null};

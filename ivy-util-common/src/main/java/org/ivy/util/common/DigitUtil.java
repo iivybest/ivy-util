@@ -37,12 +37,9 @@ import static org.ivy.util.common.IvyConstant.hexArr;
  */
 public class DigitUtil {
 
-    private DigitUtil() {}
-
     // 小数点
     private static final String decimalPoint = ".";
     private static final char cnDecimalPoint = '点';
-
     // 中文数字单位序列
     private static final char[] cuArr = {'十', '百', '千', '万', '亿'};
     private static final char[] capitalCuArr = {'拾', '佰', '仟', '万', '亿'};
@@ -53,12 +50,13 @@ public class DigitUtil {
     private static final char[] allCuArr = {'个', '十', '百', '千', '万', '十', '百', '千', '亿', '十', '百', '千', '万'};
     // 单位进位，中文默认为4位即（万、亿）
     private static int UNIT_STEP = 4;
-
     // 中文数字正则表达式
     private static String regex = "([零一二三四五六七八九十百千万亿]{1,})";
     private static String regex_capital = "([壹贰叁肆伍陆柒捌玖拾佰仟万亿]+)";
     private static Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
     private static Pattern pattern_capital = Pattern.compile(regex_capital, Pattern.CASE_INSENSITIVE);
+    private DigitUtil() {
+    }
 
     /**
      * <p> description: 获取中文数字单位的基数值
@@ -220,7 +218,7 @@ public class DigitUtil {
             char chSecond = cnChars[1];
             // 是否以'一'开头，紧跟'十'
             if (chFirst == cnArr[1] && chSecond == allCuArr[1]) {
-                cnChars[offset ++] = 'x';
+                cnChars[offset++] = 'x';
             }
         }
         return new String(cnChars, offset, cursor + 1 - offset);
@@ -245,7 +243,7 @@ public class DigitUtil {
             return "负" + double2ChineseDigit(-data, isColloquial);
         }
         String dataStr = String.valueOf(data);
-        if (! dataStr.contains(decimalPoint)) {
+        if (!dataStr.contains(decimalPoint)) {
             return long2ChineseDigit((long) data, isColloquial);
         }
         String[] arr = dataStr.split("\\" + decimalPoint);
@@ -552,7 +550,7 @@ public class DigitUtil {
     public static String toBinString(int data) {
         char[] sequence = new char[32];
         for (int j = sequence.length - 1, cursor = 0; j >= 0; ) {
-            sequence[cursor ++] = digitArr[((data >>> j--) & 1)];
+            sequence[cursor++] = digitArr[((data >>> j--) & 1)];
         }
         return new String(sequence);
     }

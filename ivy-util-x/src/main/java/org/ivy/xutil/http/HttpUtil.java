@@ -49,9 +49,9 @@ import java.util.Map;
  */
 @Recommend(value = false, msg = {"过时"})
 public class HttpUtil {
+    private static final int MAX_TIMEOUT = 7000;
     private static PoolingHttpClientConnectionManager connMgr;
     private static RequestConfig requestConfig;
-    private static final int MAX_TIMEOUT = 7000;
 
     static {
         // 设置连接池

@@ -15,9 +15,8 @@ import java.util.*;
  * ObjectUtil2
  *
  * @author miao.xl
- * @date 2016年3月24日-下午1:25:11
  * @version 1.0
- *
+ * @date 2016年3月24日-下午1:25:11
  */
 public class ObjectUtil2 {
     private static Instrumentation inst;

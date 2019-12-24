@@ -52,9 +52,9 @@ public class RsaUtil {
 
     private final int ENCRYPT_MODE = 1;
     private final int DECRYPT_MODE = 2;
-    private String encoding;
     // 密钥位数
     private final int KEYSIZE = 1024;
+    private String encoding;
 
     public RsaUtil(String encoding) {
         this.encoding = encoding;

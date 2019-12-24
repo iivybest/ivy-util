@@ -12,9 +12,8 @@ import java.util.List;
  * ObjectUtil
  *
  * @author miao.xl
- * @date 2016年3月24日-下午12:30:35
  * @version 1.0
- *
+ * @date 2016年3月24日-下午12:30:35
  */
 public class ObjectUtil {
     private final static int _SIZE = 5000;

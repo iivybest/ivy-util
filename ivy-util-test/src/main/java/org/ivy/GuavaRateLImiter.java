@@ -1,7 +1,6 @@
 /**
  * Filename 	GuavaRateLImiter
  *
- *
  * @author ivybest
  * @version V1.0
  * CreateDate 	2017年9月13日 下午8:04:05

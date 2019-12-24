@@ -44,6 +44,15 @@ public class PKCS7Tool {
      */
     private static final int VERIFIER = 2;
     /**
+     * JVM 提供商
+     */
+    private static char jvm = 0;
+    private static Class algorithmId = null;
+    private static Class derValue = null;
+    private static Class objectIdentifier = null;
+    private static Class x500Name = null;
+    private static boolean debug = false;
+    /**
      * 用途
      */
     private int mode = 0;
@@ -67,15 +76,6 @@ public class PKCS7Tool {
      * 根证书
      */
     private Certificate rootCertificate = null;
-    /**
-     * JVM 提供商
-     */
-    private static char jvm = 0;
-    private static Class algorithmId = null;
-    private static Class derValue = null;
-    private static Class objectIdentifier = null;
-    private static Class x500Name = null;
-    private static boolean debug = false;
 
     /**
      * 私有构造方法
@@ -191,6 +191,57 @@ public class PKCS7Tool {
         PKCS7Tool tool = new PKCS7Tool(VERIFIER);
         tool.rootCertificate = rootCertificate;
         return tool;
+    }
+
+    /**
+     * 匹配私钥用法
+     *
+     * @param keyUsage
+     * @param usage
+     * @return
+     */
+    private static boolean matchUsage(boolean[] keyUsage, int usage) {
+        if (usage == 0 || keyUsage == null)
+            return true;
+        for (int i = 0; i < Math.min(keyUsage.length, 32); i++) {
+            if ((usage & (1 << i)) != 0 && !keyUsage[i])
+                return false;
+        }
+        return true;
+    }
+
+    private static void init() {
+        if (jvm != 0)
+            return;
+        String vendor = System.getProperty("java.vm.vendor");
+        if (vendor == null)
+            vendor = "";
+        String vendorUC = vendor.toUpperCase();
+        try {
+            if (vendorUC.indexOf("SUN") >= 0) {
+                jvm = 'S';
+                algorithmId = Class.forName("sun.security.x509.AlgorithmId");
+                derValue = Class.forName("sun.security.util.DerValue");
+                objectIdentifier = Class.forName("sun.security.util.ObjectIdentifier");
+                x500Name = Class.forName("sun.security.x509.X500Name");
+            } else if (vendorUC.indexOf("IBM") >= 0) {
+                jvm = 'I';
+                algorithmId = Class.forName("com.ibm.security.x509.AlgorithmId");
+                derValue = Class.forName("com.ibm.security.util.DerValue");
+                objectIdentifier = Class.forName("com.ibm.security.util.ObjectIdentifier");
+                x500Name = Class.forName("com.ibm.security.x509.X500Name");
+            } else {
+                System.out.println("Not support JRE: " + vendor);
+                System.exit(-1);
+            }
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            System.exit(-1);
+        }
+    }
+
+    public static void setDebug(boolean debug) {
+        PKCS7Tool.debug = debug;
     }
 
     /**
@@ -318,53 +369,6 @@ public class PKCS7Tool {
     }
 
     /**
-     * 匹配私钥用法
-     *
-     * @param keyUsage
-     * @param usage
-     * @return
-     */
-    private static boolean matchUsage(boolean[] keyUsage, int usage) {
-        if (usage == 0 || keyUsage == null)
-            return true;
-        for (int i = 0; i < Math.min(keyUsage.length, 32); i++) {
-            if ((usage & (1 << i)) != 0 && !keyUsage[i])
-                return false;
-        }
-        return true;
-    }
-
-    private static void init() {
-        if (jvm != 0)
-            return;
-        String vendor = System.getProperty("java.vm.vendor");
-        if (vendor == null)
-            vendor = "";
-        String vendorUC = vendor.toUpperCase();
-        try {
-            if (vendorUC.indexOf("SUN") >= 0) {
-                jvm = 'S';
-                algorithmId = Class.forName("sun.security.x509.AlgorithmId");
-                derValue = Class.forName("sun.security.util.DerValue");
-                objectIdentifier = Class.forName("sun.security.util.ObjectIdentifier");
-                x500Name = Class.forName("sun.security.x509.X500Name");
-            } else if (vendorUC.indexOf("IBM") >= 0) {
-                jvm = 'I';
-                algorithmId = Class.forName("com.ibm.security.x509.AlgorithmId");
-                derValue = Class.forName("com.ibm.security.util.DerValue");
-                objectIdentifier = Class.forName("com.ibm.security.util.ObjectIdentifier");
-                x500Name = Class.forName("com.ibm.security.x509.X500Name");
-            } else {
-                System.out.println("Not support JRE: " + vendor);
-                System.exit(-1);
-            }
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-            System.exit(-1);
-        }
-    }
-
-    /**
      * @return 返回 digestAlgorithm。
      */
     public final String getDigestAlgorithm() {
@@ -390,9 +394,5 @@ public class PKCS7Tool {
      */
     public final void setSignatureAlgorithm(String signatureAlgorithm) {
         this.signatureAlgorithm = signatureAlgorithm;
-    }
-
-    public static void setDebug(boolean debug) {
-        PKCS7Tool.debug = debug;
     }
 }

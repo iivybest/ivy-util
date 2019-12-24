@@ -1,7 +1,6 @@
 /**
  * Filename 	MultiFileCombineUtil
  *
- *
  * @author ivybest
  * @version V1.0
  * CreateDate 	2017年7月8日 下午1:01:27

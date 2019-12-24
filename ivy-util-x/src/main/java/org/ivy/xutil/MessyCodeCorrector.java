@@ -33,10 +33,21 @@ public class MessyCodeCorrector {
         init();
     }
 
+    public static void main(String[] args) throws UnsupportedEncodingException {
+        String xx = "我是一只草泥马";
+        String rr = new String(xx.getBytes(), "ISO-8859-1");
+        System.out.println("'" + rr + "'");
+
+        String original = "寰蒋鐧惧害鍏辨帹Windows XP鑱斿悎闃叉姢瑙ｅ喅鏂规";
+//		String original = "ææ¯ä¸åªèæ³¥é©¬";
+        MessyCodeCorrector m = new MessyCodeCorrector();
+        System.out.println(m.amend(original));
+        System.out.println(m.amend(rr));
+    }
+
     private void init() {
         this.strMaxLen = Integer.MAX_VALUE;
     }
-
 
     /**
      * <p>修正</p>
@@ -64,19 +75,6 @@ public class MessyCodeCorrector {
             e.printStackTrace();
         }
         return result;
-    }
-
-
-    public static void main(String[] args) throws UnsupportedEncodingException {
-        String xx = "我是一只草泥马";
-        String rr = new String(xx.getBytes(), "ISO-8859-1");
-        System.out.println("'" + rr + "'");
-
-        String original = "寰蒋鐧惧害鍏辨帹Windows XP鑱斿悎闃叉姢瑙ｅ喅鏂规";
-//		String original = "ææ¯ä¸åªèæ³¥é©¬";
-        MessyCodeCorrector m = new MessyCodeCorrector();
-        System.out.println(m.amend(original));
-        System.out.println(m.amend(rr));
     }
 
 

@@ -1,7 +1,5 @@
 package org.ivy.xutil.sec;
 
-import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.util.Base64;
 
 /**
@@ -34,6 +32,7 @@ public class Base64Util {
         if (data == null) return null;
         return Base64.getEncoder().encode(data);
     }
+
     /**
      * encode
      *

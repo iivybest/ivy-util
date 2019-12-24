@@ -11,8 +11,8 @@ import java.util.concurrent.*;
 /**
  * @author Ares miao.xl
  * @version V1.0
- *  HttpClientUtilTest
- *  并发测试HttpClientUtil工具性能
+ * HttpClientUtilTest
+ * 并发测试HttpClientUtil工具性能
  * @date 2017年4月24日 下午11:10:20
  */
 public class HttpClientUtilTest {
@@ -28,7 +28,7 @@ public class HttpClientUtilTest {
     }
 
     /**
-     *  循环执行一个任务，直到指定的时间后结束，每个任务包含指定并发数的子任务。
+     * 循环执行一个任务，直到指定的时间后结束，每个任务包含指定并发数的子任务。
      */
 //	@Test
     public void testHttpClient() throws InterruptedException, ExecutionException, TimeoutException {
@@ -50,19 +50,19 @@ public class HttpClientUtilTest {
 /**
  * @author Ares miao.xl@live.cn
  * @version V1.0
- *  TaskItem
- *  单个可执行任务线程 Callable 执行指定并发数的任务，所有任务结束前，该线程保持存活状态
+ * TaskItem
+ * 单个可执行任务线程 Callable 执行指定并发数的任务，所有任务结束前，该线程保持存活状态
  * @date 2017年4月24日 下午9:55:58
  */
 class TaskItem implements Callable<String> {
-    // 任务并发数
-    private int count;
-    // 当前线程ID
-    private int id;
     // 任务开始计数器
     private final CountDownLatch beginLatch;
     // 任务结束计数器
     private final CountDownLatch finishLatch;
+    // 任务并发数
+    private int count;
+    // 当前线程ID
+    private int id;
 
 
     public TaskItem(int count, int id) {
@@ -97,11 +97,10 @@ class TaskItem implements Callable<String> {
 }
 
 class ApacheCommonsHttpClientPost implements Runnable {
+    private static HttpGet get = new HttpGet("http://192.168.15.116:8085/");
     private CountDownLatch beginLatch;
     private CountDownLatch finishLatch;
     private int id;
-
-    private static HttpGet get = new HttpGet("http://192.168.15.116:8085/");
 
     public ApacheCommonsHttpClientPost(CountDownLatch beginLatch, CountDownLatch finishLatch, int id) {
         this.beginLatch = beginLatch;

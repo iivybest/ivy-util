@@ -20,21 +20,21 @@ import java.util.Random;
  * <br>---------------------------------------------------------
  * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
- * 
+ *
  * @author Ivybest (ivybestdev@163.com)
  * @version 1.0
  * @date 2019/12/16 11:06
  */
 public class Arrayx {
+    @Description("安全的随机数生成对象")
+    private static final Random SECURE_RANDOM = new SecureRandom();
+
+
     /**
      * 工具类，私有化其构造器
      */
     private Arrayx() {
     }
-
-
-    @Description("安全的随机数生成对象")
-    private static final Random SECURE_RANDOM = new SecureRandom();
 
     /**
      * 数组乱序算法

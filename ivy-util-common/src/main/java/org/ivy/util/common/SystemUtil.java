@@ -50,7 +50,7 @@ public class SystemUtil {
             root = root.replace(WIN_SEPARATOR, UNIX_SEPARATOR);
         }
         // root 路径补全
-        if (! classpath.endsWith(UNIX_SEPARATOR)) {
+        if (!classpath.endsWith(UNIX_SEPARATOR)) {
             classpath += UNIX_SEPARATOR;
         }
     }
