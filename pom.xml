@@ -19,6 +19,7 @@
         <lombok.version>1.18.10</lombok.version>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.encoding>UTF-8</maven.compiler.encoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -75,5 +76,18 @@
             <scope>provided</scope>
         </dependency>
     </dependencies>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.1.1</version>
+                <configuration>
+                    <reportOutputDirectory>/target/javadocs</reportOutputDirectory>
+                    <destDir>easy-delivery</destDir>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
 
 </project>
