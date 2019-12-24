@@ -13,8 +13,8 @@ import java.util.Date;
 
 /**
  *
- * @Title DateTypeValueHandler
- * @Description 日期类型数据处理
+ *  DateTypeValueHandler
+ *  日期类型数据处理
  *
  * @author Ares miao.xl@live.cn
  * @date 2017年3月28日 上午10:32:49

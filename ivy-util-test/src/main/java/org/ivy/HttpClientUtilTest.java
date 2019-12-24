@@ -11,8 +11,8 @@ import java.util.concurrent.*;
 /**
  * @author Ares miao.xl
  * @version V1.0
- * @Title HttpClientUtilTest
- * @Description 并发测试HttpClientUtil工具性能
+ *  HttpClientUtilTest
+ *  并发测试HttpClientUtil工具性能
  * @date 2017年4月24日 下午11:10:20
  */
 public class HttpClientUtilTest {
@@ -28,7 +28,7 @@ public class HttpClientUtilTest {
     }
 
     /**
-     * @Description 循环执行一个任务，直到指定的时间后结束，每个任务包含指定并发数的子任务。
+     *  循环执行一个任务，直到指定的时间后结束，每个任务包含指定并发数的子任务。
      */
 //	@Test
     public void testHttpClient() throws InterruptedException, ExecutionException, TimeoutException {
@@ -50,8 +50,8 @@ public class HttpClientUtilTest {
 /**
  * @author Ares miao.xl@live.cn
  * @version V1.0
- * @Title TaskItem
- * @Description 单个可执行任务线程 Callable 执行指定并发数的任务，所有任务结束前，该线程保持存活状态
+ *  TaskItem
+ *  单个可执行任务线程 Callable 执行指定并发数的任务，所有任务结束前，该线程保持存活状态
  * @date 2017年4月24日 下午9:55:58
  */
 class TaskItem implements Callable<String> {

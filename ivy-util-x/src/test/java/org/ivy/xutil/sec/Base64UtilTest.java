@@ -1,10 +1,3 @@
-/**
- * @Title: Base64UtilTest
- * @Description: TODO
- * @author miao.xl
- * @date 2017年1月12日 下午9:01:52
- * @version V1.0
- */
 package org.ivy.xutil.sec;
 
 import lombok.extern.slf4j.Slf4j;
@@ -14,15 +7,20 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import java.io.IOException;
+import java.security.Security;
 import java.util.Arrays;
-
 /**
- * @Title: Base64UtilTest
- * @Description: TODO
- *
- * @author miao.xl
- * @date 2017年1月12日 下午9:01:52 
- * @version V1.0
+ * <p>  classname: Base64UtilTest
+ * <br> description: base64 util testcase
+ * <br>---------------------------------------------------------
+ * <br> base64 util testcase
+ * <br>---------------------------------------------------------
+ * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
+ * </p>
+ * 
+ * @author Ivybest (ivybestdev@163.com)
+ * @date 2019/12/24 17:17
+ * @version 1.0
  */
 @Slf4j
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -39,12 +37,6 @@ public class Base64UtilTest {
     }
 
     @Test
-    public void Decode() throws IOException {
-        String plain = new String(SecurityUtil.base64.decode(this.text), "UTF-8");
-        System.out.println(plain);
-    }
-
-    @Test
     public void test_01_base64EncodeByteArr() {
         String encode = new String(Base64Util.encode(this.text.getBytes()));
 
@@ -57,9 +49,11 @@ public class Base64UtilTest {
         });
     }
 
-
-
-
+    @Test
+    public void test_03_decode() throws IOException {
+        String plain = new String(Base64Util.decode(this.text), "UTF-8");
+        System.out.println(plain);
+    }
 }
 
 

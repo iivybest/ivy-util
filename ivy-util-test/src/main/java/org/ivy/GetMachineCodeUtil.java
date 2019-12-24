@@ -9,10 +9,10 @@ import java.util.Properties;
 import java.util.Scanner;
 
 /**
- * @Title: GetMachineCodeUtil
+ *  GetMachineCodeUtil
  * @author ivybest imiaodev@163.com
  * @date 2018年8月30日 上午8:56:21
- * @Description: 获取机器编码
+ *  获取机器编码
  */
 public class GetMachineCodeUtil {
     public static void main(String[] args) {

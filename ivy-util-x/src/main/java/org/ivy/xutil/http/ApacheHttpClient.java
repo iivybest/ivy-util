@@ -25,6 +25,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
+import org.ivy.util.annotation.Description;
 import org.ivy.util.common.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,23 +39,26 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 
 /**
- * @ClassName: ApacheHttpClient
- * @author: ivybest imiaodev@163.com
- * @date: 2018年11月6日 上午11:02:06
- * @Description: TODO(用一句话描述该文件做什么)
+ * <p>  classname: ApacheHttpClient
+ * <br> description: apache http client
+ * <br>---------------------------------------------------------
+ * <br>
+ * <br>---------------------------------------------------------
+ * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
+ * </p>
+ *
+ * @author Ivybest (ivybestdev@163.com)
+ * @date 2019/12/24 20:10
+ * @version 1.0
  */
 public class ApacheHttpClient {
     // ==== step_2 静态内部类持有外部类的静态对象
     private static class ApacheHttpClientHolder {
-        static {
-            System.out.println("========》 类级内部类 加载。。。。。。。。。。。");
-        }
-
         private static ApacheHttpClient instance = new ApacheHttpClient();
     }
 
     // slf4j logger
-    private Logger logger = LoggerFactory.getLogger(this.getClass());
+    private Logger log = LoggerFactory.getLogger(this.getClass());
 
     // 连接池管理器
     private HttpClientConnectionManager httpClientConnectionManager;
@@ -75,38 +79,44 @@ public class ApacheHttpClient {
     private ApacheHttpClient() {
     }
 
+
+    // ==== step_3 提供工厂方法
     /**
-     * @Title: getInstance
-     * @Description: 获得httpclient实例
-     * @param args
+     *  get instance
      * @return ApacheHttpClient
      */
-    // ==== step_3 提供工厂方法
     public static ApacheHttpClient getInstance() {
         return ApacheHttpClientHolder.instance.initialize();
     }
 
+    @Description({
+            "初始化默认参数",
+            "构建连接池管理器",
+            "构建一般请求参数",
+            "构建http client"
+    })
     private ApacheHttpClient initialize() {
-        this.initDefaultArgs()                        // 初始化默认参数
-                .buildHttpClientConnectionManager()    // 构建连接池管理器
-                .buildRequestConfig()                // 构建一般请求参数
-                .buildHttpClient();                    // 构建http client
+        this.initDefaultArgs().buildHttpClientConnectionManager()
+                .buildRequestConfig().buildHttpClient();
         return this;
     }
 
 
     private ApacheHttpClient buildRequestConfig() {
         this.requestConfig = RequestConfig.custom()
-                .setConnectionRequestTimeout(this.connectionRequestTimeout)        // 从池中获取请求的时间
-                .setConnectTimeout(this.connectTimeout)                        // 连接超时时间
-                .setSocketTimeout(this.socketTimeout)                            // 读取超时时间
+                // 从池中获取请求的时间
+                .setConnectionRequestTimeout(this.connectionRequestTimeout)
+                // 连接超时时间
+                .setConnectTimeout(this.connectTimeout)
+                // 读取超时时间
+                .setSocketTimeout(this.socketTimeout)
                 .build();
         return this;
     }
 
     /**
-     * @Title: initDefaultArgs
-     * @Description: 初始化默认参数
+     * intilized default arguments
+     *
      * @return ApacheHttpClient
      */
     private ApacheHttpClient initDefaultArgs() {
@@ -117,10 +127,9 @@ public class ApacheHttpClient {
     }
 
     /**
-     * @Title: buildHttpClientConnectionManager
-     * @Description: 构建连接管理器
-     * @return ApacheHttpClient this
-     * @throws
+     * build HttpClientConnectionManager
+     *
+     * @return ApacheHttpClient
      */
     public ApacheHttpClient buildHttpClientConnectionManager() {
         // 默认hostname检查策略 ---- 检查 服务器证书subject中是否包含 hostname
@@ -135,8 +144,10 @@ public class ApacheHttpClient {
                 .build();
 
         PoolingHttpClientConnectionManager poolingMgr = new PoolingHttpClientConnectionManager(register);
-        poolingMgr.setMaxTotal(20000);                                // 设置连接池的最大连接数
-        poolingMgr.setDefaultMaxPerRoute(poolingMgr.getMaxTotal());    // 一个路由的最大连接数
+        // 设置连接池的最大连接数
+        poolingMgr.setMaxTotal(20000);
+        // 一个路由的最大连接数
+        poolingMgr.setDefaultMaxPerRoute(poolingMgr.getMaxTotal());
 
         return this.setHttpClientConnectionManager(poolingMgr);
     }
@@ -154,8 +165,8 @@ public class ApacheHttpClient {
     }
 
     /**
-     * @Title: getNoopCheckHostnameSSLContext
-     * @Description: 获取不校验服务器hostname的sslcontext
+     *  getNoopCheckHostnameSSLContext
+     *  获取不校验服务器hostname的sslcontext
      * @return SSLContext
      */
     private SSLContext getNoopCheckHostnameSSLContext() {
@@ -201,10 +212,10 @@ public class ApacheHttpClient {
             resp = this.getClient().execute(request);
         } catch (ClientProtocolException e) {
             e.printStackTrace();
-            this.logger.error("\r\n" + StringUtil.getFullStackTrace(e));
+            this.log.error("\r\n" + StringUtil.getFullStackTrace(e));
         } catch (IOException e) {
             e.printStackTrace();
-            this.logger.error("\r\n" + StringUtil.getFullStackTrace(e));
+            this.log.error("\r\n" + StringUtil.getFullStackTrace(e));
         }
         return resp;
     }
@@ -332,7 +343,6 @@ public class ApacheHttpClient {
     }
 
     public static void main(String[] args) throws Exception {
-
         String url = "https://192.168.15.128:8001/einvoice/v1/user/login";
         String msg = "{\"id\":\"uploader\",\"pwd\":\"uploader\"}";
 

@@ -30,7 +30,7 @@ public class SignatureTest {
         LOG.log(Arrayx.printArray(pubKeys), true);
 
 
-        byte[] sign = SecurityUtil.signature.sign(SignatureUtil.SHA1WITHRSA, original, _privateKey);
+        byte[] sign = SecurityUtil.signature.signature(SignatureUtil.SHA1WITHRSA, original, _privateKey);
         LOG.log("sign : " + Arrayx.printArray(sign));
 
         boolean valid = SecurityUtil.signature.verify(SignatureUtil.SHA1WITHRSA, original, sign, _publicKey);

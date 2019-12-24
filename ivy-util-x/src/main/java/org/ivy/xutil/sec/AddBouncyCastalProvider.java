@@ -2,7 +2,7 @@
  * @Filename BouncyCastalProvider
  * @author Ivybest
  * @version V1.0
- * @CreateDate 2018年5月10日 下午4:08:17
+ * @date 2018年5月10日 下午4:08:17
  * @Company IB.
  * @Copyright Copyright(C) 2010-
  * All rights Reserved, Designed By Ivybest

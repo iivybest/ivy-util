@@ -34,7 +34,7 @@ public class AspectLogUtil {
 
     /**
      * <p>log</p>
-     * @Description 记录日志
+     *  记录日志
      * @param t    当前被横切处理的类
      * @param msg
      *
@@ -47,7 +47,7 @@ public class AspectLogUtil {
 
     /**
      * <p>log</p>
-     * @Description TODO
+     *
      * @param t 当前被横切处理的类
      * @param signature    当前被横切处理方法
      * @param msg 日志消息

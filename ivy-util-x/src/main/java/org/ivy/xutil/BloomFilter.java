@@ -2,7 +2,7 @@
  * @Filename BloomFilter
  * @author Ivybest
  * @version V1.0
- * @CreateDate 2018年5月16日 下午7:47:43
+ * @date 2018年5月16日 下午7:47:43
  * @Company IB.
  * @Copyright Copyright(C) 2010-
  * All rights Reserved, Designed By Ivybest
@@ -17,12 +17,12 @@ package org.ivy.xutil;
 import java.util.BitSet;
 
 /**
- * @Classname BloomFilter
+ * @className BloomFilter
  * @author Ivybest imiaodev@163.com
- * @Createdate 2018年5月16日 下午7:47:43
- * @Version 1.0
+ * @date 2018年5月16日 下午7:47:43
+ * @version 1.0
  * ------------------------------------------
- * @Description TODO(这里用一句话描述这个类的作用)
+ *
  */
 public class BloomFilter {
     private int bit_size;

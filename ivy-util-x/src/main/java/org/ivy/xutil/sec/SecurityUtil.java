@@ -29,7 +29,6 @@ public interface SecurityUtil {
     //	String ENCODING = UtilityCfg.getProperty(UtilityConstant.ENCODING);
     String ENCODING = "UTF-8";
 
-    Base64Util base64 = new Base64Util();
     CaesarCodeUtil caesarcode = new CaesarCodeUtil();
     DesUtil des = new DesUtil();
     MacUtil mac = new MacUtil();

@@ -16,16 +16,23 @@ import java.security.cert.X509Certificate;
 import java.util.List;
 
 /**
- * 数字信封工具
- *
- * @author Ivybest
+ * <p>  classname: DigitalEnvelopeUtil
+ * <br> description: digital envelope util
+ * <br>---------------------------------------------------------
+ * <br> 
+ * <br>---------------------------------------------------------
+ * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
+ * </p>
+ * 
+ * @author Ivybest (ivybestdev@163.com)
+ * @date 2019/12/24 19:41
+ * @version 1.0
  */
 public class DigitalEnvelopeUtil {
     private static String encoding = "utf-8";
 
     public static void main(String[] args) throws Exception {
         Security.addProvider(new BouncyCastleProvider());
-
         // 明文
         String plain = "hello digital envelope";
         // alice、anthony、martial 的 公钥证书
@@ -71,16 +78,15 @@ public class DigitalEnvelopeUtil {
 
 
     /**
-     * @param @param  cipher
-     * @param @param  privateKey
-     * @param @param  encoding
-     * @param @throws CMSException
-     * @param @throws DecoderException
-     * @param @throws UnsupportedEncodingException
+     * open envelope
+     *
+     * @param cipher     cipher string
+     * @param privateKey private key
+     * @param encoding   encoding
      * @return String
-     * @throws
-     * @Title: openEnvelope
-     * @Description: 打开信封
+     * @throws CMSException
+     * @throws DecoderException
+     * @throws UnsupportedEncodingException
      */
     public static String openEnvelope(String cipher, PrivateKey privateKey, String encoding)
             throws CMSException, DecoderException, UnsupportedEncodingException {

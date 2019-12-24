@@ -1,7 +1,7 @@
 /**
  * Filename 	GuavaRateLImiter
  *
- * @Description TODO
+ *
  * @author ivybest
  * @version V1.0
  * CreateDate 	2017年9月13日 下午8:04:05
@@ -21,8 +21,8 @@ import com.google.common.util.concurrent.RateLimiter;
 import java.util.concurrent.TimeUnit;
 
 /**
- * @Classname GuavaRateLImiter
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @className GuavaRateLImiter
+ *
  * @author
  * Createdate    2017年9月13日 下午8:04:05
  */

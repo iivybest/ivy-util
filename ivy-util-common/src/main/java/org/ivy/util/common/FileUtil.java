@@ -14,7 +14,6 @@ import java.util.List;
  *
  * @author Ivybest (ivybestdev@163.com)
  * @version 1.0
- * @className FileUtil
  * @date 2014/6/5 09:01:55
  */
 public class FileUtil {
@@ -22,19 +21,22 @@ public class FileUtil {
     protected static final String TEMP_SUFFIX;
     // Unix file Separator
     protected static final String UNIX_SEPARATOR;
-    // 读写缓冲大小
+    // Win file Separator
+    protected static final String WIN_SEPARATOR;
+    // the buffer for read or write
     protected static final int BUF_SIZE;
 
     static {
         TEMP_SUFFIX = ".temp";
         UNIX_SEPARATOR = "/";
+        WIN_SEPARATOR = "\\\\";
         BUF_SIZE = 1024 * 4;
     }
 
     /**
-     * 获取 UNIX 风格的文件路径
+     * get file path in unix style
      *
-     * @param file
+     * @param file file
      * @return String
      */
     public static String getUnixStyleFilePath(File file) {
@@ -51,25 +53,26 @@ public class FileUtil {
     }
 
     /**
-     * @param file
+     * get file path in unix style
+     *
+     * @param file file
      * @return String
-     * @Title getUnixStyleFilePath
-     * @Description 获取Unix风格的文件路径
      */
     public static String getUnixStyleFilePath(String file) {
         if (null == file || file.length() <= 0) return null;
 
-        // 替换windows文件分隔符
-        String path = file.replaceAll("\\\\+", "/");
+        // Replace Windows file separator
+        String path = file.replaceAll(WIN_SEPARATOR + "+", UNIX_SEPARATOR);
         path = path.replaceAll(FileUtil.UNIX_SEPARATOR + "{2,}", FileUtil.UNIX_SEPARATOR);
 
         return path;
     }
 
     /**
+     * get file name without file type
+     *
+     * @param file file
      * @return String
-     * @Title getFilenameWithoutFileType
-     * @Description 获取不含有文件类型的文件名
      */
     public static String getFilenameWithoutFileType(File file) {
         if (file == null) return null;
@@ -79,9 +82,10 @@ public class FileUtil {
     }
 
     /**
+     * get file name without file type
+     *
+     * @param file file
      * @return String
-     * @Title getFilenameWithoutFileType
-     * @Description 获取不含有文件类型的文件名
      */
     public static String getFilenameWithoutFileType(String file) {
         if (file == null || file.length() == 0) return null;
@@ -89,10 +93,10 @@ public class FileUtil {
     }
 
     /**
-     * @param file
+     * get file type
+     *
+     * @param file file
      * @return String
-     * @Title getFileType
-     * @Description 获取文件类型
      */
     public static String getFileType(File file) {
         if (null == file) return null;
@@ -104,35 +108,32 @@ public class FileUtil {
     }
 
     /**
-     * @param file   拷问文件
-     * @param target 目标文件
-     * @return void
+     * file copy
+     * <br> ----------------------------------------
+     * <br> 1、文件不存在，退出
+     * <br> 2、目标文键为null，退出
+     * <br> 3、目标路径下是否有同名文件处理，
+     * <br>     3.1 若有同名文件，使用数字累加处理
+     * <br>     3.2 考虑目标文件名没有类型的情况处理
+     * <br> 4、采用缓冲、以字节流来读写文件
+     * <br> 5、复制过程中采用临时文件
+     * <br> 6、复制完成，去掉临时文件后缀
+     * <br> ----------------------------------------
+     *
+     * @param file file
+     * @param dest destination
      * @throws IOException
-     * @throws FileNotFoundException ***************************************************
-     *                               思路：
-     *                               1、文件不存在，退出
-     *                               2、目标文键为null，退出
-     *                               3、目标路径下是否有同名文件处理，
-     *                               3.1 若有同名文件，使用数字累加处理
-     *                               3.2 考虑目标文件名没有类型的情况处理
-     *                               4、采用缓冲、以字节流来读写文件
-     *                               5、复制过程中采用临时文件
-     *                               6、复制完成，去掉临时文件后缀
-     *                               ***************************************************
-     * @Title copyNonDirFile
-     * @Description 非目录文件拷贝
      */
-    private static void copyNonDirFile(File file, File target) throws IOException {
+    private static void copyNonDirFile(File file, File dest) throws IOException {
         // 文件不存在，直接退出
-//		if (null == file || ! file.exists()) return;
+        if (null == file || !file.exists()) return;
         // 目标路径不存在，直接退出
-//		if (null == target) return;
-
+//		if (null == dest) return;
         // 目标路径下存在同名文件处理, 需要考虑目标文件名中没有文件类型的情况
-        target = makeSureTargetFile4Copy(target);
+        dest = makeSureTargetFile4Copy(dest);
 
         // 文件拷贝 - 文件复制过程中，使用临时文件
-        File tempFile = new File(target.getAbsolutePath() + TEMP_SUFFIX);
+        File tempFile = new File(dest.getAbsolutePath() + TEMP_SUFFIX);
         int successFlag = 0;
         try (FileInputStream fis = new FileInputStream(file);
              BufferedInputStream bis = new BufferedInputStream(fis);
@@ -147,23 +148,24 @@ public class FileUtil {
             // 复制失败，删除临时文件
             if (successFlag == 0) tempFile.delete();
             // 文件改名只用关闭流后操作才行
-            if (tempFile != null && target != null) tempFile.renameTo(target);
+            if (tempFile != null && dest != null) tempFile.renameTo(dest);
         }
 
     }
 
     /**
-     * @param dest
-     * @return File
-     * @Title makeSureTargetFile4Copy
-     * @Description ----------------------------
      * 确保文件复制时，目标文件可操作性；
-     * 1、目录，确保其存在
-     * 2、文件，确保目标路径是否含有同名文件
-     * 2.1 检查目标文件是否存在存在同名文件
-     * 2.2 若存在，文件名后缀 + "自增阿拉伯数字"
-     * 2.2.1 重复 2.1操作
-     * 2.3 若不存在，返回该文件
+     * <br>--------------------------------------------
+     * <br> 1、目录，确保其存在
+     * <br> 2、文件，确保目标路径是否含有同名文件
+     * <br>     2.1 检查目标文件是否存在存在同名文件
+     * <br>     2.2 若存在，文件名后缀 + "自增阿拉伯数字"
+     * <br>         2.2.1 重复 2.1操作
+     * <br> 2.3 若不存在，返回该文件
+     * <br>--------------------------------------------
+     *
+     * @param dest destination
+     * @return File
      */
     private static File makeSureTargetFile4Copy(File dest) {
         if (dest == null) return null;
@@ -177,22 +179,21 @@ public class FileUtil {
     }
 
     /**
-     * @param file
-     * @param dest 目标文件目录
-     * @return void
-     * *****************************************
-     * 1、文件不存在，退出；目标路径为空，退出
-     * 2、检查目标路径是否存在，不存在新建
-     * 3、判断要复制文件是目录还是文件
-     * 4、若为文件直接复制到目标路径, 先判断是否目标路径是否存在同名文件
-     * 5、若为目录，则目标路径下新建该目录，此时目标路径改为新建目录
-     * 并列举目录下所以子文件，对每个文件重复4、5操作(递归实现)
-     * 6、文件处理过程中，正在进行复制的文件使用TEMP_SUFFIX标识，
-     * 7、复制完成后，去掉后缀
-     * ***************************************************
+     * copy file
+     * <br>---------------------------------------------------
+     * <br> 1、文件不存在，退出；目标路径为空，退出
+     * <br> 2、检查目标路径是否存在，不存在新建
+     * <br> 3、判断要复制文件是目录还是文件
+     * <br> 4、若为文件直接复制到目标路径, 先判断是否目标路径是否存在同名文件
+     * <br> 5、若为目录，则目标路径下新建该目录，此时目标路径改为新建目录
+     * <br>    并列举目录下所以子文件，对每个文件重复4、5操作(递归实现)
+     * <br> 6、文件处理过程中，正在进行复制的文件使用TEMP_SUFFIX标识，
+     * <br> 7、复制完成后，去掉后缀
+     * <br>---------------------------------------------------
+     *
+     * @param file file
+     * @param dest destination
      * @throws Exception
-     * @Title copy
-     * @Description 文件复制
      */
     public static void copy(File file, String dest) throws Exception {
         // 拷贝文件夹不存在，直接退出。
@@ -218,47 +219,52 @@ public class FileUtil {
 
 
     /**
-     * <p>文件复制</p>
+     * copy file
      *
-     * @param fileUrl
-     * @param dest
+     * @param file file
+     * @param dest destination
      * @throws Exception
      */
-    public static void copy(String fileUrl, String dest) throws Exception {
-        if (null == fileUrl || fileUrl.length() <= 0) return;
-        copy(new File(fileUrl), dest);
+    public static void copy(String file, String dest) throws Exception {
+        if (null == file || file.length() <= 0) return;
+        copy(new File(file), dest);
     }
 
     /**
-     * @param file
-     * @return void
-     * @Title delete
-     * @Description 文件删除
-     */
-    public static void delete(File file) {
-        if (null == file || !file.exists()) return;
-        // 如果文件是目录，遍历所有子文件，递归删除
-        if (file.isDirectory()) for (File f : file.listFiles()) delete(f);
-        file.delete();
-    }
-
-    /**
-     * <p>文件删除</p>
+     * delete file
      *
-     * @param fileUrl
+     * @param file files
      */
-    public static void delete(String fileUrl) {
-        if (null == fileUrl || fileUrl.length() <= 0) return;
-        delete(new File(fileUrl));
+    public static void delete(File... file) {
+        if (null == file) return;
+        for (File e : file) {
+            if (e.isDirectory()) {
+                for (File f : e.listFiles()) delete(f);
+            }
+            e.delete();
+        }
     }
 
     /**
-     * <p>文件剪切</p>
+     * delete file
      *
-     * @param file
-     * @param dest
+     * @param file files
+     */
+    public static void delete(String... file) {
+        if (file == null) return;
+        if (file.length == 0) return;
+        for (String e : file) {
+            if (null == e || e.length() <= 0) return;
+            delete(new File(e));
+        }
+    }
+
+    /**
+     * file cut
+     *
+     * @param file file
+     * @param dest destination
      * @throws IOException
-     * @description 将文件或目录剪切到目标路径下
      */
     public static void cut(File file, String dest) throws IOException {
         if (null == file || !file.exists()) return;
@@ -293,25 +299,22 @@ public class FileUtil {
     }
 
     /**
-     * <p>文件剪切</p>
+     * file cut
      *
-     * @param fileUrl
-     * @param dest
+     * @param file file
+     * @param dest destination
      * @throws IOException
      */
-    public static void cut(String fileUrl, String dest) throws IOException {
-        if (null == fileUrl || fileUrl.length() <= 0) return;
-        cut(new File(fileUrl), dest);
+    public static void cut(String file, String dest) throws IOException {
+        if (null == file || file.length() <= 0) return;
+        cut(new File(file), dest);
     }
 
     /**
-     * 创建新文件
+     * create new file
      *
-     * @param file
-     * @return
-     * @author miao.xl
-     * @date 2014年12月19日 下午5:52:10
-     * @version 1.0
+     * @param file file
+     * @return boolen
      */
     public static boolean createNewFile(File file) {
         if (null == file) return false;
@@ -328,29 +331,26 @@ public class FileUtil {
     }
 
     /**
-     * 创建新文件
+     * create new file
      *
-     * @param fileUrl
-     * @return
-     * @author miao.xl
-     * @date 2014年12月19日 下午5:52:29
-     * @version 1.0
+     * @param file file
+     * @return boolen
      */
-    public static boolean createNewFile(String fileUrl) {
-        if (null == fileUrl || fileUrl.length() <= 0) return false;
-        return createNewFile(new File(fileUrl));
+    public static boolean createNewFile(String file) {
+        if (null == file || file.length() <= 0) return false;
+        return createNewFile(new File(file));
     }
 
     /**
-     * 以字节流读文件
+     * Read files in bytes
      *
-     * @param in
+     * @param inputStream inputStream
      * @return byte[]
      */
-    public static byte[] read(InputStream in) {
-        if (null == in) return null;
+    public static byte[] read(InputStream inputStream) {
+        if (null == inputStream) return null;
         byte[] original = null;
-        try (BufferedInputStream bis = new BufferedInputStream(in);
+        try (BufferedInputStream bis = new BufferedInputStream(inputStream);
              ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
             byte[] buf = new byte[BUF_SIZE];
             int len;
@@ -364,9 +364,10 @@ public class FileUtil {
 
 
     /**
-     * <p>以字节流读文件</p>
+     * Read files in bytes
      *
-     * @return
+     * @param file file
+     * @return byte[]
      */
     public static byte[] read(File file) {
         if ((null == file || !file.exists()) || file.isDirectory()) return null;
@@ -383,21 +384,21 @@ public class FileUtil {
     }
 
     /**
-     * @param fileUrl
+     * Read files in bytes
+     *
+     * @param file file
      * @return byte[]
-     * @Title read
-     * @Description 以字节形式读文件
      */
-    public static byte[] read(String fileUrl) {
-        if (null == fileUrl || fileUrl.length() <= 0) return null;
-        return read(new File(fileUrl));
+    public static byte[] read(String file) {
+        if (null == file || file.length() <= 0) return null;
+        return read(new File(file));
     }
 
     /**
-     * 以字节形式读取文件
+     * Read files as characters
      *
-     * @param fileInputStream
-     * @param encoding
+     * @param fileInputStream fileInputStream
+     * @param encoding        encoding
      * @return String
      */
     public static String reader(FileInputStream fileInputStream, String encoding) {
@@ -420,10 +421,10 @@ public class FileUtil {
     }
 
     /**
-     * 以字节形式读取文件
+     * Read files as characters
      *
-     * @param file
-     * @param encoding
+     * @param file     file
+     * @param encoding encoding
      * @return String
      */
     public static String reader(File file, String encoding) {
@@ -439,20 +440,20 @@ public class FileUtil {
     }
 
     /**
-     * 以字节形式读取文件
+     * Read files as characters
      *
-     * @param fileUrl
-     * @param encoding
+     * @param file     file
+     * @param encoding encoding
      * @return String
      */
-    public static String reader(String fileUrl, String encoding) {
-        return reader(new File(fileUrl), encoding);
+    public static String reader(String file, String encoding) {
+        return reader(new File(file), encoding);
     }
 
     /**
-     * 以字节形式读取文件
+     * Read files as characters
      *
-     * @param fileInputStream
+     * @param fileInputStream fileInputStream
      * @return String
      */
     public static String reader(FileInputStream fileInputStream) {
@@ -460,26 +461,31 @@ public class FileUtil {
     }
 
     /**
-     * 以字节形式读取文件
+     * Read files as characters
      *
-     * @param file
+     * @param file file
      * @return String
      */
     public static String reader(File file) {
         return reader(file, null);
     }
 
-    public static String reader(String fileUrl) {
-        return reader(fileUrl, null);
+    /**
+     * Read file in bytes
+     *
+     * @param file file
+     * @return String
+     */
+    public static String reader(String file) {
+        return reader(file, null);
     }
 
     /**
-     * @param file
-     * @param data
-     * @param isAppend
-     * @return void
-     * @Title write
-     * @Description 以字节形式写入文件
+     * Write files in bytes
+     *
+     * @param file     file
+     * @param data     data
+     * @param isAppend whether append
      */
     public static void write(File file, byte[] data, boolean isAppend) {
         if (null == file || (null == data || data.length <= 0)) return;
@@ -507,51 +513,43 @@ public class FileUtil {
     }
 
     /**
-     * @param fileUrl
-     * @param data
-     * @param isAppend
-     * @return void
-     * @Title write
-     * @Description 以字节形式写入文件
+     * Write files in bytes
+     *
+     * @param file     file
+     * @param data     data
+     * @param isAppend whether append
      */
-    public static void write(String fileUrl, byte[] data, boolean isAppend) {
-        File file = new File(fileUrl);
-        write(file, data, isAppend);
+    public static void write(String file, byte[] data, boolean isAppend) {
+        write(new File(file), data, isAppend);
     }
 
     /**
-     * @param file
-     * @param data
-     * @return void
-     * @Title write
-     * @Description 以字节流形式写文件
+     * Write files in bytes
+     *
+     * @param file file
+     * @param data data
      */
     public static void write(File file, byte[] data) {
         write(file, data, false);
     }
 
     /**
-     * @param fileUrl
-     * @param data
-     * @return void
-     * @Title write
-     * @Description 以字节流形式写文件
+     * Write files in bytes
+     *
+     * @param file file
+     * @param data data
      */
-    public static void write(String fileUrl, byte[] data) {
-        File file = new File(fileUrl);
-        write(file, data);
+    public static void write(String file, byte[] data) {
+        write(new File(file), data);
     }
 
 
     /**
-     * <p>文件写入 </p>
+     * writing file
      *
-     * @param file     写入文件
-     * @param data     写入内容
-     * @param isAppend 是否在原文件上追加写入
-     * @author miao.xl
-     * @date 2015年1月13日 下午12:13:09
-     * @version 1.0
+     * @param file     file
+     * @param data     data
+     * @param isAppend whether append
      */
     public static void writer(File file, String data, boolean isAppend) {
         if (null == file || null == data) return;
@@ -566,43 +564,42 @@ public class FileUtil {
     }
 
     /**
-     * <p>文件写入 </p>
+     * writing file
      *
-     * @param fileUrl  文件路径
-     * @param data     写入内容
-     * @param isAppend 是否在原文件上追加写入
-     * @author miao.xl
-     * @date 2015年1月13日 下午12:15:18
-     * @version 1.0
+     * @param file     file
+     * @param data     data
+     * @param isAppend whether append
      */
-    public static void writer(String fileUrl, String data, boolean isAppend) {
-        File file = new File(fileUrl);
-        writer(file, data, isAppend);
+    public static void writer(String file, String data, boolean isAppend) {
+        writer(new File(file), data, isAppend);
     }
 
     /**
-     * <p>文件写入</p>
-     */
-    public static void writer(File file, String original) {
-        writer(file, original, false);
-    }
-
-    /**
-     * <p>文件写入</p>
-     */
-    public static void writer(String fileUrl, String original) {
-        File file = new File(fileUrl);
-        writer(file, original);
-    }
-
-    /**
-     * 文件尾部追加内容 - 文件若不存在，新建文件
+     * writing file
      *
-     * @param file
-     * @param data
-     * @author miao.xl
-     * @date 2014年12月19日 下午5:47:43
-     * @version 1.0
+     * @param file file
+     * @param data data
+     */
+    public static void writer(File file, String data) {
+        writer(file, data, false);
+    }
+
+    /**
+     * writing file
+     *
+     * @param file file
+     * @param data data
+     */
+    public static void writer(String file, String data) {
+        writer(new File(file), data);
+    }
+
+    /**
+     * Append content at the end of the file.
+     * If the file does not exist, create a new file
+     *
+     * @param file file
+     * @param data data
      */
     public static void append(File file, String data) {
         if (null == data || data.length() <= 0) return;
@@ -613,44 +610,45 @@ public class FileUtil {
     }
 
     /**
-     * 文件尾部追加内容
+     * Append content at the end of the file.
+     * If the file does not exist, create a new file
      *
-     * @param fileUrl
-     * @param data
-     * @author miao.xl
-     * @date 2014年12月19日 下午5:49:23
-     * @version 1.0
+     * @param file file
+     * @param data data
      */
-    public static void append(String fileUrl, String data) {
-        if (null == fileUrl || fileUrl.length() <= 0) return;
+    public static void append(String file, String data) {
+        if (null == file || file.length() <= 0) return;
         if (null == data || data.length() <= 0) return;
-        append(new File(fileUrl), data);
+        append(new File(file), data);
     }
 
     /**
-     * 检查dir
+     * Check if the directory exists
+     *
+     * @param file file
+     * @return boolean
      */
     public static boolean checkDir(File file) {
         return null != file && file.exists() && file.isDirectory();
     }
 
     /**
-     * 检查dir
+     * Check if the directory exists
+     *
+     * @param file file
+     * @return boolean
      */
-    public static boolean checkDir(String fileUrl) {
-        if (null == fileUrl || fileUrl.length() <= 0) return false;
-        return checkDir(new File(fileUrl));
+    public static boolean checkDir(String file) {
+        if (null == file || file.length() <= 0) return false;
+        return checkDir(new File(file));
     }
 
     /**
-     * 检查dir，并决定是否新建
+     * Check if the directory exists
      *
-     * @param file
-     * @param isNew
-     * @return
-     * @author miao.xl
-     * @date 2014年7月8日 下午3:05:14
-     * @version 1.0
+     * @param isNew New folder or not
+     * @param file  file
+     * @return boolean
      */
     public static boolean checkDir(File file, boolean isNew) {
         if (!checkDir(file) && isNew) file.mkdirs();
@@ -658,31 +656,28 @@ public class FileUtil {
     }
 
     /**
-     * 检查dir，并决定是否新建
+     * Check if the directory exists
      *
-     * @param fileUrl
-     * @param isNew
-     * @return
-     * @author miao.xl
-     * @date 2014年7月8日 下午3:05:14
-     * @version 1.0
+     * @param isNew New folder or not
+     * @param file  file
+     * @return boolean
      */
-    public static boolean checkDir(String fileUrl, boolean isNew) {
-        if (null == fileUrl || fileUrl.length() <= 0) return false;
-        return checkDir(new File(fileUrl), isNew);
+    public static boolean checkDir(String file, boolean isNew) {
+        if (null == file || file.length() <= 0) return false;
+        return checkDir(new File(file), isNew);
     }
 
     /**
-     * @param isNew
-     * @param fileUrl
+     * Check if the directory exists
+     *
+     * @param isNew New folder or not
+     * @param file  file
      * @return boolean
-     * @Title: checkDir
-     * @Description: 检查任意个目录是否存在，不存在根据isNew进行新建
      */
-    public static boolean checkDir(boolean isNew, String... fileUrl) {
-        if (null == fileUrl) return false;
+    public static boolean checkDir(boolean isNew, String... file) {
+        if (null == file) return false;
         boolean flag = true;
-        for (String path : fileUrl) {
+        for (String path : file) {
             flag = checkDir(path, isNew);
             if (!isNew && !flag) break;
         }
@@ -691,13 +686,10 @@ public class FileUtil {
 
 
     /**
-     * 获取目录下文件列表
+     * get all files in the directory
      *
-     * @param dir
-     * @return
-     * @author miao.xl
-     * @date 2015年1月15日 上午10:24:26
-     * @version 1.0
+     * @param dir directory
+     * @return File[]
      */
     public static File[] getFileList(File dir) {
         if (null == dir || !dir.exists() || !dir.isDirectory()) return null;
@@ -705,25 +697,23 @@ public class FileUtil {
     }
 
     /**
-     * 获取目录下文件列表
+     * get all files in the directory
      *
-     * @param dirUrl
-     * @return
-     * @author miao.xl
-     * @date 2015年1月15日 上午10:24:26
-     * @version 1.0
+     * @param dir directory
+     * @return File[]
      */
-    public static File[] getFileList(String dirUrl) {
-        if (null == dirUrl || dirUrl.length() <= 0) return null;
-        return getFileList(new File(dirUrl));
+    public static File[] getFileList(String dir) {
+        if (null == dir || dir.length() <= 0) return null;
+        return getFileList(new File(dir));
     }
 
 
     /**
-     * @param dir
+     * get directory files under this directory
+     * excluding sub directory files
+     *
+     * @param dir directory
      * @return File[]
-     * @Title getDirFileList
-     * @Description 获取路径下所有文件夹
      */
     public static File[] getDirFileList(File dir) {
         if (null == dir || !dir.exists()) return null;
@@ -735,25 +725,23 @@ public class FileUtil {
     }
 
     /**
-     * @param dirUrl
+     * get directory files under this directory
+     * excluding sub directory files
+     *
+     * @param dir directory
      * @return File[]
-     * @Title getDirFileList
-     * @Description 获取路径下所有文件夹
      */
-    public static File[] getDirFileList(String dirUrl) {
-        if (dirUrl == null || dirUrl.length() <= 0) return null;
-        return getDirFileList(new File(dirUrl));
+    public static File[] getDirFileList(String dir) {
+        if (dir == null || dir.length() <= 0) return null;
+        return getDirFileList(new File(dir));
     }
 
-
     /**
-     * 获取目录下非目录文件列表
+     * get non directory files under this directory
+     * excluding sub directory files
      *
-     * @param dir
-     * @return
-     * @author miao.xl
-     * @date 2015年1月15日 上午10:35:19
-     * @version 1.0
+     * @param dir directory
+     * @return File[]
      */
     public static File[] getNonDirFileList(File dir) {
         if (null == dir || !dir.exists()) return null;
@@ -766,9 +754,10 @@ public class FileUtil {
     }
 
     /**
-     * 获取目录下非目录文件列表
+     * get non directory files under this directory
+     * excluding sub directory files
      *
-     * @param dir
+     * @param dir directory
      * @return File[]
      */
     public static File[] getNonDirFileList(String dir) {
@@ -777,9 +766,10 @@ public class FileUtil {
     }
 
     /**
-     * 获取目录下非目录文件列表-包括子目录文件
+     * get non directory files under this directory
+     * including sub directory files
      *
-     * @param dir
+     * @param dir directory
      * @return File[]
      */
     public static File[] getAllNonDirFileList(File dir) {
@@ -796,17 +786,15 @@ public class FileUtil {
     }
 
     /**
-     * 获取目录下非目录文件列表-包括子目录文件
+     * get non directory files under this directory
+     * including sub directory files
      *
-     * @param dirUrl
-     * @return
-     * @author miao.xl
-     * @date 2015年1月15日 上午10:35:19
-     * @version 1.0
+     * @param dir directory
+     * @return File[]
      */
-    public static File[] getAllNonDirFileList(String dirUrl) {
-        if (null == dirUrl || dirUrl.length() <= 0) return null;
-        return getAllNonDirFileList(new File(dirUrl));
+    public static File[] getAllNonDirFileList(String dir) {
+        if (null == dir || dir.length() <= 0) return null;
+        return getAllNonDirFileList(new File(dir));
     }
 
 }

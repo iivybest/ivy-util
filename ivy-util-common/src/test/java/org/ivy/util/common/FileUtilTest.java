@@ -1,9 +1,9 @@
 /**
  * @Filename FileUtilTest
- * @Description TODO
+ *
  * @author ivybest
  * @version V1.0
- * @CreateDate 2017年12月22日 上午10:25:20
+ * @date 2017年12月22日 上午10:25:20
  * @Company IB.
  * @Copyright Copyright(C) 2010-
  * All rights Reserved, Designed By ivybest
@@ -22,12 +22,12 @@ import java.io.File;
 import java.io.IOException;
 
 /**
- * @Classname FileUtilTest
+ * @className FileUtilTest
  * @author ivybest imiaodev@163.com
- * @Createdate 2017年12月22日 上午10:25:20
- * @Version 1.0
+ * @date 2017年12月22日 上午10:25:20
+ * @version 1.0
  * ------------------------------------------
- * @Description TODO(这里用一句话描述这个类的作用)
+ *
  */
 public class FileUtilTest {
 

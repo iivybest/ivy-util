@@ -10,12 +10,10 @@ package org.ivy.xutil.bean.convertor.keyhandler;
 public interface BeanMapKeyHandler {
 
     /**
-     * <p>处理beanmap中的key,[由bean 的 field 映射到 map 的 key]</p>
+     * 处理 beanmap 中的 key,[由 bean 的 field 映射到 map 的 key]
      *
-     * @param value
-     * @return
-     * @author miao.xl
-     * @date 2016年8月3日-上午10:30:30
+     * @param key key
+     * @return String
      */
     public String handle(String key);
 

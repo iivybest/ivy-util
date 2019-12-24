@@ -23,10 +23,11 @@ public class FieldValidateException extends Exception {
     }
 
     /**
-     * @param message
-     * @param cause
-     * @param enableSuppression
-     * @param writableStackTrace
+     *
+     * @param message message
+     * @param cause cause
+     * @param enableSuppression enableSuppression
+     * @param writableStackTrace writableStackTrace
      */
     public FieldValidateException(String message, Throwable cause, boolean enableSuppression,
                                   boolean writableStackTrace) {
@@ -34,22 +35,22 @@ public class FieldValidateException extends Exception {
     }
 
     /**
-     * @param message
-     * @param cause
+     * @param message message
+     * @param cause cause
      */
     public FieldValidateException(String message, Throwable cause) {
         super(message, cause);
     }
 
     /**
-     * @param message
+     * @param message message
      */
     public FieldValidateException(String message) {
         super(message);
     }
 
     /**
-     * @param cause
+     * @param cause cause
      */
     public FieldValidateException(Throwable cause) {
         super(cause);

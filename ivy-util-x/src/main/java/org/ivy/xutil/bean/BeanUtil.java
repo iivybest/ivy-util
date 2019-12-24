@@ -11,8 +11,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
- * @Title: BeanUtil
- * @Description: Bean 工具类
+ *  BeanUtil
+ *  Bean 工具类
  * @author Ares
  * @date 2017年3月28日 上午10:15:06 
  * @version V1.0
@@ -20,8 +20,8 @@ import java.lang.reflect.Method;
 public class BeanUtil {
 
     /**
-     * @Title getFieldValue
-     * @Description 获取bean对象指定的field值
+     *  getFieldValue
+     *  获取bean对象指定的field值
      * @param bean
      * @param field
      * @return R
@@ -55,8 +55,8 @@ public class BeanUtil {
 
 
     /**
-     * @Title getFieldValueByIntrospector
-     * @Description 通过内省机制获取bean对象中指定field值
+     *  getFieldValueByIntrospector
+     *  通过内省机制获取bean对象中指定field值
      * @param bean
      * @param field
      * @return
@@ -80,8 +80,8 @@ public class BeanUtil {
     }
 
     /**
-     * @Title getFieldValueByReflect
-     * @Description 通过反射获取bean对象指定field值
+     *  getFieldValueByReflect
+     *  通过反射获取bean对象指定field值
      * @param bean
      * @param field
      * @return

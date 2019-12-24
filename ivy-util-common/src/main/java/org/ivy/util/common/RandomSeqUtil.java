@@ -98,7 +98,7 @@ public class RandomSeqUtil {
     /**
      * 获取随机字符串--含有特殊字符
      *
-     * @param len len > 8
+     * @param len Length greater than 8
      * @return String
      */
     public static String generateRandomSequence(int len) {

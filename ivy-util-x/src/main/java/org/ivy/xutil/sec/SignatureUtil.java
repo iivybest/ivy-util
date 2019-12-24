@@ -4,10 +4,17 @@ import java.io.UnsupportedEncodingException;
 import java.security.*;
 
 /**
- * <p>SignatureUtil</p>
- *
- * @author miao.xl
- * @date 2014-6-13 上午10:35:58
+ * <p>  classname: SignatureUtil
+ * <br> description: 签名工具类
+ * <br>---------------------------------------------------------
+ * <br> 
+ * <br>---------------------------------------------------------
+ * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
+ * </p>
+ * 
+ * @author Ivybest (ivybestdev@163.com)
+ * @date 2019/12/24 19:39
+ * @version 1.0
  */
 public class SignatureUtil {
     /*
@@ -89,15 +96,6 @@ public class SignatureUtil {
         this.seed = "0f22507a10bbddd07d8a3082122966e3";
     }
 
-    /*
-     * ==============================================================
-     */
-
-    /**
-     * <p>获取随机密钥对</p>
-     *
-     * @return
-     */
     public KeyPair getKeyPair(String algorithm) {
         // KeyPairGenerator 用于生成密钥对（公钥和私钥对）
         KeyPairGenerator keyPairGen = null;
@@ -121,43 +119,31 @@ public class SignatureUtil {
         return keyPair;
     }
 
-    /**
-     * <p>取得公钥</p>
-     *
-     * @param keyPair
-     * @return
-     */
     public PublicKey getPublicKey(KeyPair keyPair) {
         if (keyPair == null) return null;
         return keyPair.getPublic();
     }
 
-    /**
-     * <p>取得密钥</p>
-     *
-     * @param keyPair
-     * @return
-     */
     public PrivateKey getPrivateKey(KeyPair keyPair) {
         if (keyPair == null) return null;
         return keyPair.getPrivate();
     }
 
     /**
-     * <p>签名</p>
+     * signature
      *
-     * @param algorithm
-     * @param original
-     * @param privateKey
-     * @return
+     * @param algorithm algorithm
+     * @param data      data
+     * @param privateKey private key
+     * @return byte[]
      */
-    public byte[] sign(String algorithm, byte[] original, PrivateKey privateKey) {
+    public byte[] signature(String algorithm, byte[] data, PrivateKey privateKey) {
         byte[] digest = null;
         Signature signature = null;
         try {
             signature = Signature.getInstance(algorithm);
             signature.initSign(privateKey);
-            signature.update(original);
+            signature.update(data);
             digest = signature.sign();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -171,24 +157,25 @@ public class SignatureUtil {
     }
 
     /**
-     * <p>签名</p>
+     * signature
      *
-     * @param algorithm
-     * @param data
-     * @param privateKey
-     * @return
+     * @param algorithm algorithm
+     * @param data      data
+     * @param privateKey private key
+     * @return byte[]
      */
-    public byte[] sign(String algorithm, String data, PrivateKey privateKey) {
-        return this.sign(algorithm, data.getBytes(), privateKey);
+    public byte[] signature(String algorithm, String data, PrivateKey privateKey) {
+        return this.signature(algorithm, data.getBytes(), privateKey);
     }
 
     /**
-     * <p>校验</p>
+     * verify
      *
-     * @param algorithm
-     * @param digest
-     * @param publicKey
-     * @return
+     * @param algorithm algorithm
+     * @param data      data
+     * @param sign      sign
+     * @param publicKey public key
+     * @return boolean
      */
     public boolean verify(String algorithm, byte[] data, byte[] sign, PublicKey publicKey) {
         boolean valid = false;
@@ -209,12 +196,13 @@ public class SignatureUtil {
     }
 
     /**
-     * <p>校验</p>
+     * verify
      *
-     * @param algorithm
-     * @param digest
-     * @param publicKey
-     * @return
+     * @param algorithm algorithm
+     * @param data      data
+     * @param sign      sign
+     * @param publicKey public key
+     * @return boolean
      */
     public boolean verify(String algorithm, String data, byte[] sign, PublicKey publicKey) {
         return this.verify(algorithm, data.getBytes(), sign, publicKey);

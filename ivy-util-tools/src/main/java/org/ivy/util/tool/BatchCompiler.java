@@ -6,8 +6,8 @@ import java.util.LinkedList;
 
 /**
  * @author Createdate    2017年9月5日 下午2:10:21
- * @Classname BatchCompiler
- * @Description 批量编译
+ * @className BatchCompiler
+ *  批量编译
  */
 public class BatchCompiler {
 

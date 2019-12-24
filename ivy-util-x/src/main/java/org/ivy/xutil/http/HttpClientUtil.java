@@ -42,8 +42,8 @@ public class HttpClientUtil {
 
 
     /**
-     * @Title: getX509TrustManager
-     * @Description: TODO(这里用一句话描述这个方法的作用)
+     *  getX509TrustManager
+     *
      * @return
      * @return X509TrustManager
      * @throws
@@ -67,10 +67,9 @@ public class HttpClientUtil {
 //	}
 
     /**
+     * getSSLContext
+     *
      * @return SSLContext
-     * @throws
-     * @Title: getSSLContext
-     * @Description: TODO(这里用一句话描述这个方法的作用)
      */
     public static SSLContext getSSLContext() {
         SSLContext ctx = null;
@@ -97,9 +96,6 @@ public class HttpClientUtil {
 
     /**
      * @return HttpClientConnectionManager
-     * @throws
-     * @Title: builderPoolConnectionManager
-     * @Description: TODO(这里用一句话描述这个方法的作用)
      */
     public static HttpClientConnectionManager builderPoolConnectionManager() {
         final SSLContext ctx = HttpClientUtil.getSSLContext();

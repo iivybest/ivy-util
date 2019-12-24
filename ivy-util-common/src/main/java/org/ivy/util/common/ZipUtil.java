@@ -8,8 +8,8 @@ import java.util.zip.ZipOutputStream;
 
 /**
  * @author Createdate    2017年6月26日 下午5:41:53
- * @Classname ZipUtil
- * @Description TODO(这里用一句话描述这个类的作用)
+ * @className ZipUtil
+ *
  */
 public class ZipUtil {
 

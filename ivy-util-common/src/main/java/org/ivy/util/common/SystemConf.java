@@ -101,7 +101,7 @@ public enum SystemConf {
      * <br>	4、classpath/config/defaults/../*.properties
      * <br> 5、classpath/defaults/*.properties
      * <br>---------------------------------------------------------
-     * <p/>
+     * </p>
      *
      * @return SystemConf
      */

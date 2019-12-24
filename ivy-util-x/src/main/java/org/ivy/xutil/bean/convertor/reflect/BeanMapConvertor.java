@@ -16,8 +16,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @Title BeanMapConvertor
- * @Description bean Map 转换器
+ *  BeanMapConvertor
+ *  bean Map 转换器
  *
  * @author Ares miao.xl@live.cn   
  * @date 2017年3月28日 上午10:40:39 
@@ -45,8 +45,8 @@ public class BeanMapConvertor {
     }
 
     /**
-     * @Title setBeanMapKeyHandler
-     * @Description 设置Key处理器
+     *  setBeanMapKeyHandler
+     *  设置Key处理器
      * @param        handler
      * @return BeanMapConvertor
      */
@@ -56,8 +56,8 @@ public class BeanMapConvertor {
     }
 
     /**
-     * @Title addBeanMapValueHandler
-     * @Description 添加value类型处理器
+     *  addBeanMapValueHandler
+     *  添加value类型处理器
      * @param        handler
      * @return BeanMapConvertor
      */
@@ -69,8 +69,8 @@ public class BeanMapConvertor {
 
 
     /**
-     * @Title BeanMapValueHandlerDispatch
-     * @Description 根据value类型，寻找对应的value类型处理器
+     *  BeanMapValueHandlerDispatch
+     *  根据value类型，寻找对应的value类型处理器
      * @param type
      * @return
      */
@@ -81,8 +81,8 @@ public class BeanMapConvertor {
     }
 
     /**
-     * @Title handleValue
-     * @Description 处指定类型value值,
+     *  handleValue
+     *  处指定类型value值,
      * @param value
      * @return
      */
@@ -95,8 +95,8 @@ public class BeanMapConvertor {
     }
 
     /**
-     * @Title handleKey
-     * @Description bean2map, key处理
+     *  handleKey
+     *  bean2map, key处理
      * @param        key
      * @return String
      */
@@ -107,8 +107,8 @@ public class BeanMapConvertor {
 
 
     /**
-     * @Title convertBean2Map
-     * @Description 将一个 JavaBean 对象转化为一个 Map
+     *  convertBean2Map
+     *  将一个 JavaBean 对象转化为一个 Map
      * @param bean 要转化的JavaBean 对象
      * @return 转化出来的 Map 对象
      */
@@ -125,8 +125,8 @@ public class BeanMapConvertor {
     }
 
     /**
-     * @Title convertMap2Bean
-     * @Description 将一个 Map 对象转化为一个 JavaBean [谨慎使用]
+     *  convertMap2Bean
+     *  将一个 Map 对象转化为一个 JavaBean [谨慎使用]
      * @param        type    要转化的类型
      * @param        map    包含属性值的 map
      * @return 转化出来的 JavaBean 对象
@@ -141,8 +141,8 @@ public class BeanMapConvertor {
     }
 
     /**
-     * @Title convertMap2Bean
-     * @Description map转换为bean，[谨慎使用]
+     *  convertMap2Bean
+     *  map转换为bean，[谨慎使用]
      * @param        bean
      * @param        map
      * @return void

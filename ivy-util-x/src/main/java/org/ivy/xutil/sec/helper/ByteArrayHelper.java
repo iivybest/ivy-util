@@ -8,8 +8,8 @@ import java.util.Map;
 /**
  * @author miao.xl
  * @version V1.0
- * @Title: ByteArrayHelper
- * @Description: Byte数组处理帮助类
+ *  ByteArrayHelper
+ *  Byte数组处理帮助类
  * @date 2017年1月10日 下午3:01:11
  */
 public class ByteArrayHelper {
@@ -18,8 +18,8 @@ public class ByteArrayHelper {
      * @param bytes
      * @return String
      * @throws
-     * @Title bytes2HexString
-     * @Description TODO
+     *  bytes2HexString
+     *
      */
     public static String bytes2HexString(byte[] bytes) {
         if (bytes == null) return null;
@@ -35,8 +35,8 @@ public class ByteArrayHelper {
      * @param arg0
      * @return String
      * @throws
-     * @Title byte2String
-     * @Description TODO
+     *  byte2String
+     *
      */
     public static String byte2String(byte[] arg0) {
         return null;
@@ -46,8 +46,8 @@ public class ByteArrayHelper {
      * @param arg0
      * @return byte[]
      * @throws
-     * @Title bytesString2Bytes
-     * @Description TODO
+     *  bytesString2Bytes
+     *
      */
     public static byte[] bytesString2Bytes(String arg0) {
         return null;

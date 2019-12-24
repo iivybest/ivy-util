@@ -149,7 +149,7 @@ public class DigitUtil {
      * <br> step-4 处理过程：
      * <br>
      * <br>--------------------------------------------------------
-     * <p/>
+     * </p>
      *
      * @param data data
      * @return String String
@@ -566,8 +566,9 @@ public class DigitUtil {
     @Recommend(value = true, msg = {
             "1、char arr 代替 StringBuilder",
             "2、不推荐使用 Integer.toHex",
-            "3、"
-    })
+            "3、byte 8 位，Hex 长度为 2",
+            "4、byte 高 4 位，data >>> 4 | data & 0xF0",
+            "5、byte 低 4 位，data & 0xF"})
     public static String toHexString(byte... data) {
         int len = data.length;
         char[] hexChars = new char[len * 2];
@@ -577,14 +578,6 @@ public class DigitUtil {
             hexChars[i * 2] = hexArr[v >>> 4];
             hexChars[i * 2 + 1] = hexArr[v & 0xF];
         }
-        return new String(hexChars);
-    }
-
-    public static String toHexString(byte data) {
-        int v = data & 0xFF;
-        char[] hexChars = new char[2];
-        hexChars[0] = hexArr[v >>> 4];
-        hexChars[1] = hexArr[v & 0xF];
         return new String(hexChars);
     }
 

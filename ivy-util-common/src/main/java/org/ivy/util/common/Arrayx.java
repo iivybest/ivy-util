@@ -5,7 +5,6 @@ import org.ivy.util.annotation.Recommend;
 
 import java.lang.reflect.Array;
 import java.security.SecureRandom;
-import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -21,7 +20,7 @@ import java.util.Random;
  * <br>---------------------------------------------------------
  * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
- *
+ * 
  * @author Ivybest (ivybestdev@163.com)
  * @version 1.0
  * @date 2019/12/16 11:06
@@ -40,9 +39,9 @@ public class Arrayx {
     /**
      * 数组乱序算法
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     @Description("数组乱序算法")
     public static void derange(byte[] array, int beginIdx, int endIdx) {
@@ -59,9 +58,9 @@ public class Arrayx {
     /**
      * 数组乱序算法
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     public static void derange(short[] array, int beginIdx, int endIdx) {
         int len = endIdx - beginIdx + 1;
@@ -77,9 +76,9 @@ public class Arrayx {
     /**
      * 数组乱序算法
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     public static void derange(int[] array, int beginIdx, int endIdx) {
         int len = endIdx - beginIdx + 1;
@@ -95,9 +94,9 @@ public class Arrayx {
     /**
      * 数组乱序算法
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     public static void derange(long[] array, int beginIdx, int endIdx) {
         int len = endIdx - beginIdx + 1;
@@ -113,9 +112,9 @@ public class Arrayx {
     /**
      * 数组乱序算法
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     public static void derange(char[] array, int beginIdx, int endIdx) {
         int len = endIdx - beginIdx + 1;
@@ -135,9 +134,9 @@ public class Arrayx {
     /**
      * 数组乱序算法
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     public static void derange(float[] array, int beginIdx, int endIdx) {
         int len = endIdx - beginIdx + 1;
@@ -153,9 +152,9 @@ public class Arrayx {
     /**
      * 数组乱序算法
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     public static void derange(double[] array, int beginIdx, int endIdx) {
         int len = endIdx - beginIdx + 1;
@@ -171,9 +170,9 @@ public class Arrayx {
     /**
      * 数组乱序算法
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     public static <T> void derange(T[] array, int beginIdx, int endIdx) {
         int len = endIdx - beginIdx + 1;
@@ -190,7 +189,9 @@ public class Arrayx {
     /**
      * 打印数组
      *
-     * @param array 数组
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      * @return String
      */
     @Recommend(value = false, msg = "测试用，不推荐用于生产环境")
@@ -209,6 +210,12 @@ public class Arrayx {
         }
     }
 
+    /**
+     * 打印数组
+     *
+     * @param array array
+     * @return String
+     */
     public static String printArray(byte[] array) {
         return printArray(array, 0, array.length - 1);
     }
@@ -216,7 +223,9 @@ public class Arrayx {
     /**
      * 打印数组
      *
-     * @param array 数组
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      * @return String
      */
     public static String printArray(short[] array, int beginIdx, int endIdx) {
@@ -232,9 +241,14 @@ public class Arrayx {
             if (cursor++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
-
     }
 
+    /**
+     * 打印数组
+     *
+     * @param array array
+     * @return String
+     */
     public static String printArray(short[] array) {
         return printArray(array, 0, array.length - 1);
     }
@@ -242,7 +256,9 @@ public class Arrayx {
     /**
      * 打印数组
      *
-     * @param array 数组
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      * @return String
      */
     public static String printArray(int[] array, int beginIdx, int endIdx) {
@@ -258,9 +274,14 @@ public class Arrayx {
             if (cursor++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
-
     }
 
+    /**
+     * 打印数组
+     *
+     * @param array array
+     * @return String
+     */
     public static String printArray(int[] array) {
         return printArray(array, 0, array.length - 1);
     }
@@ -268,7 +289,9 @@ public class Arrayx {
     /**
      * 打印数组
      *
-     * @param array 数组
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      * @return String
      */
     public static String printArray(long[] array, int beginIdx, int endIdx) {
@@ -284,9 +307,14 @@ public class Arrayx {
             if (cursor++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
-
     }
 
+    /**
+     * 打印数组
+     *
+     * @param array array
+     * @return String
+     */
     public static String printArray(long[] array) {
         return printArray(array, 0, array.length - 1);
     }
@@ -294,7 +322,9 @@ public class Arrayx {
     /**
      * 打印数组
      *
-     * @param array 数组
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      * @return String
      */
     public static String printArray(float[] array, int beginIdx, int endIdx) {
@@ -310,9 +340,14 @@ public class Arrayx {
             if (cursor++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
-
     }
 
+    /**
+     * 打印数组
+     *
+     * @param array array
+     * @return String
+     */
     public static String printArray(float[] array) {
         return printArray(array, 0, array.length - 1);
     }
@@ -320,7 +355,9 @@ public class Arrayx {
     /**
      * 打印数组
      *
-     * @param array 数组
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      * @return String
      */
     public static String printArray(double[] array, int beginIdx, int endIdx) {
@@ -345,7 +382,9 @@ public class Arrayx {
     /**
      * 打印数组
      *
-     * @param array 数组
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      * @return String
      */
     public static String printArray(char[] array, int beginIdx, int endIdx) {
@@ -361,9 +400,14 @@ public class Arrayx {
             if (cursor++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
-
     }
 
+    /**
+     * 打印数组
+     *
+     * @param array array
+     * @return String
+     */
     public static String printArray(char[] array) {
         return printArray(array, 0, array.length - 1);
     }
@@ -371,7 +415,9 @@ public class Arrayx {
     /**
      * 打印数组
      *
-     * @param array 数组
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      * @return String
      */
     public static <T> String printArray(T[] array, int beginIdx, int endIdx) {
@@ -387,9 +433,14 @@ public class Arrayx {
             if (cursor++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
-
     }
 
+    /**
+     * 打印数组
+     *
+     * @param array array
+     * @return String
+     */
     public static <T> String printArray(T[] array) {
         return printArray(array, 0, array.length - 1);
     }
@@ -397,9 +448,9 @@ public class Arrayx {
     /**
      * reverse char array
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     public static void reverse(byte[] array, int beginIdx, int endIdx) {
         int len = endIdx - beginIdx + 1;
@@ -421,9 +472,9 @@ public class Arrayx {
     /**
      * reverse char array
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     public static void reverse(short[] array, int beginIdx, int endIdx) {
         int len = endIdx - beginIdx + 1;
@@ -445,9 +496,9 @@ public class Arrayx {
     /**
      * reverse char array
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     public static void reverse(int[] array, int beginIdx, int endIdx) {
         int len = endIdx - beginIdx + 1;
@@ -469,9 +520,9 @@ public class Arrayx {
     /**
      * reverse char array
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     public static void reverse(long[] array, int beginIdx, int endIdx) {
         int len = endIdx - beginIdx + 1;
@@ -493,9 +544,9 @@ public class Arrayx {
     /**
      * reverse char array
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     public static void reverse(double[] array, int beginIdx, int endIdx) {
         int len = endIdx - beginIdx + 1;
@@ -517,9 +568,9 @@ public class Arrayx {
     /**
      * reverse char array
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     public static void reverse(float[] array, int beginIdx, int endIdx) {
         int len = endIdx - beginIdx + 1;
@@ -541,9 +592,9 @@ public class Arrayx {
     /**
      * reverse char array
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     public static void reverse(char[] array, int beginIdx, int endIdx) {
         int len = endIdx - beginIdx + 1;
@@ -585,11 +636,11 @@ public class Arrayx {
      * <br> 洗牌（shuffle）算法比混序（derange）算法更复杂
      * <br> 一次 shuffle 运算，经过多次 derange 和 reverse 运算
      * <br>-------------------------------------------------
-     * <p/>
+     * </p>
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     @Description({"洗牌", "shuffle() = derange() & reverse()"})
     public static void shuffle(byte[] array, int beginIdx, int endIdx) {
@@ -608,11 +659,11 @@ public class Arrayx {
      * <br> 洗牌（shuffle）算法比混序（derange）算法更复杂
      * <br> 一次 shuffle 运算，经过多次 derange 和 reverse 运算
      * <br>-------------------------------------------------
-     * <p/>
+     * </p>
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     @Description({"洗牌", "shuffle() = derange() & reverse()"})
     public static void shuffle(short[] array, int beginIdx, int endIdx) {
@@ -631,11 +682,11 @@ public class Arrayx {
      * <br> 洗牌（shuffle）算法比混序（mix）算法更复杂
      * <br> 一次 shuffle 运算，经过多次 mix 和 reverse 运算
      * <br>---------------------------------------------
-     * <p/>
+     * </p>
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     public static void shuffle(int[] array, int beginIdx, int endIdx) {
         reverse(array, beginIdx, endIdx);
@@ -653,11 +704,11 @@ public class Arrayx {
      * <br> 洗牌（shuffle）算法比混序（mix）算法更复杂
      * <br> 一次 shuffle 运算，经过多次 mix 和 reverse 运算
      * <br>---------------------------------------------
-     * <p/>
+     * </p>
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     public static void shuffle(long[] array, int beginIdx, int endIdx) {
         reverse(array, beginIdx, endIdx);
@@ -675,11 +726,11 @@ public class Arrayx {
      * <br> 洗牌（shuffle）算法比混序（mix）算法更复杂
      * <br> 一次 shuffle 运算，经过多次 mix 和 reverse 运算
      * <br>---------------------------------------------
-     * <p/>
+     * </p>
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     public static void shuffle(double[] array, int beginIdx, int endIdx) {
         reverse(array, beginIdx, endIdx);
@@ -697,11 +748,11 @@ public class Arrayx {
      * <br> 洗牌（shuffle）算法比混序（mix）算法更复杂
      * <br> 一次 shuffle 运算，经过多次 mix 和 reverse 运算
      * <br>---------------------------------------------
-     * <p/>
+     * </p>
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     public static void shuffle(float[] array, int beginIdx, int endIdx) {
         reverse(array, beginIdx, endIdx);
@@ -719,11 +770,11 @@ public class Arrayx {
      * <br> 洗牌（shuffle）算法比混序（mix）算法更复杂
      * <br> 一次 shuffle 运算，经过多次 mix 和 reverse 运算
      * <br>---------------------------------------------
-     * <p/>
+     * </p>
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     public static void shuffle(char[] array, int beginIdx, int endIdx) {
         reverse(array, beginIdx, endIdx);
@@ -741,11 +792,11 @@ public class Arrayx {
      * <br> 洗牌（shuffle）算法比混序（mix）算法更复杂
      * <br> 一次 shuffle 运算，经过多次 mix 和 reverse 运算
      * <br>---------------------------------------------
-     * <p/>
+     * </p>
      *
-     * @param array    数组
-     * @param beginIdx 开始坐标
-     * @param endIdx   结束坐标
+     * @param array    array
+     * @param beginIdx array begin index
+     * @param endIdx   array end index
      */
     public static <T> void shuffle(T[] array, int beginIdx, int endIdx) {
         reverse(array, beginIdx, endIdx);
@@ -778,6 +829,7 @@ public class Arrayx {
         System.arraycopy(array, beginIdx, subarray, 0, newSize);
         return subarray;
     }
+
     /**
      * sub array
      *
@@ -799,6 +851,7 @@ public class Arrayx {
         System.arraycopy(array, beginIdx, subarray, 0, newSize);
         return subarray;
     }
+
     /**
      * sub array
      *
@@ -820,6 +873,7 @@ public class Arrayx {
         System.arraycopy(array, beginIdx, subarray, 0, newSize);
         return subarray;
     }
+
     /**
      * sub array
      *
@@ -841,6 +895,7 @@ public class Arrayx {
         System.arraycopy(array, beginIdx, subarray, 0, newSize);
         return subarray;
     }
+
     /**
      * sub array
      *
@@ -862,6 +917,7 @@ public class Arrayx {
         System.arraycopy(array, beginIdx, subarray, 0, newSize);
         return subarray;
     }
+
     /**
      * sub array
      *
@@ -883,6 +939,7 @@ public class Arrayx {
         System.arraycopy(array, beginIdx, subarray, 0, newSize);
         return subarray;
     }
+
     /**
      * sub array
      *
@@ -904,6 +961,7 @@ public class Arrayx {
         System.arraycopy(array, beginIdx, subarray, 0, newSize);
         return subarray;
     }
+
     /**
      * sub array
      *
@@ -922,7 +980,8 @@ public class Arrayx {
         int newSize = endIdx - beginIdx + 1;
         if (newSize <= 0) return (T[]) Array.newInstance(array[0].getClass(), 0);
 
-        T[] subarray = (T[]) Array.newInstance(array[0].getClass(), newSize);;
+        T[] subarray = (T[]) Array.newInstance(array[0].getClass(), newSize);
+        ;
         System.arraycopy(array, beginIdx, subarray, 0, newSize);
         return subarray;
     }
@@ -930,7 +989,7 @@ public class Arrayx {
     /**
      * 数组元素交换
      *
-     * @param array 数组
+     * @param array array
      * @param x     array 下标 x
      * @param y     array 下标 y
      */
@@ -944,7 +1003,7 @@ public class Arrayx {
     /**
      * 数组元素交换
      *
-     * @param array 数组
+     * @param array array
      * @param x     array 下标 x
      * @param y     array 下标 y
      */
@@ -958,7 +1017,7 @@ public class Arrayx {
     /**
      * 数组元素交换
      *
-     * @param array 数组
+     * @param array array
      * @param x     array 下标 x
      * @param y     array 下标 y
      */
@@ -975,7 +1034,7 @@ public class Arrayx {
     /**
      * 数组元素交换
      *
-     * @param array 数组
+     * @param array array
      * @param x     array 下标 x
      * @param y     array 下标 y
      */
@@ -989,7 +1048,7 @@ public class Arrayx {
     /**
      * 数组元素交换
      *
-     * @param array 数组
+     * @param array array
      * @param x     array 下标 x
      * @param y     array 下标 y
      */
@@ -1003,7 +1062,7 @@ public class Arrayx {
     /**
      * 数组元素交换
      *
-     * @param array 数组
+     * @param array array
      * @param x     array 下标 x
      * @param y     array 下标 y
      */
@@ -1017,7 +1076,7 @@ public class Arrayx {
     /**
      * 数组元素交换
      *
-     * @param array 数组
+     * @param array array
      * @param x     array 下标 x
      * @param y     array 下标 y
      */
@@ -1031,7 +1090,7 @@ public class Arrayx {
     /**
      * 数组元素交换
      *
-     * @param array 数组
+     * @param array array
      * @param x     array 下标 x
      * @param y     array 下标 y
      */

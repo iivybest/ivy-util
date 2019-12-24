@@ -6,8 +6,8 @@ package org.ivy.xutil.bean.convertor.valuehandler.annotation;
 import java.lang.annotation.*;
 
 /**
- * @Title DateFormat
- * @Description TODO
+ *  DateFormat
+ *
  *
  * @author Ares
  * @date 2017年4月13日 上午9:06:33 
@@ -19,17 +19,15 @@ import java.lang.annotation.*;
 @Inherited
 public @interface DateFormat {
     /**
-     * @Title format
-     * @Description 是否进行格式化
-     * @return
+     * whether format
+     * @return boolean
      */
-    public boolean format() default true;
+    boolean format() default true;
 
     /**
-     * @Title pattern
-     * @Description 日期格式化样式
-     * @return
+     * date format pattern
+     * @return String
      */
-    public String pattern() default "yyyy-MM-dd HH:mm:ss";
+    String pattern() default "yyyy-MM-dd HH:mm:ss";
 
 }

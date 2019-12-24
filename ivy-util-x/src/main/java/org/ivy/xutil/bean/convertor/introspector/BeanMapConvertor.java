@@ -12,8 +12,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @Title BeanMapConvertor
- * @Description POJO Map 转换器
+ *  BeanMapConvertor
+ *  POJO Map 转换器
  *
  * @author Ares miao.xl@live.cn   
  * @date 2017年3月28日 上午10:40:39 
@@ -26,10 +26,11 @@ public class BeanMapConvertor {
     }
 
     /**
-     * @Title handleValue
-     * @Description 处理value值
-     * @param value
-     * @return
+     *  handle Value
+     *
+     * @param value value
+     * @param <T>   bean 类型
+     * @return T
      */
     private <T> Object handleValue(T value) {
 //		if (handlers == null || handlers.size() <= 0) return value;
@@ -42,9 +43,10 @@ public class BeanMapConvertor {
     }
 
     /**
-     * @Title convertBean2Map
-     * @Description 将一个 JavaBean 对象转化为一个 Map
+     *  convert java Bean to Map
+     *
      * @param bean 要转化的JavaBean 对象
+     * @param <T>   bean 类型
      * @return 转化出来的 Map 对象
      * @throws IntrospectionException         如果分析类属性失败
      * @throws IllegalAccessException        如果实例化 JavaBean 失败
@@ -67,11 +69,12 @@ public class BeanMapConvertor {
     }
 
     /**
-     * @Title convertBean2Map
-     * @Description 将一个 Map 对象转化为一个 JavaBean
+     *  convertBean2Map
+     *  将一个 Map 对象转化为一个 JavaBean
      *
      * @param type    要转化的类型
      * @param map    包含属性值的 map
+     * @param <T>   bean 类型
      * @return 转化出来的 JavaBean 对象
      * @throws IntrospectionException        如果分析类属性失败
      * @throws IllegalAccessException        如果实例化 JavaBean 失败
@@ -91,7 +94,7 @@ public class BeanMapConvertor {
             String property = descriptor.getName();
             if (map.containsKey(property))
                 // 下面一句可以 try 起来，这样当一个属性赋值失败的时候就不会影响其他属性赋值。
-                descriptor.getWriteMethod().invoke(bean, new Object[]{map.get(property)});
+                descriptor.getWriteMethod().invoke(bean, map.get(property));
         }
         return bean;
     }

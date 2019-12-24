@@ -1,7 +1,6 @@
 /**
  * Filename 	RegExpUtil
  *
- * @Description TODO
  * @author ivybest
  * @version V1.0
  * CreateDate 	2017年7月28日 上午9:17:17
@@ -23,21 +22,29 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * @Classname RegExpUtil
- * @Description 一般通用正则表达式工具
- * @author
- * Createdate    2017年7月28日 上午9:17:17
+ * <p>  classname: RegExpUtil
+ * <br> description: 正则表达式工具
+ * <br>---------------------------------------------------------
+ * <br>
+ * <br>---------------------------------------------------------
+ * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
+ * </p>
+ *
+ * @author Ivybest (ivybestdev@163.com)
+ * @date 2019/12/24 18:44
+ * @version 1.0
  */
 public enum RegExpUtil {
     instance;
 
 
     /**
-     * @Title regExp
-     * @Description 匹配正则表达式的所有数据
-     * @param        data
-     * @param        regex
-     * @return List<String>
+     * regExp
+     * 匹配正则表达式的所有数据
+     *
+     * @param data  data
+     * @param regex tegular expression
+     * @return List
      */
     public List<String> match(String data, String regex) {
         if (StringUtil.isBlank(data) || StringUtil.isBlank(regex)) return null;

@@ -128,8 +128,8 @@ public class DateTimeUtil {
      * @param timestamp
      * @param unit
      * @return String
-     * @Title: datePatternAdapte
-     * @Description: 将时间戳适配为默认格式 "yyyy-MM-dd HH:mm:ss" 时间字符串
+     * @className: datePatternAdapte
+     *  将时间戳适配为默认格式 "yyyy-MM-dd HH:mm:ss" 时间字符串
      */
     public static String datePatternAdapte(Long timestamp, TemporalUnit unit) {
         return datePatternAdapte(timestamp, unit, defaultPattern);
@@ -174,8 +174,8 @@ public class DateTimeUtil {
 
     /**
      * @return Long
-     * @Title: getCurrentTimestamp
-     * @Description: 获取当前时间戳--毫秒数
+     *  getCurrentTimestamp
+     *  获取当前时间戳--毫秒数
      */
     public static Long getCurrentTimestamp() {
         return getTimestamp();
@@ -183,8 +183,8 @@ public class DateTimeUtil {
 
     /**
      * @return Long
-     * @Title: getCurrentUnixTimestamp
-     * @Description: 获取当前时间UNIX时间戳戳--秒数
+     *  getCurrentUnixTimestamp
+     *  获取当前时间UNIX时间戳戳--秒数
      */
     public static Long getCurrentUnixTimestamp() {
         return getUnixTimestamp();

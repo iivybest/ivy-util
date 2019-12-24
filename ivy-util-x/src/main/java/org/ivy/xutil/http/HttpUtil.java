@@ -21,6 +21,7 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
+import org.ivy.util.annotation.Recommend;
 
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.SSLException;
@@ -45,8 +46,8 @@ import java.util.Map;
  * @author : liii
  * @version : 1.0.0
  * @date : 2015/7/21
- * @see : TODO
  */
+@Recommend(value = false, msg = {"过时"})
 public class HttpUtil {
     private static PoolingHttpClientConnectionManager connMgr;
     private static RequestConfig requestConfig;
@@ -76,8 +77,8 @@ public class HttpUtil {
     /**
      * 发送 GET 请求（HTTP），不带输入数据
      *
-     * @param url
-     * @return
+     * @param url url
+     * @return byte[]
      */
     public static byte[] doGet(String url) {
         return doGet(url, new HashMap<String, Object>());
@@ -86,9 +87,9 @@ public class HttpUtil {
     /**
      * 发送 GET 请求（HTTP），K-V形式
      *
-     * @param url
-     * @param params
-     * @return
+     * @param url    url
+     * @param params params
+     * @return byte[]
      */
     public static byte[] doGet(String url, Map<String, Object> params) {
         String apiUrl = url;
@@ -134,11 +135,11 @@ public class HttpUtil {
     /**
      * 发送 POST 请求（HTTP），不带输入数据
      *
-     * @param apiUrl
-     * @return
+     * @param url url
+     * @return byte[]
      */
-    public static byte[] doPost(String apiUrl) {
-        return doPost(apiUrl, new HashMap<String, Object>());
+    public static byte[] doPost(String url) {
+        return doPost(url, new HashMap<String, Object>());
     }
 
     /**
@@ -146,7 +147,7 @@ public class HttpUtil {
      *
      * @param apiUrl API接口URL
      * @param params 参数map
-     * @return
+     * @return byte[]
      */
     public static byte[] doPost(String apiUrl, Map<String, Object> params) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
@@ -183,14 +184,14 @@ public class HttpUtil {
     /**
      * 发送 POST 请求（HTTP），JSON形式
      *
-     * @param apiUrl
-     * @param json   json对象
-     * @return
+     * @param url  url
+     * @param json json对象
+     * @return byte[]
      */
-    public static String doPost(String apiUrl, Object json) {
+    public static String doPost(String url, Object json) {
         CloseableHttpClient httpClient = HttpClients.createDefault();
         String httpStr = null;
-        HttpPost httpPost = new HttpPost(apiUrl);
+        HttpPost httpPost = new HttpPost(url);
         CloseableHttpResponse response = null;
 
         try {
@@ -222,7 +223,7 @@ public class HttpUtil {
      *
      * @param apiUrl API接口URL
      * @param params 参数map
-     * @return
+     * @return byte[]
      */
     public static byte[] doPostSSL(String apiUrl, Map<String, Object> params) {
         CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(createSSLConnSocketFactory())
@@ -266,14 +267,14 @@ public class HttpUtil {
     /**
      * 发送 SSL POST 请求（HTTPS），JSON形式
      *
-     * @param apiUrl API接口URL
-     * @param json   JSON对象
-     * @return
+     * @param url  API接口URL
+     * @param json JSON对象
+     * @return byte[]
      */
-    public static byte[] doPostSSL(String apiUrl, Object json) {
+    public static byte[] doPostSSL(String url, Object json) {
         CloseableHttpClient httpClient = HttpClients.custom().setSSLSocketFactory(createSSLConnSocketFactory())
                 .setConnectionManager(connMgr).setDefaultRequestConfig(requestConfig).build();
-        HttpPost httpPost = new HttpPost(apiUrl);
+        HttpPost httpPost = new HttpPost(url);
         CloseableHttpResponse response = null;
         byte[] httpStr = null;
 
@@ -310,13 +311,14 @@ public class HttpUtil {
     /**
      * 创建SSL安全连接
      *
-     * @return
+     * @return SSLConnectionSocketFactory
      */
     private static SSLConnectionSocketFactory createSSLConnSocketFactory() {
         SSLConnectionSocketFactory sslsf = null;
         try {
             SSLContext sslContext = new SSLContextBuilder().loadTrustMaterial(null, new TrustStrategy() {
 
+                @Override
                 public boolean isTrusted(X509Certificate[] chain, String authType) throws CertificateException {
                     return true;
                 }
@@ -346,12 +348,4 @@ public class HttpUtil {
         return sslsf;
     }
 
-    /**
-     * 测试方法
-     *
-     * @param args
-     */
-    public static void main(String[] args) throws Exception {
-
-    }
 }

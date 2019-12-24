@@ -10,8 +10,7 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 /**
- * <p>  classname：StringUtil
- * <br> description:
+ * <p> description:
  * <br>--------------------------------------------------------
  * <br> String 工具类
  * <br>--------------------------------------------------------
@@ -63,9 +62,9 @@ public class StringUtil {
     }
 
     /**
-     *  多个字段中是否包含空字段
+     * 多个字段中是否包含空字段
      *
-     * @param args
+     * @param args arguments
      * @return boolean result
      */
     public static boolean containsBlank(String... args) {
@@ -89,7 +88,7 @@ public class StringUtil {
      * first Char Lowercase
      *
      * @param arg0 argument
-     * @return String 
+     * @return String
      */
     public static String firstCharLowerCase(String arg0) {
         return arg0.substring(0, 1).toLowerCase() + arg0.substring(1, arg0.length());
@@ -151,16 +150,9 @@ public class StringUtil {
     }
 
     /**
-     * <p>description: 将 char 转为 Unicode 码
-     * <br>----------------------------------------------
-     * <br> char 长度为 16 bit，转为 Hex 为 4 位。
-     * <br> 先处理 char 高 8 位，data >>> 8 | data & 0xFF00，
-     * <br>	先处理 char 低 8 位，data & 0xFF | data & 0x00FF，
-     * <br> 每 8 位转换为十六进制长度为 2，若长度为 1，前面补 0。
-     * <br>----------------------------------------------
-     * <p/>
+     * char to unicode string
      *
-     * @param data
+     * @param data data
      * @return String
      */
     public static String toUnicodeString(char data) {

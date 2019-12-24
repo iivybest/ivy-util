@@ -2,7 +2,7 @@
  * @Filename ClassPathTest
  * @author Ivybest
  * @version V1.0
- * @CreateDate 2018年2月7日 下午3:35:18
+ * @date 2018年2月7日 下午3:35:18
  * @Company IB.
  * @Copyright Copyright(C) 2010-
  * All rights Reserved, Designed By Ivybest
@@ -17,12 +17,12 @@ package org.ivy.util.tool;
 import java.io.*;
 
 /**
- * @Classname ClassPathTest
+ * @className ClassPathTest
  * @author Ivybest imiaodev@163.com
- * @Createdate 2018年2月7日 下午3:35:18
- * @Version 1.0
+ * @date 2018年2月7日 下午3:35:18
+ * @version 1.0
  * ------------------------------------------
- * @Description TODO(这里用一句话描述这个类的作用)
+ *
  */
 public class ClassPathTest {
 

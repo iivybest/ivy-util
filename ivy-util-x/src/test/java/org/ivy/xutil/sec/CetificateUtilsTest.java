@@ -72,7 +72,7 @@ public class CetificateUtilsTest {
         // ----keystore alias
         String alias = CertificateUtil.getKeySotreAliases(keyStore).get(0);
         // ----signature
-        byte[] sign = CertificateUtil.sign(origin.getBytes(), keyStore, alias, pass);
+        byte[] sign = CertificateUtil.signature(origin.getBytes(), keyStore, alias, pass);
         // ----verify signature
         boolean verify = CertificateUtil.verify(origin.getBytes(), sign, FileUtil.read(cer));
         log.debug("{alias:{}, verify: {}}", alias, verify);
