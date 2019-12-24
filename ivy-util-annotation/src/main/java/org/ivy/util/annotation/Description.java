@@ -36,7 +36,7 @@ public @interface Description {
      *
      * @return String
      */
-    String[] value();
+    String[] value() default "";
 
 }
 

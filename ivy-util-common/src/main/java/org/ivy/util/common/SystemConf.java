@@ -1,5 +1,6 @@
 package org.ivy.util.common;
 
+import org.ivy.util.annotation.Description;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,6 +13,7 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
 
 
 /**
+ * <p> className: SystemConf
  * <p> description: 系统配置参数
  * <br>--------------------------------------------------------
  * <br>	project 初始化时，加载系统配置项
@@ -21,33 +23,50 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
  *
  * @author Ivybest (ivybestdev@163.com)
  * @version 1.0
- * @className SystemConf
  * @date 2017/6/20 12:24
  */
-public enum SystemConf {
-    instance;
-    private static final Logger LOGGER = LoggerFactory.getLogger(SystemConf.class);
 
+public enum SystemConf {
+    /**
+     * 单例对象
+     */
+    instance;
+    /**
+     * logger
+     */
+    private static final Logger log = LoggerFactory.getLogger(SystemConf.class);
+
+    /**
+     * lock
+     */
     private ReentrantReadWriteLock lock;
     private ReadLock readLock;
     private WriteLock writeLock;
 
-    // SystemConf 读取 properties的位置
+    /**
+     * SystemConf 读取 properties的位置
+     */
     private Map<String, String> propertiesPathMap;
-    // SystemConf 所有常量
+    /**
+     * SystemConf 所有常量
+     */
     private Map<String, String> keyValueMap;
 
     private SystemConf() {
         this.init();
     }
 
-    ;
-
+    /**
+     * init
+     *
+     * @return SystemConf
+     */
+    @Description({
+            "初始化读写锁",
+            "初始化参数",
+            "读取所有配置文件"})
     private SystemConf init() {
-        return this.initReadWriteLock()        // 初始化读写锁
-                .initArgs()                    // 初始化参数
-                .loadProp()                    // 读取所有配置文件
-                ;
+        return this.initReadWriteLock().initArgs().loadProp();
     }
 
     private SystemConf initReadWriteLock() {
@@ -84,7 +103,7 @@ public enum SystemConf {
      * <br>---------------------------------------------------------
      * <p/>
      *
-     * @return
+     * @return SystemConf
      */
     private SystemConf initPropertiesPathMap() {
         String classpath = SystemUtil.getClasspath();
@@ -107,14 +126,14 @@ public enum SystemConf {
         // ----将系统参数 classpath 保存到 SystemConf 中。
         this.keyValueMap.put("class.path", SystemUtil.getClasspath());
         // ----需递归扫描子路径的路径ID集合
-        Collection<Integer> needScanningSubpathIdx = Arrays.asList(1, 4);
+        Collection<Integer> needScanningSubPathIdx = Arrays.asList(1, 4);
 
         for (int i = this.propertiesPathMap.size(); i >= 1; i--) {
             File file = new File(propertiesPathMap.get(String.valueOf(i)));
             // ----目录不存在，则退出本次循环
             if (!file.exists()) continue;
             // ----获取该目录下子文件列表
-            File[] subFileList = (needScanningSubpathIdx.contains(i))
+            File[] subFileList = (needScanningSubPathIdx.contains(i))
                     ? FileUtil.getAllNonDirFileList(file)
                     : FileUtil.getNonDirFileList(file);
             // ----遍历每个文件，加载各个配置项
@@ -125,7 +144,7 @@ public enum SystemConf {
                         prop = PropertiesUtil.load(f.getAbsolutePath());
                         this.keyValueMap.putAll(PropertiesUtil.convertToMap(prop));
                     } catch (IOException ex) {
-                        LOGGER.error("====SystemConf load file error [" + f.getAbsolutePath() + "]");
+                        log.error("====SystemConf load file error [" + f.getAbsolutePath() + "]");
                         ex.printStackTrace();
                     }
                 }
@@ -157,8 +176,8 @@ public enum SystemConf {
     /**
      * 获取必须包含项配置----若配置信息为空--抛出异常
      *
-     * @param key
-     * @return
+     * @param key key
+     * @return String
      * @throws Exception
      */
     public String getForcedIncludeConfiguration(String key) throws Exception {
@@ -169,10 +188,10 @@ public enum SystemConf {
     }
 
     /**
-     * 获取配置项，如果为空，返回传入的默认值
+     * return the value of this key，if the value is blank，return the defaultValue
      *
-     * @param key
-     * @param defaultVal
+     * @param key        key
+     * @param defaultVal default Value
      * @return String
      */
     public String get(String key, String defaultVal) {
@@ -185,7 +204,7 @@ public enum SystemConf {
     /**
      * 从几个 key 中获取其中一个配置项并返回
      *
-     * @param keys
+     * @param keys keys
      * @return String
      */
     public String get(String... keys) {
@@ -217,10 +236,9 @@ public enum SystemConf {
     }
 
     /**
+     * reload
+     *
      * @return SystemConf
-     * @throws
-     * @Title: reload
-     * @Description: 重新加载
      */
     public SystemConf reload() {
         try {
