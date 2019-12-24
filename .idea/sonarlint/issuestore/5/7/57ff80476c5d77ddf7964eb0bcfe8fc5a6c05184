@@ -1,58 +1,0 @@
-
-Š squid:ForLoopCounterChangedCheckÅ"XRefactor the code in order to not assign to this loop counter from within the loop body.(ÔšğÛúÿÿÿÿ
-Nsquid:S2629q"7Use the built-in formatting to construct this argument.(°â×±
-Osquid:S2629„"7Use the built-in formatting to construct this argument.(´Ä±¾
-squid:S1192Ä"dDefine a constant instead of duplicating this literal "-----------------------------------" 3 times.(˜ªû£øÿÿÿÿ
-Fsquid:S1066N"/Merge this if statement with the enclosing one.(ú×ñ§
-Ksquid:S1066a"/Merge this if statement with the enclosing one.(İº¡‡ùÿÿÿÿ
-osquid:S00117©"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ËûƒØúÿÿÿÿ
-isquid:S00117²"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(æÙ|
-:squid:S1148Z"#Use a logger to log this exception.(Ç’Çê
-?squid:S1148k"#Use a logger to log this exception.(Âşÿâûÿÿÿÿ
-osquid:S1450'"SRemove the "base" field and declare it as a local variable in the relevant methods.(™È›ãûÿÿÿÿ
-=squid:S1075:"&Remove this hard-coded path-delimiter.(œÌŒ
-nsquid:S3776A"RRefactor this method to reduce its Cognitive Complexity from 39 to the 15 allowed.(ªÂÎ¢ıÿÿÿÿ
-<squid:S1075P"&Remove this hard-coded path-delimiter.(³´÷!
-]squid:S3457T"AFormat specifiers should be used instead of string concatenation.(ã‹¬Øıÿÿÿÿ
-Xsquid:S3457V"AFormat specifiers should be used instead of string concatenation.(ôÌ´
-Msquid:S2696V"6Make the enclosing method "static" or remove this set.(ôÌ´
-Xsquid:S3457c"AFormat specifiers should be used instead of string concatenation.(Í¢†®
-Xsquid:S3457g"AFormat specifiers should be used instead of string concatenation.(ôÌ´
-Msquid:S2696g"6Make the enclosing method "static" or remove this set.(ôÌ´
-Xsquid:S3457q"AFormat specifiers should be used instead of string concatenation.(°â×±
-Xsquid:S1075x"ARefactor your code to get this URI from a customizable parameter.(Ûÿş¦
-Zsquid:HiddenFieldCheckx"8Rename "path" which hides the field declared at line 40.(Ûÿş¦
-Xsquid:S3457"AFormat specifiers should be used instead of string concatenation.(Ô³úï
-Msquid:S2696"6Make the enclosing method "static" or remove this set.(Ô³úï
-Y
-squid:S899‚"=Do something with the "boolean" value returned by "renameTo".(ÍÌ§ìÿÿÿÿÿ
-Ysquid:S3457„"AFormat specifiers should be used instead of string concatenation.(´Ä±¾
-Ysquid:S1075‰"ARefactor your code to get this URI from a customizable parameter.(Ûÿş¦
-[squid:HiddenFieldCheck‰"8Rename "path" which hides the field declared at line 40.(Ûÿş¦
-@squid:S1659•"#Declare "right" on a separate line.(ÒñÙİÿÿÿÿÿ
-<squid:S1659–"$Declare "suffix" on a separate line.(ÙÎ§ù
-^squid:S3457¡"AFormat specifiers should be used instead of string concatenation.(”‰üÿÿÿÿ
-Y
-squid:S899¢"=Do something with the "boolean" value returned by "renameTo".(ÍÌ§ìÿÿÿÿÿ
-^squid:S1075©"ARefactor your code to get this URI from a customizable parameter.(ËûƒØúÿÿÿÿ
-Csquid:S1075´"&Remove this hard-coded path-delimiter.(Ï¶æ±øÿÿÿÿ
-T
-squid:S899¶"=Do something with the "boolean" value returned by "renameTo".(™ëğ½
-U
-squid:S106Ã"9Replace this use of System.out or System.err by a logger.(éˆßßüÿÿÿÿ
-U
-squid:S106Å"9Replace this use of System.out or System.err by a logger.(ÔšğÛúÿÿÿÿ
-U
-squid:S106Ç"9Replace this use of System.out or System.err by a logger.(‚²§şÿÿÿÿ
-U
-squid:S106É"9Replace this use of System.out or System.err by a logger.(²ìŠôÿÿÿÿÿ
-gsquid:CommentedOutCodeLine3"<This block of commented-out lines of code should be removed.(íıŞ£ûÿÿÿÿ
-bsquid:CommentedOutCodeLine7"<This block of commented-out lines of code should be removed.(•—Œ£
-gsquid:CommentedOutCodeLineB"<This block of commented-out lines of code should be removed.(¼î™İıÿÿÿÿ
-gsquid:CommentedOutCodeLineQ"<This block of commented-out lines of code should be removed.(àÎìùşÿÿÿÿ
-gsquid:CommentedOutCodeLines"<This block of commented-out lines of code should be removed.(ºÉÄûÿÿÿÿ
-hsquid:CommentedOutCodeLine€"<This block of commented-out lines of code should be removed.(Ş¶ïŒÿÿÿÿÿ
-hsquid:CommentedOutCodeLine’"<This block of commented-out lines of code should be removed.(ì¶íÖıÿÿÿÿ
-hsquid:CommentedOutCodeLineš"<This block of commented-out lines of code should be removed.(ò‰×œúÿÿÿÿ
-csquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(¾®Ú¬
-csquid:CommentedOutCodeLine½"<This block of commented-out lines of code should be removed.(ØŠğ°

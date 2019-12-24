@@ -21,7 +21,6 @@ import java.util.stream.IntStream;
  *
  * @author Ivybest (ivybestdev@163.com)
  * @version 1.0
- * @className MacUtilTest
  * @date 2014/16/11 04:25
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -101,7 +100,6 @@ public class MacUtilTest {
         IntStream.range(0, 10).forEach(e -> {
             String sign = SecurityUtil.mac.digest2HexString(MacUtil.HMACSHA256, header + payload, key);
             log.debug(sign);
-            log.debug(SecurityUtil.mac.getKey());
         });
     }
 

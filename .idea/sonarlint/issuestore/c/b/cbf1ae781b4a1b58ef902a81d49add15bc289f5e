@@ -1,32 +1,0 @@
-
-Š squid:ForLoopCounterChangedCheckª"XRefactor the code in order to not assign to this loop counter from within the loop body.(”¢Äâÿÿÿÿÿ
-wsquid:S00115*"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(¾£«äúÿÿÿÿ
-Lsquid:S10681"0Remove this unused "capitalCnArr" private field.(¿–¿Åøÿÿÿÿ
-Rsquid:S1172…":Remove this unused method parameter "capitalChineseDigit".(‘©×«
-:squid:S1659´"#Declare "radix" on a separate line.(Ë¼§B
-Jsquid:S1199¬"-Extract this nested code block into a method.(ÒÌâ–øÿÿÿÿ
-Asquid:S1659«"$Declare "cursor" on a separate line.(‘ýîýúÿÿÿÿ
-Osquid:S1068;"3Remove this unused "pattern_capital" private field.(þ£€ôùÿÿÿÿ
-o
-squid:S135Å"YReduce the total number of break and continue statements in this loop to use at most one.(–Ì±
-wsquid:S00115)"ZRename this constant name to match the regular expression '^[A-Z][A-Z0-9]*(_[A-Z0-9]+)*$'.(¤ô‰¿üÿÿÿÿ
-psquid:S30085"TRename this field "UNIT_STEP" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(…‡²Áýÿÿÿÿ
-Osquid:S1135£"2Complete the task associated to this TODO comment.(‹ËôÈýÿÿÿÿ
-o
-squid:S135ß"YReduce the total number of break and continue statements in this loop to use at most one.(–Ì±
-Lsquid:S1068."0Remove this unused "capitalCuArr" private field.(ÐÊ‰»ûÿÿÿÿ
-]squid:S2184Ï"FCast one of the operands of this multiplication operation to a "long".(“ŽÐ&
-Asquid:S1659†"$Declare "target" on a separate line.(¤·Ô»þÿÿÿÿ
-hsquid:CommentedOutCodeLine³"<This block of commented-out lines of code should be removed.(Èâÿôúÿÿÿÿ
-Asquid:S1659†"$Declare "suffix" on a separate line.(¤·Ô»þÿÿÿÿ
-osquid:S3776£"RRefactor this method to reduce its Cognitive Complexity from 37 to the 15 allowed.(ŠÃì‚þÿÿÿÿ
-tsquid:S30089"XRename this field "regex_capital" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(ØÓçÃøÿÿÿÿ
-Jsquid:S1199–"-Extract this nested code block into a method.(ÒÌâ–øÿÿÿÿ
-vsquid:S3008;"ZRename this field "pattern_capital" to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(þ£€ôùÿÿÿÿ
-jsquid:S3776›"RRefactor this method to reduce its Cognitive Complexity from 26 to the 15 allowed.(ó¡Ðõ
-jsquid:S3776"RRefactor this method to reduce its Cognitive Complexity from 37 to the 15 allowed.(¨„Þ¯
-Osquid:S1135÷"2Complete the task associated to this TODO comment.(ëÝýÕøÿÿÿÿ
-:squid:S1659ž"#Declare "radix" on a separate line.(Ë¼§B
-Jsquid:S1135†"2Complete the task associated to this TODO comment.(…ïœ†
-gsquid:UnusedPrivateMethodv"=Remove this unused private "getChineseDigitUnitRadix" method.(¢×öúþÿÿÿÿ
-Š squid:ForLoopCounterChangedCheckª"XRefactor the code in order to not assign to this loop counter from within the loop body.(”¢Äâÿÿÿÿÿ

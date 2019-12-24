@@ -1,6 +1,7 @@
 package org.ivy.util.common;
 
-import static org.ivy.util.common.IvyConstant.*;
+import static org.ivy.util.common.IvyConstant.UNIX_SEPARATOR;
+import static org.ivy.util.common.IvyConstant.WIN_SEPARATOR;
 
 /**
  * <p>  classname：SystemUtil

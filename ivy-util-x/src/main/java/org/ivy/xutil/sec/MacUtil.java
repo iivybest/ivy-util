@@ -9,19 +9,18 @@ import javax.crypto.spec.SecretKeySpec;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
-import java.util.Random;
 
 /**
- * <p> description: Mac 工具类
+ * <p>  classname: MacUtil
+ * <br> description: Mac 工具类
  * <br>--------------------------------------------------------
  * <br>
  * <br>--------------------------------------------------------
- * <br>Copyright@2019 www.ivybest.org Inc. All rights reserved.
+ * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
  *
  * @author Ivybest (ivybestdev@163.com)
  * @version 1.0
- * @className MacUtil
  * @date 2014/6/11 17:17
  */
 public class MacUtil {
@@ -105,12 +104,12 @@ public class MacUtil {
 
 
     /**
-     * <p>Mac摘要加密</p>
+     * Mac摘要加密
      *
-     * @param algorithm
-     * @param data
-     * @param key
-     * @return
+     * @param algorithm algorithm
+     * @param data      data
+     * @param key       key
+     * @return byte[]
      */
     public static byte[] digest(String algorithm, byte[] data, String key) {
         if (algorithm == null || algorithm.length() == 0) return null;
@@ -122,12 +121,12 @@ public class MacUtil {
     }
 
     /**
-     * <p>Mac摘要加密</p>
+     * Mac摘要加密
      *
-     * @param algorithm
-     * @param data
-     * @param key
-     * @return
+     * @param algorithm algorithm
+     * @param data      data
+     * @param key       key
+     * @return byte[]
      */
     public static byte[] digest(String algorithm, String data, String key) {
         if (data == null || data.length() == 0) return null;
@@ -146,13 +145,13 @@ public class MacUtil {
 
 
     /**
-     * <p>计算数据加密摘要</p>
+     * 计算数据加密摘要
      *
-     * @param original
-     * @param key
-     * @return
+     * @param data data
+     * @param key  key
+     * @return byte[]
      */
-    private static byte[] digest(byte[] original, SecretKey key) {
+    private static byte[] digest(byte[] data, SecretKey key) {
         Mac mac = null;
         try {
             mac = Mac.getInstance(key.getAlgorithm());
@@ -162,15 +161,15 @@ public class MacUtil {
         } catch (InvalidKeyException e) {
             e.printStackTrace();
         }
-        mac.update(original);
+        mac.update(data);
         return mac.doFinal();
     }
 
     /**
-     * <p>创建密钥</p>
+     * 创建密钥
      *
-     * @param algorithm
-     * @return
+     * @param algorithm algorithm
+     * @return SecretKey
      */
     private static SecretKey createKey(String algorithm, byte[] key) {
         // keygen提供对称密钥生成器功能，支持各种算法
@@ -200,36 +199,14 @@ public class MacUtil {
     }
 
     /**
-     * <p>创建密钥</p>
+     * 创建密钥
      *
-     * @param algorithm
-     * @return
+     * @param algorithm algorithm
+     * @return SecretKey
      */
     private static SecretKey generateSecretKey(String algorithm, byte[] key) {
         SecretKeySpec secretKey = new SecretKeySpec(key, algorithm);
         return secretKey;
     }
 
-    /**
-     * <p>生成一个随机key</p>
-     *
-     * @return
-     */
-    public static String getKey() {
-        StringBuffer sb = new StringBuffer();
-        final int numCount = 8;
-        final int letterCount = 8;
-        final int numLen = 10;
-        final int letterLen = 26;
-        char[] num = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-        char[] letter = {'A', 'B', 'C', 'D', 'E', 'F', 'G',
-                'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
-                'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z'};
-
-        Random random = new Random();
-        for (int i = 0; i < letterCount; i++) sb.append(letter[random.nextInt(letterLen)]);
-        for (int i = 0; i < numCount; i++) sb.append(num[random.nextInt(numLen)]);
-
-        return sb.toString();
-    }
 }
