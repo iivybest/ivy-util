@@ -52,7 +52,7 @@ public enum SystemConf {
      */
     private Map<String, String> keyValueMap;
 
-    private SystemConf() {
+    SystemConf() {
         this.init();
     }
 
