@@ -35,8 +35,10 @@ import static org.ivy.util.common.IvyConstant.hexArr;
  */
 public class DigitUtil {
 
+    private DigitUtil() {}
+
     // 小数点
-    private static final char decimalPoint = '.';
+    private static final String decimalPoint = "\\.";
     private static final char cnDecimalPoint = '点';
 
     // 中文数字单位序列
@@ -245,7 +247,7 @@ public class DigitUtil {
             return long2ChineseDigit((long) data, isColloquial);
         }
 
-        String[] arr = dataStr.split("\\" + decimalPoint);
+        String[] arr = dataStr.split(decimalPoint);
         return long2ChineseDigit(Long.valueOf(arr[0]), isColloquial)
                 + cnDecimalPoint
                 + long2ChineseDigitDirect(Long.valueOf(arr[1]));
@@ -549,7 +551,7 @@ public class DigitUtil {
     public static String toBinString(int data) {
         char[] sequence = new char[32];
         for (int j = sequence.length - 1, cursor = 0; j >= 0; ) {
-            sequence[cursor++] = digitArr[((data >>> j--) & 1)];
+            sequence[cursor ++] = digitArr[((data >>> j--) & 1)];
         }
         return new String(sequence);
     }

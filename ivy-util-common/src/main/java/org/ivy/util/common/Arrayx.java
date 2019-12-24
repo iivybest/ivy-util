@@ -24,6 +24,11 @@ import java.util.Random;
  * @date 2019/12/16 11:06
  */
 public class Arrayx {
+    /**
+     * 工具类，私有化其构造器
+     */
+    private Arrayx() {}
+
 
     @Description("安全的随机数生成对象")
     private static final Random SECURE_RANDOM = new SecureRandom();
@@ -195,7 +200,7 @@ public class Arrayx {
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(data[cursor]);
-            if (cursor++ == endIdx) return sb.append("]").toString();
+            if (cursor ++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
     }
@@ -220,7 +225,7 @@ public class Arrayx {
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(data[cursor]);
-            if (cursor++ == endIdx) return sb.append("]").toString();
+            if (cursor ++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
 
