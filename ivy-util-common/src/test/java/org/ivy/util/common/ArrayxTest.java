@@ -79,4 +79,11 @@ public class ArrayxTest {
         log.debug("{derange: {}}", Arrayx.printArray(this.data));
     }
 
+    @Test
+    public void test_06_subArray() {
+        String[] arr = {"corolla", "audi", "buggati", "benz", "ford", "bently"};
+        String[] subarr = Arrayx.subarray(arr, 1, 3);
+        log.debug("{arr; {}}", Arrays.toString(arr));
+        log.debug("{subarr; {}}", Arrays.toString(subarr));
+    }
 }

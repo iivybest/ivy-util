@@ -1,10 +1,12 @@
 package org.ivy.xutil.sec;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Base64;
 
 /**
- * <p>  classname: Base64Util
- * <br> description: Base64 Util
+ * <p> classname: Base64Util
+ * <p> description: Base64 Util
  * <br>---------------------------------------------------------
  * <br>
  * <br>---------------------------------------------------------
@@ -18,13 +20,24 @@ import java.util.Base64;
  */
 public class Base64Util {
 
-
+    /**
+     * encode
+     *
+     * @param data data
+     * @return byte[]
+     */
     public static byte[] encode(byte[] data) {
         if (data == null) return null;
         return Base64.getEncoder().encode(data);
     }
-
+    /**
+     * encode
+     *
+     * @param data data
+     * @return byte[]
+     */
     public static byte[] encode(String data) {
+        if (data == null) return null;
         return encode(data.getBytes());
     }
 
@@ -34,11 +47,12 @@ public class Base64Util {
     }
 
     public static String encodeToString(String data) {
+        if (data == null) return null;
         return encodeToString(data.getBytes());
     }
 
     public static byte[] decode(String data) {
-        if (null == data || data.length() == 0) return null;
+        if (null == data) return null;
         return Base64.getDecoder().decode(data);
     }
 
@@ -48,7 +62,7 @@ public class Base64Util {
     }
 
     public static String decodeToString(String data) {
-        if (null == data || data.length() == 0) return null;
+        if (null == data) return null;
         return new String(decode(data));
     }
 

@@ -25,22 +25,22 @@ import java.nio.channels.FileChannel;
  */
 public class LogUtil {
     /* LogUtil工具内部参数 start **********************************/
-    /* 路径分隔符*/
+    /** 路径分隔符*/
     private String separator;
-    /* 默认日志名 */
+    /** 默认日志名 */
     private String defaultLogName;
     /* LogUtil工具内部参数 end ************************************/
 
-    /* 记录日志者的class类型*/
+    /** 记录日志者的class类型*/
     private Class<?> logClass;
-    /* 日志路径 */
+    /** 日志路径 */
     private String logUrl;
-    /* 以线程ID分割日志 */
+    /** 以线程 ID 分割日志 */
     private boolean splitLogByThreadId;
-    /* 日志文件流 */
+    /** 日志文件流 */
     private PrintWriter writer;
 
-    /* constructor*/
+    /** constructor*/
     public <T> LogUtil(Class<T> logClass, String logUrl, boolean splitLogByThreadId) {
         this.logClass = logClass;
         this.logUrl = logUrl;

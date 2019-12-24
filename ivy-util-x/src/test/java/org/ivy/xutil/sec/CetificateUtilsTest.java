@@ -1,19 +1,3 @@
-/**
- * Filename 	CetificateUtilsTest
- *
- * @Description TODO
- * @author ivybest
- * @version V1.0
- * CreateDate 	2017年6月20日 下午2:43:57
- * Company 		IB.
- * Copyright 	Copyright(C) 2010-
- * All rights Reserved, Designed By ivybest
- * <p>
- * Modification History:
- * Date			Author		Version		Discription
- * --------------------------------------------------------
- * 2017年6月20日		ivybest		1.0			new create
- */
 package org.ivy.xutil.sec;
 
 import lombok.extern.slf4j.Slf4j;
@@ -30,53 +14,56 @@ import java.security.PrivateKey;
 import java.util.Base64;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
- * <p> description: 证书工具类测试
+ * <p> className: CetificateUtilsTest
+ * <p> description: cerificate util testcase
  * <br>--------------------------------------------------------
- * <br>
+ * <br> 1、init cerificate、pfx
+ * <br> 2、signature、verify
+ * <br> 3、encrypt、decrypt
  * <br>--------------------------------------------------------
  * <br>Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
  *
- * @className CetificateUtilsTest
  * @author Ivybest (ivybestdev@163.com)
- * @date 2017/6/20 14:43
  * @version 1.0
+ * @date 2017/6/20 14:43
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 //@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 @Slf4j
 public class CetificateUtilsTest {
 
-    // ----classpath 程序执行路径
+    // ----classpath
     private String classpath = SystemUtil.getClasspath();
-    // ----测试所需物料路径--基于classpath的相对路径
+    // ----all materials that was used in this testcase--based on classpath
     private String pfx;
     private String cer;
     private String license;
-    // ----测试成员变量
-    private String pass = "123456";
-    private String original;
+    // ----variables
+    private String pass;
+    private String origin;
     private KeyStore keyStore;
 
     @Before
     public void setUp() throws Exception {
-        // ----测试所需物料路径--基于classpath的相对路径
+        // ----material path--based on classpath
         this.pfx = this.classpath + "material/cert/kimi.pfx";
         this.cer = this.classpath + "material/cert/kimi.cer";
         this.license = this.classpath + "material/cert/kimi.license";
-        // ----私钥密码
+        // ----private cert key
         this.pass = "123456";
-        // ----源文件信息
-        this.original = "{product_name=your_product,product_version=1219,license_expiry=2020-10-21}";
-        // ----密钥库
+        // ----source text
+        this.origin = "{product_name=SkyNet,product_version=1.0_release,license_expiry=2022-11-10}";
+        // ----key store
         this.keyStore = CertificateUtil.getKeyStore(pfx, pass, CertificateUtil.STORE_TYPE_PKCS12);
     }
 
     @After
     public void tearDown() {
-        log.debug("====> split line -------------------------------------------");
+        log.debug("====> split line ----------------------------------------");
     }
 
 
@@ -85,26 +72,26 @@ public class CetificateUtilsTest {
         // ----keystore alias
         String alias = CertificateUtil.getKeySotreAliases(keyStore).get(0);
         // ----signature
-        byte[] sign = CertificateUtil.sign(original.getBytes(), keyStore, alias, pass);
+        byte[] sign = CertificateUtil.sign(origin.getBytes(), keyStore, alias, pass);
         // ----verify signature
-        boolean verify = CertificateUtil.verify(original.getBytes(), sign, FileUtil.read(cer));
+        boolean verify = CertificateUtil.verify(origin.getBytes(), sign, FileUtil.read(cer));
         log.debug("{alias:{}, verify: {}}", alias, verify);
-        // ----expect verify is true
-        assertEquals(verify, true);
+        // ----expect verify is true. assertEquals(verify, true);
+        assertTrue(verify);
     }
 
     @Test
     public void test_02_rsa_encrypt_and_decrypt() throws Exception {
         String alias = CertificateUtil.getKeySotreAliases(keyStore).get(0);
         PrivateKey privateKey = CertificateUtil.getPrivateKey(keyStore, alias, pass);
-        byte[] cipher = CertificateUtil.encryptByPrivateKey(original.getBytes(), privateKey);
+        byte[] cipher = CertificateUtil.encryptByPrivateKey(origin.getBytes(), privateKey);
         byte[] plain = CertificateUtil.decryptByPublicKey(cipher, cer);
 
-        log.debug("{\r\n origin:{}, \r\n cipher: {}, \r\n plain: {}\r\n}",
-                this.original,
+        log.debug("{\r\norigin: {}, \r\ncipher: {}, \r\n plain: {}\r\n}",
+                this.origin,
                 Base64.getEncoder().encodeToString(cipher),
                 new String(plain));
-        assertEquals("decrypt failure", this.original, new String(plain));
+        assertEquals("decrypt failure", this.origin, new String(plain));
     }
 }
 
