@@ -22,6 +22,7 @@ import java.util.Base64;
 import java.util.Enumeration;
 
 /**
+ * <p> classname: PKCS7Tool
  * <p> description: PKCS7Tool
  * <br>--------------------------------------------------------
  * <br> pkcs7格式签名工具
@@ -31,7 +32,6 @@ import java.util.Enumeration;
  *
  * @author Ivybest (ivybestdev@163.com)
  * @version 1.0
- * @className PKCS7Tool
  * @date 2019/12/17 13:54
  */
 public class PKCS7Tool {
@@ -54,7 +54,7 @@ public class PKCS7Tool {
     /**
      * 签名算法
      */
-    private String signingAlgorithm = "SHA1withRSA";
+    private String signatureAlgorithm = "SHA1withRSA";
     /**
      * 签名证书链
      */
@@ -204,7 +204,7 @@ public class PKCS7Tool {
      */
     public String sign(byte[] data) throws Exception {
         if (mode != SIGNER) throw new IllegalStateException("====call a PKCS7Tool instance not for signature.");
-        Signature signer = Signature.getInstance(signingAlgorithm);
+        Signature signer = Signature.getInstance(signatureAlgorithm);
         signer.initSign(privateKey);
         signer.update(data, 0, data.length);
         byte[] signedAttributes = signer.sign();
@@ -379,17 +379,17 @@ public class PKCS7Tool {
     }
 
     /**
-     * @return 返回 signingAlgorithm。
+     * @return signatureAlgorithm 返回 signatureAlgorithm。
      */
-    public final String getSigningAlgorithm() {
-        return signingAlgorithm;
+    public final String getSignatureAlgorithm() {
+        return signatureAlgorithm;
     }
 
     /**
-     * @param signingAlgorithm 要设置的 signingAlgorithm。
+     * @param signatureAlgorithm 要设置的 signingAlgorithm。
      */
-    public final void setSigningAlgorithm(String signingAlgorithm) {
-        this.signingAlgorithm = signingAlgorithm;
+    public final void setSignatureAlgorithm(String signatureAlgorithm) {
+        this.signatureAlgorithm = signatureAlgorithm;
     }
 
     public static void setDebug(boolean debug) {

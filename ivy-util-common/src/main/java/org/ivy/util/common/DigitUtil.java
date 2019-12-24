@@ -1,5 +1,7 @@
 package org.ivy.util.common;
 
+import org.ivy.util.annotation.Recommend;
+
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -38,7 +40,7 @@ public class DigitUtil {
     private DigitUtil() {}
 
     // 小数点
-    private static final String decimalPoint = "\\.";
+    private static final String decimalPoint = ".";
     private static final char cnDecimalPoint = '点';
 
     // 中文数字单位序列
@@ -243,11 +245,10 @@ public class DigitUtil {
             return "负" + double2ChineseDigit(-data, isColloquial);
         }
         String dataStr = String.valueOf(data);
-        if (! dataStr.contains(String.valueOf(decimalPoint))) {
+        if (! dataStr.contains(decimalPoint)) {
             return long2ChineseDigit((long) data, isColloquial);
         }
-
-        String[] arr = dataStr.split(decimalPoint);
+        String[] arr = dataStr.split("\\" + decimalPoint);
         return long2ChineseDigit(Long.valueOf(arr[0]), isColloquial)
                 + cnDecimalPoint
                 + long2ChineseDigitDirect(Long.valueOf(arr[1]));
@@ -556,6 +557,17 @@ public class DigitUtil {
         return new String(sequence);
     }
 
+    /**
+     * 字节数字转 Hex 字符串
+     *
+     * @param data
+     * @return String
+     */
+    @Recommend(value = true, msg = {
+            "1、char arr 代替 StringBuilder",
+            "2、不推荐使用 Integer.toHex",
+            "3、"
+    })
     public static String toHexString(byte... data) {
         int len = data.length;
         char[] hexChars = new char[len * 2];

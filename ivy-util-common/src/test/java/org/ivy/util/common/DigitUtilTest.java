@@ -216,7 +216,8 @@ public class DigitUtilTest {
     @Test
     public void test_04_chineseDigit2ArabicDigit() {
         String text = "第五十天 系统基本文件管理肆拾伍十五";
-        String format = DigitUtil.chineseDigit2Arabic(text, 0, 6, 5);
+//        String format = DigitUtil.chineseDigit2Arabic(text, 0, 6, 5);
+        String format = DigitUtil.chineseDigit2Arabic(text);
         log.debug("====>{\ntext: {}, \nformat: {}\n}", text, format);
     }
 
@@ -237,7 +238,7 @@ public class DigitUtilTest {
     public void test_06_advLong2ChineseDigit() {
         long num;
         String format;
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 10000; i++) {
             for (String e : this.numbers) {
                 num = Long.parseLong(e);
                 format = AdvLong2ChineseDigitTest.long2ChineseDigit(num, true);
