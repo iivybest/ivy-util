@@ -1,132 +1,216 @@
 package org.ivy.xutil.sec;
 
+import org.ivy.util.common.StringUtil;
+
 /**
- * <p>CesarCodeUtil</p>
+ * <p> description: Caesar Code Util
+ * <br>---------------------------------------------------------
+ * <br> Caesar Code：
+ * <br> 1、加密向右移位 step_len
+ * <br>     遍历 plain char array，对每个 char 进行加密；
+ * <br>     #注：char 加密后值若大于等于 char max length，减去一个 65536
+ * <br> 2、解密向左移位 step_len
+ * <br>     遍历 ciper char array ，对每个 char 进行机密；
+ * <br>     #注：char 解密后值若小于 0，加上一个  65536
+ * <br>---------------------------------------------------------
+ * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
+ * </p>
  *
- * @author miao.xl
- * @date 2014-6-11 下午06:16:04
+ * @author Ivybest (ivybestdev@163.com)
+ * @version 1.0
+ * @date 2019/12/25 8:46
  */
 public class CaesarCodeUtil {
-    /*
-     *	 凯撒密码
-     * 		1、加密向右移位3
-     * 		将 plaintext 装换成char[]，对每个 char 进行加密，在转换为 cipertext；
-     * 		#注：char 加密后的 int 值如果大于等于 65536，减去一个 65536
-     * 		2、解密向左移位3
-     * 		将 cipertext 装换成char[]，对每个char进行加密，在转换为 plaintext；
-     * 		#注：char 解密后的 int 若小于 0，加上一个  65536
-     */
-    private final int key = 3;
-    private final int charLen = 65536;
 
-
-    private String encrypt(String data, int step) {
-        String cipher = null;
-        return cipher;
-    }
-
-    private String encryptHex(String data, int step) {
-        String cipher = null;
-        return cipher;
-    }
+    private static  final int STEP_DEFAULT = 3;
+    private static  final int CHAR_LENGTH = 65536;
 
 
     /**
-     * <p>凯撒加密</p>
+     * encrypt
      *
-     * @param original
-     * @return
+     * @param data data
+     * @param step shift step length
+     * @return char[]
      */
-    private String encrypt(char[] original) {
-        String cipher = null;
-        char[] cipherChar = new char[original.length];
-        for (int i = 0; i < original.length; i++)
-            cipherChar[i] = (char) this.ciperCode((short) original[i]);
-        cipher = new String(cipherChar);
+    public static  char[] encrypt(char[] data, int step) {
+        if (data == null || data.length == 0) {
+            return new char[0];
+        }
+        int offset = (step <= 0) ? STEP_DEFAULT : step;
+        char[] cipher = data;
+        for (int i = 0, len = data.length; i < len; i++) {
+            cipher[i] = cipherCode(data[i], offset);
+        }
         return cipher;
     }
 
     /**
-     * <p>凯撒加密</p>
+     * encrypt
      *
-     * @param original
-     * @return
+     * @param data data
+     * @return char[]
      */
-    public String encrypt(String original) {
-        char[] msg = new char[original.length()];
-        original.getChars(0, original.length(), msg, 0);
-        return encrypt(msg);
+    public static  char[] encrypt(char[] data) {
+        return encrypt(data, STEP_DEFAULT);
     }
 
     /**
-     * <p>凯撒解密</p>
+     * encrypt
      *
-     * @param original
-     * @return
+     * @param data data
+     * @param step shift step length
+     * @return char[]
      */
-    private String decrypt(char[] original) {
-        String plain = null;
-        char[] plainChar = new char[original.length];
-        for (int i = 0; i < original.length; i++)
-            plainChar[i] = (char) this.plainCode((short) original[i]);
-        plain = new String(plainChar);
+    public static  char[] encrypt(String data, int step) {
+        if (StringUtil.isBlank(data)) {
+            return new char[0];
+        }
+//        char[] dataChar = new char[data.length()];
+//        data.getChars(0, data.length(), dataChar, 0);
+        return encrypt(data.toCharArray(), step);
+    }
+
+    /**
+     * encrypt
+     *
+     * @param data data
+     * @return char[]
+     */
+    public static  char[] encrypt(String data) {
+        return encrypt(data, STEP_DEFAULT);
+    }
+
+    /**
+     * encrypt to string
+     *
+     * @param data data
+     * @param step shift step length
+     * @return String
+     */
+    public static  String encryptToString(char[] data, int step) {
+        char[] cipher = encrypt(data, step);
+        return new String(cipher);
+    }
+
+    /**
+     * encrypt to string
+     *
+     * @param data data
+     * @return String
+     */
+    public static  String encryptToString(char[] data) {
+        return encryptToString(data, STEP_DEFAULT);
+    }
+
+    /**
+     * encrypt to string
+     *
+     * @param data data
+     * @param step shift step length
+     * @return String
+     */
+    public static  String encryptToString(String data, int step) {
+        char[] cipher = encrypt(data, step);
+        return new String(cipher);
+    }
+
+    /**
+     * encrypt to string
+     *
+     * @param data data
+     * @return String
+     */
+    public static  String encryptToString(String data) {
+        return encryptToString(data, STEP_DEFAULT);
+    }
+
+    /**
+     * decrypt
+     *
+     * @param data data
+     * @param step shift step length
+     * @return char[]
+     */
+    public static  char[] decrypt(char[] data, int step) {
+        if (data == null || data.length == 0) {
+            return new char[0];
+        }
+        int offset = (step <= 0) ? STEP_DEFAULT : step;
+        char[] plain = data;
+        for (int i = 0, len = data.length; i < len; i++) {
+            plain[i] = plainCode(data[i], offset);
+        }
         return plain;
     }
 
     /**
-     * <p>凯撒解密</p>
+     * decrypt
      *
-     * @param original
-     * @return
+     * @param data data
+     * @return char[]
      */
-    public String decrypt(String original) {
-        char[] msg = new char[original.length()];
-        original.getChars(0, original.length(), msg, 0);
-        return this.decrypt(msg);
+    public static  char[] decrypt(char[] data) {
+        return decrypt(data, STEP_DEFAULT);
     }
 
     /**
-     * <p>获取加密后字符数值</p>
+     * decrypt
      *
-     * @param charNum
-     * @return
+     * @param data data
+     * @param step shift step length
+     * @return char[]
      */
-    private short ciperCode(short charNum) {
-        int temp = charNum + this.key;
-        short ciper;
-        if (temp >= this.charLen) temp -= this.charLen;
-        ciper = (short) temp;
+    public static  char[] decrypt(String data, int step) {
+        if (StringUtil.isBlank(data)) {
+            return new char[0];
+        }
+        int offset = (step <= 0) ? STEP_DEFAULT : step;
+        return decrypt(data.toCharArray(), offset);
+    }
+
+    /**
+     * decrypt
+     *
+     * @param data data
+     * @return char[]
+     */
+    public static  char[] decrypt(String data) {
+        return decrypt(data, STEP_DEFAULT);
+    }
+
+    /**
+     * get data's caesar cipher code
+     *
+     * @param data data
+     * @param step shift step len
+     * @return char
+     */
+    private static  char cipherCode(char data, int step) {
+        int temp = data + step;
+        char ciper;
+        if (temp >= CHAR_LENGTH) {
+            temp -= CHAR_LENGTH;
+        }
+        ciper = (char) temp;
         return ciper;
     }
 
     /**
-     * <p>获取解密后字符数值</p>
+     * get data's plain code
      *
-     * @param charNum
-     * @return
+     * @param data data
+     * @param step shift step len
+     * @return char
      */
-    private short plainCode(short charNum) {
-        int temp = charNum - this.key;
-        short plain;
-        if (temp < 0) temp += this.charLen;
-        plain = (short) temp;
+    private static  char plainCode(char data, int step) {
+        int temp = data - step;
+        char plain;
+        if (temp < 0) {
+            temp += CHAR_LENGTH;
+        }
+        plain = (char) temp;
         return plain;
     }
 
-//	public static void main(String[] args) {
-//		// 凯撒密码边界值考虑
-//		int bitCount = 3;
-//		char cc = 65534;
-//		int cipherInt = cc + bitCount;
-//		if(cipherInt >= 65536) cipherInt -= 65536;
-//		char cipher = (char)cipherInt;
-//		System.out.println(cipherInt);
-//		System.out.println(cipher);
-//
-//		int ppInt = cipher - bitCount;
-//		if(ppInt < 0) ppInt += 65536;
-//		char pp = (char) ppInt;
-//		System.out.println(ppInt);
-//		System.out.println("PP : " + pp + " , cc : " + cc);
-//	}
 }

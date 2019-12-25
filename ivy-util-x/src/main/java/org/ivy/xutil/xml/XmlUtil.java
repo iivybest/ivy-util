@@ -1,6 +1,3 @@
-/**
- *
- */
 package org.ivy.xutil.xml;
 
 import org.dom4j.Document;
@@ -14,30 +11,27 @@ import java.io.StringReader;
 import java.io.StringWriter;
 
 /**
- * <p>XmlUtil</p>
- * <p>Description:</p>
+ * XmlUtil
  *
  * @author miao.xl
- * @date 2014年9月2日 下午3:51:25
  * @version 1.0
+ * @date 2014年9月2日 下午3:51:25
  */
 public class XmlUtil {
-    private static String encoding = "utf-8";
+
+    private static final String encoding = "utf-8";
 
 
     /**
      * format a xml string
-     * @param str
-     * @return
      *
-     * @author miao.xl
-     * @date 2014年9月2日 下午3:56:12
-     * @version 1.0
+     * @param data xml data
+     * @return String
      */
-    public static String format(String str) {
+    public static String format(String data) {
         StringWriter out = new StringWriter();
         SAXReader reader = new SAXReader();
-        StringReader in = new StringReader(str);
+        StringReader in = new StringReader(data);
         Document doc;
         try {
             doc = reader.read(in);

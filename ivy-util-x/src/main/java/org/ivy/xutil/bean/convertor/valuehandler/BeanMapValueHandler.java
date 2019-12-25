@@ -1,26 +1,23 @@
-/**
- *
- */
 package org.ivy.xutil.bean.convertor.valuehandler;
 
 import java.lang.reflect.Field;
 
 /**
- * <p>ValueTypeHandlerAble</p>
+ * ValueTypeHandlerAble
  *
  * @author miao.xl
- * @date 2016年8月3日-上午10:22:48
  * @version 1.0
+ * @date 2016年8月3日-上午10:22:48
  */
 public interface BeanMapValueHandler {
 
     /**
-     * <p>处理beanmap中的value</p>
-     * @param value
-     * @return
+     * 处理 beanmap 中的 value
      *
-     * @author miao.xl
-     * @date 2016年8月3日-上午10:30:30
+     * @param bean  bean
+     * @param field field
+     * @param <T>   bean's type
+     * @return T
      */
     public <T> Object handle(T bean, Field field);
 

@@ -1,6 +1,3 @@
-/**
- *
- */
 package org.ivy.xutil.bean.convertor.valuehandler.impl;
 
 import org.ivy.util.common.DateTimeUtil;

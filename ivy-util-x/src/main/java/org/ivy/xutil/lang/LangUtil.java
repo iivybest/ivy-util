@@ -1,6 +1,3 @@
-/**
- *
- */
 package org.ivy.xutil.lang;
 
 /**

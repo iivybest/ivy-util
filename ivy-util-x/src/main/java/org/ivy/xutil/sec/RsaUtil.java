@@ -10,10 +10,16 @@ import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 
 /**
- * <p>RsaUtil</p>
+ * <p> description: RsaUtil
+ * <br>---------------------------------------------------------
+ * <br>
+ * <br>---------------------------------------------------------
+ * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
+ * </p>
  *
- * @author miao.xl
- * @date 2014-6-12 下午02:42:04
+ * @author Ivybest (ivybestdev@163.com)
+ * @version 1.0
+ * @date 2014/06/12 14:42
  */
 public class RsaUtil {
     /*
@@ -61,9 +67,9 @@ public class RsaUtil {
     }
 
     /**
-     * <p>获取随机密钥对</p>
+     * get one random key pair
      *
-     * @return
+     * @return KeyPair
      */
     public KeyPair getKeyPair() {
         // KeyPairGenerator 用于生成密钥对（公钥和私钥对）
@@ -84,10 +90,10 @@ public class RsaUtil {
     }
 
     /**
-     * <p>取得RSA公钥</p>
+     * get public key
      *
-     * @param keyPair
-     * @return
+     * @param keyPair keyPair
+     * @return RSAPublicKey
      */
     public RSAPublicKey getPublicKey(KeyPair keyPair) {
         RSAPublicKey publicKey = null;
@@ -96,10 +102,10 @@ public class RsaUtil {
     }
 
     /**
-     * <p>取得RSA密钥</p>
+     * get private key
      *
-     * @param keyPair
-     * @return
+     * @param keyPair keyPair
+     * @return RSAPrivateKey
      */
     public RSAPrivateKey getPrivateKey(KeyPair keyPair) {
         RSAPrivateKey privateKey = null;
@@ -109,27 +115,27 @@ public class RsaUtil {
 
 
     /**
-     * <p>RSA加密</P>
+     * encrypt
      *
-     * @param original
-     * @param publicKey
-     * @return
+     * @param data      data
+     * @param publicKey publicKey
+     * @return byte[]
      */
-    public byte[] encrypt(byte[] original, RSAPublicKey publicKey) {
-        return this.RsaAlgo(original, publicKey, ENCRYPT_MODE);
+    public byte[] encrypt(byte[] data, RSAPublicKey publicKey) {
+        return this.rsaAlgo(data, publicKey, ENCRYPT_MODE);
     }
 
     /**
-     * <p>RSA加密</P>
+     * encrypt
      *
-     * @param original
-     * @param publicKey
-     * @return
+     * @param data      data
+     * @param publicKey publicKey
+     * @return byte[]
      */
-    public byte[] encrypt(String original, RSAPublicKey publicKey) {
+    public byte[] encrypt(String data, RSAPublicKey publicKey) {
         byte[] msg = null;
         try {
-            msg = original.getBytes(this.encoding);
+            msg = data.getBytes(this.encoding);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
@@ -137,20 +143,19 @@ public class RsaUtil {
     }
 
     public byte[] decrypt(byte[] original, RSAPrivateKey privateKey) {
-        return this.RsaAlgo(original, privateKey, DECRYPT_MODE);
+        return this.rsaAlgo(original, privateKey, DECRYPT_MODE);
     }
 
     /**
-     * <p>RSA解密为文本</p>
-     * ]
+     * decrypt to string
      *
-     * @param original
-     * @param privateKey
-     * @return
+     * @param data       data
+     * @param privateKey privateKey
+     * @return String
      */
-    public String decrypt2str(byte[] original, RSAPrivateKey privateKey) {
+    public String decryptToString(byte[] data, RSAPrivateKey privateKey) {
         String plaintext = null;
-        byte[] temp = this.decrypt(original, privateKey);
+        byte[] temp = this.decrypt(data, privateKey);
         try {
             plaintext = new String(temp, this.encoding);
         } catch (UnsupportedEncodingException e) {
@@ -160,15 +165,14 @@ public class RsaUtil {
     }
 
     /**
-     * <p>RSA运算</p>
+     * RSA algorithm
      *
-     * @param algorithm
-     * @param original
-     * @param key
-     * @param model
-     * @return
+     * @param data  data
+     * @param key   key
+     * @param model model
+     * @return byte[]
      */
-    private byte[] RsaAlgo(byte[] original, Key key, int model) {
+    private byte[] rsaAlgo(byte[] data, Key key, int model) {
         byte[] handled = null;
         // Cipher负责完成加密解密工作
         Cipher cipher = null;
@@ -179,7 +183,7 @@ public class RsaUtil {
             if (ENCRYPT_MODE == model) cipher.init(Cipher.ENCRYPT_MODE, key);
             else if (DECRYPT_MODE == model) cipher.init(Cipher.DECRYPT_MODE, key);
             // 对original解密或加密运算
-            handled = cipher.doFinal(original);
+            handled = cipher.doFinal(data);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         } catch (NoSuchPaddingException e) {

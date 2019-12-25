@@ -1,6 +1,3 @@
-/**
- *
- */
 package org.ivy.xutil.bean.convertor.reflect;
 
 import org.ivy.xutil.bean.BeanUtil;
@@ -16,12 +13,11 @@ import java.util.List;
 import java.util.Map;
 
 /**
- *  BeanMapConvertor
- *  bean Map 转换器
+ * bean Map 转换器
  *
- * @author Ares miao.xl@live.cn   
- * @date 2017年3月28日 上午10:40:39 
+ * @author Ares miao.xl@live.cn
  * @version V1.0
+ * @date 2017年3月28日 上午10:40:39
  */
 public class BeanMapConvertor {
     private static final Logger LOG = LoggerFactory.getLogger(BeanMapConvertor.class);
@@ -45,9 +41,10 @@ public class BeanMapConvertor {
     }
 
     /**
-     *  setBeanMapKeyHandler
-     *  设置Key处理器
-     * @param        handler
+     * setBeanMapKeyHandler
+     * 设置Key处理器
+     *
+     * @param handler BeanMapValueHandler
      * @return BeanMapConvertor
      */
     public BeanMapConvertor setBeanMapKeyHandler(BeanMapKeyHandler handler) {
@@ -56,9 +53,9 @@ public class BeanMapConvertor {
     }
 
     /**
-     *  addBeanMapValueHandler
-     *  添加value类型处理器
-     * @param        handler
+     * 添加value类型处理器
+     *
+     * @param handler BeanMapValueHandler
      * @return BeanMapConvertor
      */
     public BeanMapConvertor addBeanMapValueHandler(BeanMapValueHandler... handler) {
@@ -69,10 +66,10 @@ public class BeanMapConvertor {
 
 
     /**
-     *  BeanMapValueHandlerDispatch
-     *  根据value类型，寻找对应的value类型处理器
-     * @param type
-     * @return
+     * 根据value类型，寻找对应的value类型处理器
+     *
+     * @param type type
+     * @return BeanMapValueHandler
      */
     private BeanMapValueHandler BeanMapValueHandlerDispatch(Class<?> type) {
         if (this.valueHandlers.containsKey((type.getSimpleName() + "TypeValueHandler")))
@@ -81,10 +78,12 @@ public class BeanMapConvertor {
     }
 
     /**
-     *  handleValue
-     *  处指定类型value值,
-     * @param value
-     * @return
+     * 处指定类型value值
+     *
+     * @param bean  bean
+     * @param field field
+     * @param <T>   bean's type
+     * @return T
      */
     private <T> Object handleValue(T bean, Field field) {
         if (valueHandlers == null
@@ -95,9 +94,9 @@ public class BeanMapConvertor {
     }
 
     /**
-     *  handleKey
-     *  bean2map, key处理
-     * @param        key
+     * handleKey
+     *
+     * @param key key
      * @return String
      */
     private String handleKey(String key) {
@@ -107,9 +106,10 @@ public class BeanMapConvertor {
 
 
     /**
-     *  convertBean2Map
-     *  将一个 JavaBean 对象转化为一个 Map
+     * convert Bean to Map
+     *
      * @param bean 要转化的JavaBean 对象
+     * @param <T>  bean's type
      * @return 转化出来的 Map 对象
      */
     public <T> Map<String, Object> convertBean2Map(T bean) {
@@ -125,12 +125,14 @@ public class BeanMapConvertor {
     }
 
     /**
-     *  convertMap2Bean
-     *  将一个 Map 对象转化为一个 JavaBean [谨慎使用]
-     * @param        type    要转化的类型
-     * @param        map    包含属性值的 map
+     * convertMap2Bean
+     * 将一个 Map 对象转化为一个 JavaBean [谨慎使用]
+     *
+     * @param type 要转化的类型
+     * @param map  包含属性值的 map
+     * @param <T>  bean's type
      * @return 转化出来的 JavaBean 对象
-     * @throws Exception
+     * @throws Exception Exception
      */
     public <T> T convertMap2Bean(Class<T> type, Map<String, ?> map) throws Exception {
         if (map == null) return null;
@@ -141,11 +143,12 @@ public class BeanMapConvertor {
     }
 
     /**
-     *  convertMap2Bean
-     *  map转换为bean，[谨慎使用]
-     * @param        bean
-     * @param        map
-     * @return void
+     * convertMap2Bean
+     * map转换为bean，[谨慎使用]
+     *
+     * @param bean bean
+     * @param map  map
+     * @param <T>  bean's type
      */
     public <T> void convertMap2Bean(T bean, Map<String, ?> map) throws Exception {
         if (map == null) return;

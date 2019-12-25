@@ -22,7 +22,6 @@ import java.util.Base64;
 import java.util.Enumeration;
 
 /**
- * <p> classname: PKCS7Tool
  * <p> description: PKCS7Tool
  * <br>--------------------------------------------------------
  * <br> pkcs7格式签名工具
@@ -89,8 +88,10 @@ public class PKCS7Tool {
      *
      * @param keyStorePath     证书库路径
      * @param keyStorePassword 证书库口令
-     * @throws GeneralSecurityException
-     * @throws IOException
+     * @param keyPassword      key password
+     * @return PKCS7Tool
+     * @throws GeneralSecurityException Exception
+     * @throws IOException              IOException
      */
     public static PKCS7Tool getSigner(String keyStorePath, String keyStorePassword, String keyPassword)
             throws GeneralSecurityException, IOException {
@@ -171,8 +172,8 @@ public class PKCS7Tool {
      * 取得验签名工具 加载信任根证书
      *
      * @param rootCertificatePath 根证书路径
-     * @throws GeneralSecurityException
-     * @throws IOException
+     * @throws GeneralSecurityException GeneralSecurityException
+     * @throws IOException              IOException
      */
     public static PKCS7Tool getVerifier(String rootCertificatePath) throws GeneralSecurityException, IOException {
         init();
@@ -196,9 +197,9 @@ public class PKCS7Tool {
     /**
      * 匹配私钥用法
      *
-     * @param keyUsage
-     * @param usage
-     * @return
+     * @param keyUsage keyUsage
+     * @param usage    usage
+     * @return boolean
      */
     private static boolean matchUsage(boolean[] keyUsage, int usage) {
         if (usage == 0 || keyUsage == null)
@@ -245,13 +246,13 @@ public class PKCS7Tool {
     }
 
     /**
-     * 签名
+     * signature
      *
      * @param data 数据
      * @return signature    签名结果
-     * @throws GeneralSecurityException
-     * @throws IOException
-     * @throws IllegalArgumentException
+     * @throws GeneralSecurityException Exception
+     * @throws IOException              Exception
+     * @throws IllegalArgumentException Exception
      */
     public String sign(byte[] data) throws Exception {
         if (mode != SIGNER) throw new IllegalStateException("====call a PKCS7Tool instance not for signature.");
@@ -324,12 +325,12 @@ public class PKCS7Tool {
      * @param signature 签名签名结果
      * @param data      被签名数据
      * @param dn        签名证书dn, 如果为空则不做匹配验证
-     * @throws IOException
-     * @throws NoSuchAlgorithmException
-     * @throws SignatureException
-     * @throws InvalidKeyException
-     * @throws CertificateException
-     * @throws NoSuchProviderException
+     * @throws IOException              Exception
+     * @throws NoSuchAlgorithmException Exception
+     * @throws SignatureException       Exception
+     * @throws InvalidKeyException      Exception
+     * @throws CertificateException     Exception
+     * @throws NoSuchProviderException  Exception
      */
     public void verify(String signature, byte[] data, String dn) throws IOException, NoSuchAlgorithmException,
             SignatureException, InvalidKeyException, CertificateException, NoSuchProviderException {

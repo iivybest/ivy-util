@@ -1,13 +1,7 @@
-/**
- * @Package edu.hit.utility.xutil.log
- * @author miao.xl
- * @date 2016年3月23日-上午10:15:47
- */
 package org.ivy.xutil.log;
 
 /**
- * <p>AspectLogUtil</p>
- * <p>横切日志工具</p>
+ * AspectLogUtil
  *
  * @author miao.xl
  * @version 1.0
@@ -33,13 +27,11 @@ public class AspectLogUtil {
     }
 
     /**
-     * <p>log</p>
-     * 记录日志
+     * log
      *
-     * @param t   当前被横切处理的类
-     * @param msg
-     * @author miao.xl
-     * @date 2016年3月23日-上午10:21:18
+     * @param t   class
+     * @param msg message
+     * @param <T> t's type
      */
     public <T> void log(T t, String msg) {
         this._log.log("[" + t.getClass().getSimpleName() + "]====>" + msg);
@@ -51,8 +43,7 @@ public class AspectLogUtil {
      * @param t         当前被横切处理的类
      * @param signature 当前被横切处理方法
      * @param msg       日志消息
-     * @author miao.xl
-     * @date 2016年3月23日-上午10:48:23
+     * @param <T>       t's type
      */
     public <T> void log(T t, String signature, String msg) {
         this._log.log("[" + t.getClass().getSimpleName() + "].[" + signature + "]====>" + msg);

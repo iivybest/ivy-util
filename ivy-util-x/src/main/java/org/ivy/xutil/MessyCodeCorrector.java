@@ -50,13 +50,12 @@ public class MessyCodeCorrector {
     }
 
     /**
-     * <p>修正</p>
+     * amend
      *
-     * @param original
-     * @return
-     * @author miao.xl
+     * @param data data
+     * @return String
      */
-    public String amend(String original) {
+    public String amend(String data) {
         String result = null;
 //		String originalCharSet = "";
 //		String realCharSet = "";
@@ -64,7 +63,7 @@ public class MessyCodeCorrector {
         try {
             for (int i = 0; i < CHARSET.length; i++) {
                 for (int j = 0; j < CHARSET.length; j++) {
-                    String temp = new String(original.getBytes(CHARSET[i]), CHARSET[j]);
+                    String temp = new String(data.getBytes(CHARSET[i]), CHARSET[j]);
                     if (temp.length() <= strLen) {
                         result = temp;
                         strLen = temp.length();

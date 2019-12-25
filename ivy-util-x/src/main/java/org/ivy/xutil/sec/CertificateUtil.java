@@ -55,8 +55,8 @@ public class CertificateUtil {
      * @param keyStorePath keyStore path
      * @param keyStorePass keyStore password
      * @param storeType    keyStore type
-     * @return
-     * @throws Exception
+     * @return KeyStore
+     * @throws Exception Exception
      * @since 1.7+
      */
     public static KeyStore getKeyStore(String keyStorePath, String keyStorePass, String storeType) throws Exception {
@@ -73,8 +73,8 @@ public class CertificateUtil {
      * @param keyStore     keyStore byte array
      * @param keyStorePass keyStore password
      * @param storeType    keyStore type
-     * @return
-     * @throws Exception
+     * @return KeyStore
+     * @throws Exception Exception
      * @since 1.7+
      */
     public static KeyStore getKeyStore(byte[] keyStore, String keyStorePass, String storeType) throws Exception {
@@ -90,7 +90,7 @@ public class CertificateUtil {
      *
      * @param cert certificate byte array
      * @return certificate
-     * @throws Exception
+     * @throws Exception Exception
      */
     public static Certificate getCertificate(byte[] cert) throws Exception {
         CertificateFactory certificateFactory = CertificateFactory.getInstance(X509);
@@ -104,12 +104,12 @@ public class CertificateUtil {
      * get cerificate
      *
      * @param certificatePath certificate path
-     * @return certificate
-     * @throws Exception
+     * @return Certificate
+     * @throws Exception Exception
      */
     public static Certificate getCertificate(String certificatePath) throws Exception {
         CertificateFactory certificateFactory = CertificateFactory.getInstance(X509);
-        try (FileInputStream in = new FileInputStream(certificatePath);) {
+        try (FileInputStream in = new FileInputStream(certificatePath)) {
             return certificateFactory.generateCertificate(in);
         }
     }
@@ -119,8 +119,8 @@ public class CertificateUtil {
      *
      * @param keyStore keyStore
      * @param alias    alias
-     * @return certificate
-     * @throws Exception
+     * @return Certificate
+     * @throws Exception Exception
      */
     public static Certificate getCertificateFromKeyStore(KeyStore keyStore, String alias) throws Exception {
         return keyStore.getCertificate(alias);
@@ -131,7 +131,7 @@ public class CertificateUtil {
      *
      * @param keyStore keyStore
      * @return List
-     * @throws KeyStoreException
+     * @throws KeyStoreException Exception
      */
     public static List<String> getKeySotreAliases(KeyStore keyStore) throws KeyStoreException {
         List<String> aliases = new ArrayList<String>();
@@ -147,7 +147,7 @@ public class CertificateUtil {
      * @param alias     alias
      * @param aliasPass alias password
      * @return Private Key
-     * @throws Exception
+     * @throws Exception Exception
      */
     public static PrivateKey getPrivateKey(KeyStore keyStore, String alias, String aliasPass) throws Exception {
         return (PrivateKey) keyStore.getKey(alias, aliasPass.toCharArray());
@@ -158,7 +158,7 @@ public class CertificateUtil {
      *
      * @param cert certificate byte array
      * @return public Key
-     * @throws Exception
+     * @throws Exception Exception
      */
     public static PublicKey getPublicKey(byte[] cert) throws Exception {
         return getCertificate(cert).getPublicKey();
@@ -169,7 +169,7 @@ public class CertificateUtil {
      *
      * @param certificatePath certificate path
      * @return public Key
-     * @throws Exception
+     * @throws Exception Exception
      */
     public static PublicKey getPublicKey(String certificatePath) throws Exception {
         Certificate certificate = getCertificate(certificatePath);
@@ -183,7 +183,7 @@ public class CertificateUtil {
      * @param data       data
      * @param privateKey private key
      * @return byte[]
-     * @throws Exception
+     * @throws Exception Exception
      */
     public static byte[] encryptByPrivateKey(byte[] data, PrivateKey privateKey) throws Exception {
         Cipher cipher = Cipher.getInstance(privateKey.getAlgorithm());
@@ -197,7 +197,7 @@ public class CertificateUtil {
      * @param data       data
      * @param privateKey private key
      * @return byte[]
-     * @throws Exception
+     * @throws Exception Exception
      */
     public static byte[] decryptByPrivateKey(byte[] data, PrivateKey privateKey) throws Exception {
         Cipher cipher = Cipher.getInstance(privateKey.getAlgorithm());
@@ -211,7 +211,7 @@ public class CertificateUtil {
      * @param data      data
      * @param publicKey public key
      * @return byte[]
-     * @throws Exception
+     * @throws Exception Exception
      */
     public static byte[] encryptByPublicKey(byte[] data, PublicKey publicKey) throws Exception {
         // 对数据加密
@@ -234,7 +234,7 @@ public class CertificateUtil {
      * @param data      data
      * @param publicKey public key
      * @return byte[]
-     * @throws Exception
+     * @throws Exception Exception
      */
     public static byte[] decryptByPublicKey(byte[] data, PublicKey publicKey) throws Exception {
         // 对数据加密
@@ -249,7 +249,7 @@ public class CertificateUtil {
      * @param data            data
      * @param certificatePath certificate path
      * @return byte[]
-     * @throws Exception
+     * @throws Exception Exception
      */
     public static byte[] decryptByPublicKey(byte[] data, String certificatePath) throws Exception {
         return decryptByPublicKey(data, getPublicKey(certificatePath));
@@ -261,7 +261,7 @@ public class CertificateUtil {
      * @param data data
      * @param cert certificate baty array
      * @return byte[]
-     * @throws Exception
+     * @throws Exception Exception
      */
     public static byte[] decryptByPublicKey(byte[] data, byte[] cert) throws Exception {
         return decryptByPublicKey(data, getPublicKey(cert));
@@ -282,6 +282,7 @@ public class CertificateUtil {
      *
      * @param cert certificate byte array
      * @return boolean
+     * @throws Exception Exception
      */
     public static boolean verifyCertificate(byte[] cert) throws Exception {
         return verifyCertificate(new Date(), cert);
@@ -313,6 +314,7 @@ public class CertificateUtil {
      * @param date            date
      * @param certificatePath certificate path
      * @return boolean
+     * @throws Exception Exception
      */
     public static boolean verifyCertificate(Date date, String certificatePath) throws Exception {
         return verifyCertificate(date, getCertificate(certificatePath));
@@ -324,6 +326,7 @@ public class CertificateUtil {
      * @param date date
      * @param cert certificate byte array
      * @return boolean
+     * @throws Exception Exception
      */
     public static boolean verifyCertificate(Date date, byte[] cert) throws Exception {
         return verifyCertificate(date, getCertificate(cert));
@@ -337,7 +340,7 @@ public class CertificateUtil {
      * @param alias     alias
      * @param aliasPass alias password
      * @return byte[]
-     * @throws Exception
+     * @throws Exception Exception
      */
     public static byte[] signature(byte[] data, KeyStore keyStore, String alias, String aliasPass) throws Exception {
         // 获得证书
@@ -358,7 +361,7 @@ public class CertificateUtil {
      * @param sign        signature
      * @param certificate certificate
      * @return boolean
-     * @throws Exception
+     * @throws Exception Exception
      */
     public static boolean verify(byte[] data, byte[] sign, Certificate certificate) throws Exception {
         // 获得证书
@@ -380,7 +383,7 @@ public class CertificateUtil {
      * @param sign            signature
      * @param certificatePath certificate path
      * @return boolean
-     * @throws Exception
+     * @throws Exception Exception
      */
     public static boolean verify(byte[] data, byte[] sign, String certificatePath) throws Exception {
         return verify(data, sign, getCertificate(certificatePath));
@@ -393,7 +396,7 @@ public class CertificateUtil {
      * @param sign signature
      * @param cert certificate byte array
      * @return boolean
-     * @throws Exception
+     * @throws Exception Exception
      */
     public static boolean verify(byte[] data, byte[] sign, byte[] cert) throws Exception {
         return verify(data, sign, getCertificate(cert));

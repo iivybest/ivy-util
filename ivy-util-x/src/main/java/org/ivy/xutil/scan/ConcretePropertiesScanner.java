@@ -1,6 +1,3 @@
-/**
- *
- */
 package org.ivy.xutil.scan;
 
 import java.util.Map;

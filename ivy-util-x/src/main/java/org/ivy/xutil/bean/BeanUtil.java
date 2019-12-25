@@ -1,6 +1,3 @@
-/**
- *
- */
 package org.ivy.xutil.bean;
 
 import java.beans.BeanInfo;
@@ -10,21 +7,28 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
+
 /**
- *  BeanUtil
- *  Bean 工具类
- * @author Ares
- * @date 2017年3月28日 上午10:15:06 
- * @version V1.0
+ * <p> description: Bean 工具类
+ * <br>---------------------------------------------------------
+ * <br>
+ * <br>---------------------------------------------------------
+ * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
+ * </p>
+ *
+ * @author Ivybest (ivybestdev@163.com)
+ * @version 1.0
+ * @date 2017/3/28 10:13
  */
 public class BeanUtil {
 
     /**
-     *  getFieldValue
-     *  获取bean对象指定的field值
-     * @param bean
-     * @param field
-     * @return R
+     * 获取bean对象指定的field值
+     *
+     * @param bean  bean
+     * @param field field
+     * @param <T>   bean‘s type
+     * @return T
      */
     public static <T> Object getFieldValue(T bean, Field field) {
         return getFieldValueByReflect(bean, field);
@@ -37,7 +41,7 @@ public class BeanUtil {
             IllegalArgumentException,
             InvocationTargetException {
         String methodname = "set" + field.getName().substring(0, 1).toUpperCase()
-                + field.getName().substring(1, field.getName().length());
+                + field.getName().substring(1);
         Method method = bean.getClass().getMethod(methodname, field.getType());
         if (method != null) method.invoke(bean, value);
     }
@@ -55,11 +59,13 @@ public class BeanUtil {
 
 
     /**
-     *  getFieldValueByIntrospector
-     *  通过内省机制获取bean对象中指定field值
-     * @param bean
-     * @param field
-     * @return
+     * 通过内省机制获取bean对象中指定field值
+     *
+     * @param bean  bean
+     * @param field field
+     * @param <T>   bean type
+     * @param <R>   return bean type
+     * @return R
      */
     @SuppressWarnings("unchecked")
     public static <T, R> R getFieldValueByIntrospector(T bean, Field field) {
@@ -80,18 +86,20 @@ public class BeanUtil {
     }
 
     /**
-     *  getFieldValueByReflect
-     *  通过反射获取bean对象指定field值
-     * @param bean
-     * @param field
-     * @return
+     * 通过反射获取bean对象指定field值
+     *
+     * @param bean  bean
+     * @param field field
+     * @param <T>   bean type
+     * @param <R>   return bean type
+     * @return R
      */
     @SuppressWarnings("unchecked")
     public static <T, R> R getFieldValueByReflect(T bean, Field field) {
         R value = null;
         try {
             String methodname = "get" + field.getName().substring(0, 1).toUpperCase()
-                    + field.getName().substring(1, field.getName().length());
+                    + field.getName().substring(1);
             Method method = bean.getClass().getMethod(methodname);
             if (method != null) value = (R) method.invoke(bean);
         } catch (NoSuchMethodException

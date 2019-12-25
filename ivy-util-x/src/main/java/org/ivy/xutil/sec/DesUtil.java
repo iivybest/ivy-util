@@ -10,10 +10,17 @@ import java.security.SecureRandom;
 import java.util.Arrays;
 
 /**
- * <p>DesUtl</p>
+ * <p>  classname: DesUtil
+ * <br> description: Des Crypto Util
+ * <br>---------------------------------------------------------
+ * <br>
+ * <br>---------------------------------------------------------
+ * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
+ * </p>
  *
- * @author miao.xl
- * @date 2014-6-12 下午02:29:33
+ * @author Ivybest (ivybestdev@163.com)
+ * @version 1.0
+ * @date 2014/06/12 10:33
  */
 public class DesUtil {
 
@@ -68,48 +75,48 @@ public class DesUtil {
 
 
     /**
-     * <p>加密</p>
+     * encrypt
      *
-     * @param algorithm
-     * @param data
-     * @param key
-     * @return
+     * @param algorithm algorithm
+     * @param data      data
+     * @param key       key
+     * @return byte[]
      */
     public byte[] encrypt(String algorithm, byte[] data, byte[] key) {
         return this.DesAlgoNG(algorithm, data, key, this.ENCRYPT_MODE);
     }
 
     /**
-     * <p>加密</p>
+     * encrypt
      *
-     * @param algorithm
-     * @param data
-     * @param key
-     * @return
+     * @param algorithm algorithm
+     * @param data      data
+     * @param key       key
+     * @return byte[]
      */
     public byte[] encrypt(String algorithm, byte[] data, String key) {
         return this.encrypt(algorithm, data, key.getBytes());
     }
 
     /**
-     * <p>译文</P>
+     * decrypt
      *
-     * @param algorithm 算法名称
-     * @param cipher    密文
-     * @param key       密钥
-     * @return
+     * @param algorithm algorithm 算法名称
+     * @param cipher    cipher    密文
+     * @param key       key       密钥
+     * @return byte[]
      */
     public byte[] decrypt(String algorithm, byte[] cipher, byte[] key) {
         return this.DesAlgoNG(algorithm, cipher, key, this.DECRYPT_MODE);
     }
 
     /**
-     * <p>译文</P>
+     * decrypt
      *
-     * @param algorithm 算法名称
-     * @param cipher    密文
-     * @param key       密钥
-     * @return
+     * @param algorithm algorithm 算法名称
+     * @param cipher    cipher    密文
+     * @param key       key       密钥
+     * @return byte[]
      */
     public byte[] decrypt(String algorithm, byte[] cipher, String key) {
         return this.decrypt(algorithm, cipher, key.getBytes());
@@ -117,15 +124,15 @@ public class DesUtil {
 
 
     /**
-     * <p>DES算法</p>
+     * des algorithm impl by java
      *
-     * @param algorithm
-     * @param data
-     * @param key
-     * @param model
-     * @return
+     * @param algorithm algorithm
+     * @param data      data
+     * @param key       key
+     * @param model     model
+     * @return byte[]
      */
-    public byte[] DesAlgo(String algorithm, byte[] data, byte[] key, int model) {
+    public byte[] desAlgo(String algorithm, byte[] data, byte[] key, int model) {
         byte[] handled = null;
         // keygen提供对称密钥生成器的功能支持各种算法
         KeyGenerator keygen = null;
@@ -162,13 +169,13 @@ public class DesUtil {
     }
 
     /**
-     * <p>DES算法</p>
+     * next generation of des algorithm impl by java
      *
-     * @param algorithm
-     * @param data
-     * @param key
-     * @param model
-     * @return
+     * @param algorithm algorithm
+     * @param data      data
+     * @param key       key
+     * @param model     model
+     * @return byte[]
      */
     public byte[] DesAlgoNG(String algorithm, byte[] data, byte[] key, int model) {
         byte[] handled = null;
@@ -195,13 +202,14 @@ public class DesUtil {
     }
 
     /**
-     * @param algorithm
-     * @return String
      * getAlgorithmType
      * ---------------------------------
      * AES
      * AES/CBC/PKCS5Padding
      * ---------------------------------
+     *
+     * @param algorithm algorithm
+     * @return String
      */
     public String getAlgorithmType(String algorithm) {
         return algorithm.split("/")[0];

@@ -1,6 +1,3 @@
-/**
- *
- */
 package org.ivy.xutil.bean.convertor.introspector;
 
 import java.beans.BeanInfo;

@@ -32,7 +32,7 @@ public class RsaTest {
         RSAPublicKey publicKey = SecurityUtil.rsa.getPublicKey(keyPair);
 
         byte[] RSA = SecurityUtil.rsa.encrypt(plaintext, publicKey);
-        String original_rsa = SecurityUtil.rsa.decrypt2str(RSA, privateKey);
+        String original_rsa = SecurityUtil.rsa.decryptToString(RSA, privateKey);
 
         System.out.println(RSA.length + " - " + Arrayx.printArray(RSA) + "\n"
                 + "plain : " + original_rsa);

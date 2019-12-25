@@ -4,7 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.*;
 
 /**
- * <p>SignatureUtil</p>
+ * SignatureUtil
  *
  * @author miao.xl
  * @date 2014-6-13 上午10:35:58
@@ -98,9 +98,9 @@ public class SignatureUtil {
      */
 
     /**
-     * <p>获取随机密钥对</p>
+     * get one random key pair
      *
-     * @return
+     * @return KeyPair
      */
     public KeyPair getKeyPair(String algorithm) {
         // KeyPairGenerator 用于生成密钥对（公钥和私钥对）
@@ -126,10 +126,10 @@ public class SignatureUtil {
     }
 
     /**
-     * <p>取得公钥</p>
+     * get public key
      *
-     * @param keyPair
-     * @return
+     * @param keyPair keyPair
+     * @return PublicKey
      */
     public PublicKey getPublicKey(KeyPair keyPair) {
         PublicKey publicKey = null;
@@ -138,10 +138,10 @@ public class SignatureUtil {
     }
 
     /**
-     * <p>取得密钥</p>
+     * get private key
      *
-     * @param keyPair
-     * @return
+     * @param keyPair keyPair
+     * @return PrivateKey
      */
     public PrivateKey getPrivateKey(KeyPair keyPair) {
         PrivateKey privateKey = null;
@@ -150,20 +150,20 @@ public class SignatureUtil {
     }
 
     /**
-     * <p>签名</p>
+     * signature
      *
-     * @param algorithm
-     * @param original
-     * @param privateKey
-     * @return
+     * @param algorithm  algorithm
+     * @param data       data
+     * @param privateKey privateKey
+     * @return byte[]
      */
-    public byte[] sign(String algorithm, byte[] original, PrivateKey privateKey) {
+    public byte[] signature(String algorithm, byte[] data, PrivateKey privateKey) {
         byte[] digest = null;
         Signature signature = null;
         try {
             signature = Signature.getInstance(algorithm);
             signature.initSign(privateKey);
-            signature.update(original);
+            signature.update(data);
             digest = signature.sign();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -177,38 +177,39 @@ public class SignatureUtil {
     }
 
     /**
-     * <p>签名</p>
+     * signature
      *
-     * @param algorithm
-     * @param original
-     * @param privateKey
-     * @return
+     * @param algorithm  algorithm
+     * @param data       data
+     * @param privateKey privateKey
+     * @return byte[]
      */
-    public byte[] sign(String algorithm, String original, PrivateKey privateKey) {
+    public byte[] signature(String algorithm, String data, PrivateKey privateKey) {
         byte[] msg = null;
         try {
-            msg = original.getBytes(this.encoding);
+            msg = data.getBytes(this.encoding);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        return this.sign(algorithm, msg, privateKey);
+        return this.signature(algorithm, msg, privateKey);
     }
 
     /**
-     * <p>校验</p>
+     * verify
      *
-     * @param algorithm
-     * @param digest
-     * @param publicKey
-     * @return
+     * @param algorithm algorithm
+     * @param data      data
+     * @param sign      signature value
+     * @param publicKey publicKey
+     * @return boolean
      */
-    public boolean verify(String algorithm, byte[] original, byte[] sign, PublicKey publicKey) {
+    public boolean verify(String algorithm, byte[] data, byte[] sign, PublicKey publicKey) {
         boolean valid = false;
         Signature signature = null;
         try {
             signature = Signature.getInstance(algorithm);
             signature.initVerify(publicKey);
-            signature.update(original);
+            signature.update(data);
             valid = signature.verify(sign);
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
@@ -221,17 +222,18 @@ public class SignatureUtil {
     }
 
     /**
-     * <p>校验</p>
+     * verify
      *
-     * @param algorithm
-     * @param digest
-     * @param publicKey
-     * @return
+     * @param algorithm algorithm
+     * @param data      data
+     * @param sign      signature value
+     * @param publicKey publicKey
+     * @return boolean
      */
-    public boolean verify(String algorithm, String original, byte[] sign, PublicKey publicKey) {
+    public boolean verify(String algorithm, String data, byte[] sign, PublicKey publicKey) {
         byte[] msg = null;
         try {
-            msg = original.getBytes(this.encoding);
+            msg = data.getBytes(this.encoding);
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }

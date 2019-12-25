@@ -1,6 +1,3 @@
-/**
- *
- */
 package org.ivy.xutil.http;
 
 import org.apache.http.Consts;
@@ -68,6 +65,7 @@ public class ApacheHttpClient {
     private Integer socketTimeout;
     // http client 用于发送http请求
     private CloseableHttpClient client;
+
     // ==== step_1 私有化构造器
     private ApacheHttpClient() {
     }
@@ -193,8 +191,9 @@ public class ApacheHttpClient {
     }
 
     /**
-     *  getNoopCheckHostnameSSLContext
+     *  get NoopCheck Hostname SSLContext
      *  获取不校验服务器hostname的sslcontext
+     *
      * @return SSLContext
      */
     private SSLContext getNoopCheckHostnameSSLContext() {
@@ -274,6 +273,7 @@ public class ApacheHttpClient {
 
     /**
      * @param httpClientConnectionManager the httpClientConnectionManager to set
+     * @return ApacheHttpClient
      */
     public ApacheHttpClient setHttpClientConnectionManager(HttpClientConnectionManager httpClientConnectionManager) {
         this.httpClientConnectionManager = httpClientConnectionManager;
@@ -289,6 +289,7 @@ public class ApacheHttpClient {
 
     /**
      * @param requestConfig the requestConfig to set
+     * @return ApacheHttpClient
      */
     public ApacheHttpClient setRequestConfig(RequestConfig requestConfig) {
         this.requestConfig = requestConfig;
@@ -304,6 +305,7 @@ public class ApacheHttpClient {
 
     /**
      * @param defaultEncoding the defaultEncoding to set
+     * @return ApacheHttpClient
      */
     public ApacheHttpClient setDefaultEncoding(String defaultEncoding) {
         this.defaultEncoding = defaultEncoding;
@@ -319,6 +321,7 @@ public class ApacheHttpClient {
 
     /**
      * @param connectionRequestTimeout the connectionRequestTimeout to set
+     * @return ApacheHttpClient
      */
     public ApacheHttpClient setConnectionRequestTimeout(Integer connectionRequestTimeout) {
         this.connectionRequestTimeout = connectionRequestTimeout;
@@ -334,6 +337,7 @@ public class ApacheHttpClient {
 
     /**
      * @param connectTimeout the connectTimeout to set
+     * @return ApacheHttpClient
      */
     public ApacheHttpClient setConnectTimeout(Integer connectTimeout) {
         this.connectTimeout = connectTimeout;
@@ -349,6 +353,7 @@ public class ApacheHttpClient {
 
     /**
      * @param socketTimeout the socketTimeout to set
+     * @return ApacheHttpClient
      */
     public ApacheHttpClient setSocketTimeout(Integer socketTimeout) {
         this.socketTimeout = socketTimeout;
@@ -357,6 +362,7 @@ public class ApacheHttpClient {
 
     /**
      * @return the client
+     * @return CloseableHttpClient
      */
     public CloseableHttpClient getClient() {
         return client;
@@ -364,13 +370,16 @@ public class ApacheHttpClient {
 
     /**
      * @param client the client to set
+     * @return ApacheHttpClient
      */
     public ApacheHttpClient setClient(CloseableHttpClient client) {
         this.client = client;
         return this;
     }
 
-    // ==== step_2 静态内部类持有外部类的静态对象
+    /**
+     * step_2 静态内部类持有外部类的静态对象
+     */
     private static class ApacheHttpClientHolder {
         private static ApacheHttpClient instance = new ApacheHttpClient();
     }

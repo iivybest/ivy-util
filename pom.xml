@@ -84,8 +84,8 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>3.1.1</version>
                 <configuration>
-                    <reportOutputDirectory>/target/site</reportOutputDirectory>
-                    <destDir>apidocs</destDir>
+                    <reportOutputDirectory>/app/target/ivy-util</reportOutputDirectory>
+                    <destDir>apidocs/${artifactId}</destDir>
                     <tags>
                         <tag>
                             <name>date</name>

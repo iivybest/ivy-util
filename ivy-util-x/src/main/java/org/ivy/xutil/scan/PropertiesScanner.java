@@ -1,37 +1,33 @@
-/**
- *
- */
 package org.ivy.xutil.scan;
 
 import java.util.Map;
 
 /**
- * <p>PropertiesScanner</p>
- * <p>Description : </p>
+ * <p>  classname: PropertiesScanner
+ * <br> description: Properties Scanner
+ * <br>---------------------------------------------------------
+ * <br>
+ * <br>---------------------------------------------------------
+ * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
+ * </p>
  *
- * @author miao.xl
- * @date 2015年7月1日 - 上午9:29:39
+ * @author Ivybest (ivybestdev@163.com)
+ * @date 2015/7/10 8:44
  * @version 1.0
  */
 public interface PropertiesScanner {
 
     /**
-     * 扫描全部文件
-     * @return
+     *  scan all properties
      *
-     * @author miao.xl
-     * @date 2015年7月1日 上午9:40:59
-     * @version 1.0
+     * @return Map
      */
     public Map<String, String> scan();
 
     /**
-     * Incrementally update,增量更新
-     * @return
+     * Incrementally update
      *
-     * @author miao.xl
-     * @date 2015年7月1日 上午9:41:26
-     * @version 1.0
+     * @return Map
      */
     public Map<String, String> update();
 

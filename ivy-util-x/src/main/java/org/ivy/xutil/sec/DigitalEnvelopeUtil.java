@@ -84,9 +84,9 @@ public class DigitalEnvelopeUtil {
      * @param privateKey private key
      * @param encoding   encoding
      * @return String
-     * @throws CMSException
-     * @throws DecoderException
-     * @throws UnsupportedEncodingException
+     * @throws CMSException                 Exception
+     * @throws DecoderException             Exception
+     * @throws UnsupportedEncodingException Exception
      */
     public static String openEnvelope(String cipher, PrivateKey privateKey, String encoding)
             throws CMSException, DecoderException, UnsupportedEncodingException {

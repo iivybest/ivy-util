@@ -1,6 +1,3 @@
-/**
- *
- */
 package org.ivy.util.common;
 
 import org.ivy.util.annotation.Description;

@@ -54,6 +54,11 @@ public class LogUtil {
 
     /**
      * constructor
+     *
+     * @param logClass           logClass
+     * @param logUrl             logUrl
+     * @param splitLogByThreadId whether split log by thread id
+     * @param <T>                logClass type
      */
     public <T> LogUtil(Class<T> logClass, String logUrl, boolean splitLogByThreadId) {
         this.logClass = logClass;
@@ -62,32 +67,26 @@ public class LogUtil {
         this.initialize();
     }
 
-    /* constructor*/
     public <T> LogUtil(Class<T> logClass, String logUrl) {
         this(logClass, logUrl, false);
     }
 
-    /* constructor*/
     public <T> LogUtil(String logUrl, boolean splitLogByThreadId) {
         this(LogUtil.class, logUrl, splitLogByThreadId);
     }
 
-    /* constructor*/
     public <T> LogUtil(Class<T> logClass) {
         this(logClass, IvyUtilConf.getProperty(IvyUtilConstant.LOG_DIR));
     }
 
-    /* constructor*/
     public LogUtil(String logUrl) {
         this(LogUtil.class, logUrl);
     }
 
-    /* constructor */
     public LogUtil() {
         this(IvyUtilConf.getProperty(IvyUtilConstant.LOG_DIR));
     }
 
-    /* 初始化 */
     private void initialize() {
         this.separator = "/";
         this.defaultLogName = "log.log";
@@ -99,10 +98,11 @@ public class LogUtil {
         }
     }
 
-    /*
-     * <p>Title: finalize</p>
-     * <p>Description: 销毁前，关闭流</p>
-     * @see java.lang.Object#finalize()
+
+    /**
+     * finalize operation: close stream before destruction
+     *
+     * @throws Throwable Throwable
      */
     @Override
     protected void finalize() throws Throwable {
@@ -115,18 +115,28 @@ public class LogUtil {
     }
 
 
-    /* 设置日志文件路径*/
+    /**
+     * set log directory
+     *
+     * @param logDir log directory
+     */
     private void setLogUrl(String logDir) {
         this.logUrl = logDir.replace("\\", this.separator);
     }
 
-    /* 获取当前需要记录日志的路径 */
+    /**
+     * get current log directory path
+     *
+     * @return String
+     */
     private String getCurrentLogUrl() {
         if (this.splitLogByThreadId) return this.logUrl + "_" + Thread.currentThread().getId();
         else return this.logUrl;
     }
 
-    /* 检查日志路径*/
+    /**
+     * check log dir whether exists
+     */
     private void checkLogDir() {
         /* 若无指定日志目录，设定为系统默认路径  默认路径配置在资源文件中  */
         if (StringUtils.isBlank(this.logUrl))
@@ -162,44 +172,45 @@ public class LogUtil {
         }
     }
 
-    /* 日志前缀*/
+
     private String prifix() {
-        return "[" + DateTimeUtil.currentDateTime("yyyy-MM-dd HH:mm:ss:SSS")
-                + "]-[" + Thread.currentThread().getId()
-                + "]-[" + this.logClass.getName() + "]-";
+        return "["
+                + DateTimeUtil.currentDateTime("yyyy-MM-dd HH:mm:ss:SSS")
+                + "]-["
+                + Thread.currentThread().getId()
+                + "]-["
+                + this.logClass.getName()
+                + "]-";
     }
 
-    /* 格式化打印文本*/
+
     private String format(String data) {
         return this.prifix() + data;
     }
 
     /**
-     * <p>控制台打印</p>
+     * print on console
      *
-     * @param data
+     * @param data data
      */
     private void print(Object data) {
         System.out.println(data);
     }
 
     /**
-     * <p>以字符流记日志</p>
+     * log data
      *
-     * @param data
+     * @param data data
      */
     public void log(Object data) {
         this.log(data, true);
     }
 
     /**
-     * 记录日志并打印
+     * log data and print in console
      *
-     * @param data
-     * @param printable
-     * @author miao.xl
-     * @date 2014年6月20日 上午9:49:32
-     * @version 1.0
+     * @param data      data
+     * @param printable printable
      */
     public void log(Object data, boolean printable) {
         if (null == data) data = "null";
@@ -211,9 +222,9 @@ public class LogUtil {
     }
 
     /**
-     * <p>以字节流记日志</p>
+     * log by bytes
      *
-     * @param data
+     * @param data data
      */
     public void logByBytes(String data) {
         ByteBuffer buffer = ByteBuffer.allocate(2048);

@@ -1,6 +1,3 @@
-/**
- *
- */
 package org.ivy;
 
 import java.io.IOException;

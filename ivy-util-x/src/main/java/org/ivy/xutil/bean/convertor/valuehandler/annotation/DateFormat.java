@@ -1,6 +1,3 @@
-/**
- *
- */
 package org.ivy.xutil.bean.convertor.valuehandler.annotation;
 
 import java.lang.annotation.*;

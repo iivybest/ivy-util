@@ -1,32 +1,27 @@
-/**
- *
- */
 package org.ivy.xutil.FieldValidator;
 
 /**
  * <p>FieldValidateException</p>
  *
  * @author miao.xl
- * @date 2016年4月8日-下午5:17:26
  * @version 1.0
+ * @date 2016年4月8日-下午5:17:26
  */
 public class FieldValidateException extends Exception {
 
     private static final long serialVersionUID = 7814415608760317475L;
 
-    /**
-     *
-     */
+
     public FieldValidateException() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
     /**
+     * constructor
      *
-     * @param message message
-     * @param cause cause
-     * @param enableSuppression enableSuppression
+     * @param message            message
+     * @param cause              cause
+     * @param enableSuppression  enableSuppression
      * @param writableStackTrace writableStackTrace
      */
     public FieldValidateException(String message, Throwable cause, boolean enableSuppression,
@@ -36,7 +31,7 @@ public class FieldValidateException extends Exception {
 
     /**
      * @param message message
-     * @param cause cause
+     * @param cause   cause
      */
     public FieldValidateException(String message, Throwable cause) {
         super(message, cause);
