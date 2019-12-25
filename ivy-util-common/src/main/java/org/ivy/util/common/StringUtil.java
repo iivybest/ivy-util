@@ -113,16 +113,23 @@ public class StringUtil {
         return fullStackTraceMessage;
     }
 
-
-    public static String wholeIndentation(String original, int offset) {
-        if (original == null || original.length() <= 0) return "";
-
-        StringBuffer result = new StringBuffer();
-        String[] items = original.split("\n");
-        for (int i = 0; i < items.length; i++) {
-            String offsets = "";
-            for (int j = 0; j < offset; j++) offsets += "\t";
-            result.append(offsets + items[i] + "\n");
+    /**
+     * whole indentation
+     *
+     * @param data   data
+     * @param offset indentation offset
+     * @return String
+     */
+    public static String wholeIndentation(String data, int offset) {
+        if (isBlank(data)) return "";
+        StringBuilder result = new StringBuilder();
+        String[] items = data.split("\n");
+        for (int i = 0, len = items.length; i < len; i++) {
+            String step = "";
+            for (int j = 0; j < offset; j++) {
+                step += "\t";
+            }
+            result.append(step + items[i] + "\n");
         }
         return result.toString().substring(0, result.length() - 1);
     }

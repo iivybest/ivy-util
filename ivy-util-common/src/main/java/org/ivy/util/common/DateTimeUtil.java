@@ -20,7 +20,6 @@ import java.util.Date;
  *
  * @author Ivybest (ivybestdev@163.com)
  * @version 1.0
- * @className DateTimeUtil
  * @date 2019/12/9 7:59
  * @since 1.8+
  */
@@ -29,7 +28,7 @@ public class DateTimeUtil {
     private static String defaultPattern = "yyyy-MM-dd HH:mm:ss";
 
     /**
-     * 获取当前日期
+     * get current date time
      *
      * @return LocalDateTime
      */
@@ -38,37 +37,32 @@ public class DateTimeUtil {
     }
 
     /**
-     * 按照指定的格式，获取当前日期
+     * get current date time formatted with pattern
      *
-     * @param pattern
+     * @param pattern date pattern
      * @return String
      */
     public static String currentDateTime(String pattern) {
-        String _pattern = StringUtil.isBlank(pattern) ? defaultPattern : pattern;
+        if (StringUtil.isBlank(pattern)) pattern = defaultPattern;
         return format(currentDateTime(), pattern);
     }
 
     /**
-     * formate Date
+     * formate DateTime
      *
-     * @param dateTime
-     * @param pattern
-     * @return
-     * @author miao.xl
-     * @date 2014年11月17日 下午7:30:56
-     * @version 1.0
+     * @param dateTime dateTime
+     * @param pattern  pattern
+     * @return String
      */
     public static String format(TemporalAccessor dateTime, String pattern) {
         return DateTimeFormatter.ofPattern(pattern).format(dateTime);
     }
 
     /**
-     * <p>formatDate</p>
+     * format Date
      *
-     * @param date
+     * @param date date
      * @return String
-     * @author miao.xl
-     * @date 2016年3月8日-上午11:15:08
      */
     public static String format(LocalDateTime date) {
         return format(date, defaultPattern);
@@ -84,11 +78,11 @@ public class DateTimeUtil {
 
 
     /**
-     * String类型日期格式转换
+     * date format adaptation
      *
-     * @param date
-     * @param oPattern
-     * @param nPattern
+     * @param date     date string
+     * @param oPattern old pattern
+     * @param nPattern new pattern
      * @return String
      * @throws Exception
      */

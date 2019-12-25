@@ -981,7 +981,6 @@ public class Arrayx {
         if (newSize <= 0) return (T[]) Array.newInstance(array[0].getClass(), 0);
 
         T[] subarray = (T[]) Array.newInstance(array[0].getClass(), newSize);
-        ;
         System.arraycopy(array, beginIdx, subarray, 0, newSize);
         return subarray;
     }
