@@ -8,8 +8,7 @@ import java.security.SecureRandom;
 import java.util.Random;
 
 /**
- * <p>  classname: Arrayx
- * <br> description: 数组工具类
+ * <p> description: 数组工具类
  * <br>---------------------------------------------------------
  * <br> outline：
  * <br> 1、derange   数组乱序
@@ -1021,7 +1020,7 @@ public class Arrayx {
      * @param y     array 下标 y
      */
     @Description({
-            "使用 ^（异或） 进行数据交换",
+            "swap data use ^",
             "#:不能自己和自己进行交换，注意入口校验"})
     public static void swap(int[] array, int x, int y) {
         if (array[x] == array[y]) return;

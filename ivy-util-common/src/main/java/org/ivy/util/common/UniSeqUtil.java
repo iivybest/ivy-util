@@ -1,13 +1,11 @@
 package org.ivy.util.common;
 
-
 import org.ivy.util.annotation.Recommend;
 
 import java.util.UUID;
 
 /**
- * <p>  classname: UniSeqUtil
- * <br> description: 唯一序列工具类
+ * <p> description: 唯一序列工具类
  * <br>--------------------------------------------------------
  * <br>
  * <br>--------------------------------------------------------
@@ -28,7 +26,7 @@ public class UniSeqUtil {
      * <br>--------------------------------------------------------
      * </p>
      * @param sead sead
-     * @return String String
+     * @return String
      */
     @Recommend(value = false, msg = "高并发下有重复的可能性")
     public static String generateUniSeq(String sead) {
