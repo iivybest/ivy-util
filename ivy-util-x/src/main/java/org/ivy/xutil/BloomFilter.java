@@ -1,17 +1,3 @@
-/**
- * @Filename BloomFilter
- * @author Ivybest
- * @version V1.0
- * @date 2018年5月16日 下午7:47:43
- * @Company IB.
- * @Copyright Copyright(C) 2010-
- * All rights Reserved, Designed By Ivybest
- * <p>
- * Modification History:
- * Date				Author		Version		Discription
- * --------------------------------------------------------
- * 2018年5月16日	Ivybest			1.0			new create
- */
 package org.ivy.xutil;
 
 import java.util.BitSet;
@@ -22,6 +8,18 @@ import java.util.BitSet;
  * ------------------------------------------
  * @className BloomFilter
  * @date 2018年5月16日 下午7:47:43
+ */
+/**
+ * <p> description: bloom filter
+ * <br>---------------------------------------------------------
+ * <br>
+ * <br>---------------------------------------------------------
+ * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
+ * </p>
+ *
+ * @author ivybest (ivybestdev@163.com)
+ * @version 1.0
+ * @date 2018/5/16 19:47
  */
 public class BloomFilter {
     private int bit_size;

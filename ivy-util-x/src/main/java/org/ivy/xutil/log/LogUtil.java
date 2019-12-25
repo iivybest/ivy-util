@@ -20,7 +20,6 @@ import java.nio.channels.FileChannel;
  *
  * @author Ivybest (ivybestdev@163.com)
  * @version 1.0
- * @className LogUtil
  * @date 2014/5/19 09:24
  */
 public class LogUtil {
@@ -71,7 +70,7 @@ public class LogUtil {
         this(logClass, logUrl, false);
     }
 
-    public <T> LogUtil(String logUrl, boolean splitLogByThreadId) {
+    public LogUtil(String logUrl, boolean splitLogByThreadId) {
         this(LogUtil.class, logUrl, splitLogByThreadId);
     }
 
@@ -98,7 +97,6 @@ public class LogUtil {
         }
     }
 
-
     /**
      * finalize operation: close stream before destruction
      *
@@ -113,7 +111,6 @@ public class LogUtil {
         }
         super.finalize();
     }
-
 
     /**
      * set log directory
@@ -136,34 +133,39 @@ public class LogUtil {
 
     /**
      * check log dir whether exists
+     *
+     * <br>-------------------------------------------------------------------------
+     * <br> 规则：指定路径文件不存在时
+     * <br>     若目标路径不含 “.” 认定为其为路径, 日志记录在该路径下，日志文件以 log.log 命名
+     * <br>     若包含 “.”，则认定其为文件，日志记录此文件中。
+     * <br>
+     * <br>    1、检查路径是否存在，
+     * <br>    2、若存在，检查其是目录还是文件，
+     * <br>        2.1、若为文件，无动作
+     * <br>        2.2、若为目录，则在该目录新建log.log，并将log.log指定为日志路径
+     * <br>    3 、若不存在，检查其是目录还是文件（规则如上面定义）
+     * <br>        3.1、若为文件
+     * <br>            3.1.1、检查其父目录
+     * <br>        3.2、若为目录
+     * <br>            3.2.2、检查该目录，指定log.log为日志路径
+     * <br>-------------------------------------------------------------------------
      */
     private void checkLogDir() {
         /* 若无指定日志目录，设定为系统默认路径  默认路径配置在资源文件中  */
-        if (StringUtils.isBlank(this.logUrl))
+        if (StringUtils.isBlank(this.logUrl)) {
             this.setLogUrl(IvyUtilConf.getProperty(IvyUtilConstant.LOG_DIR));
+        }
 
-        /* 规则：指定路径文件不存在时
-         * 		若目标路径不含“.”认定为其为路径, 日志记录在该路径下的文件中，日志文件以log.log命名
-         * 		若包含“.”，则认定其为文件，日志记录此文件中。
-         *
-         * 	1、检查路径是否存在，
-         * 	2、若存在，检查其是目录还是文件，
-         * 		2.1、若为文件，无动作
-         * 		2.2、若为目录，则在该目录新建log.log，并将log.log指定为日志路径
-         *
-         * 	3 、若不存在，检查其是目录还是文件（规则如上面定义）
-         * 		3.1、若为文件
-         * 			3.1.1、检查其父目录
-         * 		3.2、若为目录
-         * 			3.2.2、检查该目录，指定log.log为日志路径
-         */
         File file = new File(this.logUrl);
         if (file.exists()) {
-            if (file.isDirectory()) this.setLogUrl(file.getAbsolutePath() + this.separator + this.defaultLogName);
+            if (file.isDirectory()) {
+                this.setLogUrl(file.getAbsolutePath() + this.separator + this.defaultLogName);
+            }
         } else if (!file.exists()) {
             // 含有“.”按文件操作
-            if (this.logUrl.contains(".")) FileUtil.createNewFile(file);
-            else {
+            if (this.logUrl.contains(".")) {
+                FileUtil.createNewFile(file);
+            } else {
                 // 按目录操作
                 String path = file.getAbsolutePath() + this.separator + this.defaultLogName;
                 FileUtil.createNewFile(path);
@@ -173,7 +175,7 @@ public class LogUtil {
     }
 
 
-    private String prifix() {
+    private String prefix() {
         return "["
                 + DateTimeUtil.currentDateTime("yyyy-MM-dd HH:mm:ss:SSS")
                 + "]-["
@@ -185,7 +187,7 @@ public class LogUtil {
 
 
     private String format(String data) {
-        return this.prifix() + data;
+        return this.prefix() + data;
     }
 
     /**

@@ -1,9 +1,10 @@
 package org.ivy.xutil;
 
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 
 /**
- * <p>MessyCodeCorrector</p>
+ * MessyCodeCorrector
  *
  * @author miao.xl
  * @date 2014年6月16日 - 下午5:00:19
@@ -25,7 +26,7 @@ public class MessyCodeCorrector {
      * 注：程序中的乱码文本是将百度首页（utf-8）调整为gbk（显然会乱码）得到的
      */
 
-    public static final String[] CHARSET = new String[]{"ISO8859-1", "GBK", "UTF-8"};
+    public static final String[] CHARSET = {"ISO8859-1", "GBK", "UTF-8"};
     private int strMaxLen;
 
     public MessyCodeCorrector() {
@@ -35,7 +36,7 @@ public class MessyCodeCorrector {
 
     public static void main(String[] args) throws UnsupportedEncodingException {
         String xx = "我是一只草泥马";
-        String rr = new String(xx.getBytes(), "ISO-8859-1");
+        String rr = new String(xx.getBytes(), StandardCharsets.ISO_8859_1);
         System.out.println("'" + rr + "'");
 
         String original = "寰蒋鐧惧害鍏辨帹Windows XP鑱斿悎闃叉姢瑙ｅ喅鏂规";
