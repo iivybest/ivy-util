@@ -8,22 +8,22 @@ package org.ivy.xutil.log;
  * @date 2016年3月23日-上午10:15:47
  */
 public class AspectLogUtil {
-    private LogUtil _log;
+    private LogUtil logger;
 
     public AspectLogUtil() {
-        this._log = new LogUtil();
+        this.logger = new LogUtil();
     }
 
     public AspectLogUtil(String logUrl) {
-        this._log = new LogUtil(logUrl);
+        this.logger = new LogUtil(logUrl);
     }
 
     public <T> AspectLogUtil(Class<T> clz) {
-        this._log = new LogUtil(clz);
+        this.logger = new LogUtil(clz);
     }
 
     public <T> AspectLogUtil(Class<T> clz, String logUrl) {
-        this._log = new LogUtil(clz, logUrl);
+        this.logger = new LogUtil(clz, logUrl);
     }
 
     /**
@@ -34,7 +34,7 @@ public class AspectLogUtil {
      * @param <T> t's type
      */
     public <T> void log(T t, String msg) {
-        this._log.log("[" + t.getClass().getSimpleName() + "]====>" + msg);
+        this.logger.log("[" + t.getClass().getSimpleName() + "]====>" + msg);
     }
 
     /**
@@ -46,12 +46,12 @@ public class AspectLogUtil {
      * @param <T>       t's type
      */
     public <T> void log(T t, String signature, String msg) {
-        this._log.log("[" + t.getClass().getSimpleName() + "].[" + signature + "]====>" + msg);
+        this.logger.log("[" + t.getClass().getSimpleName() + "].[" + signature + "]====>" + msg);
     }
 
 
     public void log(String msg) {
-        this._log.log(msg);
+        this.logger.log(msg);
     }
 
 

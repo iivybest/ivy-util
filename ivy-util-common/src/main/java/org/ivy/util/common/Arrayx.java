@@ -8,14 +8,14 @@ import java.security.SecureRandom;
 import java.util.Random;
 
 /**
- * <p> description: 数组工具类
+ * <p> description: array util
  * <br>---------------------------------------------------------
  * <br> outline：
  * <br> 1、derange   数组乱序
  * <br> 2、reverse   数组倒序
  * <br> 3、shuffle   数组洗牌
  * <br> 4、subarray  数组截取
- * <br> 5、swap      数组元素交换
+ * <br> 5、swap      swap array elements
  * <br>---------------------------------------------------------
  * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
@@ -25,24 +25,23 @@ import java.util.Random;
  * @date 2019/12/16 11:06
  */
 public class Arrayx {
-    @Description("安全的随机数生成对象")
+    @Description("secure random number instance")
     private static final Random SECURE_RANDOM = new SecureRandom();
 
-
     /**
-     * 工具类，私有化其构造器
+     * private constructor for util class
      */
     private Arrayx() {
     }
 
     /**
-     * 数组乱序算法
+     * Array derange(disorder) algorithm
      *
      * @param array    array
      * @param beginIdx array begin index
      * @param endIdx   array end index
      */
-    @Description("数组乱序算法")
+    @Description("Array derange(disorder) algorithm")
     public static void derange(byte[] array, int beginIdx, int endIdx) {
         int len = endIdx - beginIdx + 1;
         int count = len / 2;
@@ -55,7 +54,7 @@ public class Arrayx {
     }
 
     /**
-     * 数组乱序算法
+     * Array derange(disorder) algorithm
      *
      * @param array    array
      * @param beginIdx array begin index
@@ -73,7 +72,7 @@ public class Arrayx {
     }
 
     /**
-     * 数组乱序算法
+     * Array derange(disorder) algorithm
      *
      * @param array    array
      * @param beginIdx array begin index
@@ -91,7 +90,7 @@ public class Arrayx {
     }
 
     /**
-     * 数组乱序算法
+     * Array derange(disorder) algorithm
      *
      * @param array    array
      * @param beginIdx array begin index
@@ -109,7 +108,7 @@ public class Arrayx {
     }
 
     /**
-     * 数组乱序算法
+     * Array derange(disorder) algorithm
      *
      * @param array    array
      * @param beginIdx array begin index
@@ -131,7 +130,7 @@ public class Arrayx {
     }
 
     /**
-     * 数组乱序算法
+     * Array derange(disorder) algorithm
      *
      * @param array    array
      * @param beginIdx array begin index
@@ -149,7 +148,7 @@ public class Arrayx {
     }
 
     /**
-     * 数组乱序算法
+     * Array derange(disorder) algorithm
      *
      * @param array    array
      * @param beginIdx array begin index
@@ -167,11 +166,12 @@ public class Arrayx {
     }
 
     /**
-     * 数组乱序算法
+     * Array derange(disorder) algorithm
      *
      * @param array    array
      * @param beginIdx array begin index
      * @param endIdx   array end index
+     * @param <T>      array type
      */
     public static <T> void derange(T[] array, int beginIdx, int endIdx) {
         int len = endIdx - beginIdx + 1;
@@ -186,7 +186,7 @@ public class Arrayx {
     }
 
     /**
-     * 打印数组
+     * print array, array to String
      *
      * @param array    array
      * @param beginIdx array begin index
@@ -210,7 +210,7 @@ public class Arrayx {
     }
 
     /**
-     * 打印数组
+     * print array, array to String
      *
      * @param array array
      * @return String
@@ -220,7 +220,7 @@ public class Arrayx {
     }
 
     /**
-     * 打印数组
+     * print array, array to String
      *
      * @param array    array
      * @param beginIdx array begin index
@@ -243,7 +243,7 @@ public class Arrayx {
     }
 
     /**
-     * 打印数组
+     * print array, array to String
      *
      * @param array array
      * @return String
@@ -253,7 +253,7 @@ public class Arrayx {
     }
 
     /**
-     * 打印数组
+     * print array, array to String
      *
      * @param array    array
      * @param beginIdx array begin index
@@ -276,7 +276,7 @@ public class Arrayx {
     }
 
     /**
-     * 打印数组
+     * print array, array to String
      *
      * @param array array
      * @return String
@@ -286,7 +286,7 @@ public class Arrayx {
     }
 
     /**
-     * 打印数组
+     * print array, array to String
      *
      * @param array    array
      * @param beginIdx array begin index
@@ -309,7 +309,7 @@ public class Arrayx {
     }
 
     /**
-     * 打印数组
+     * print array, array to String
      *
      * @param array array
      * @return String
@@ -319,7 +319,7 @@ public class Arrayx {
     }
 
     /**
-     * 打印数组
+     * print array, array to String
      *
      * @param array    array
      * @param beginIdx array begin index
@@ -342,7 +342,7 @@ public class Arrayx {
     }
 
     /**
-     * 打印数组
+     * print array, array to String
      *
      * @param array array
      * @return String
@@ -352,7 +352,7 @@ public class Arrayx {
     }
 
     /**
-     * 打印数组
+     * print array, array to String
      *
      * @param array    array
      * @param beginIdx array begin index
@@ -379,7 +379,7 @@ public class Arrayx {
     }
 
     /**
-     * 打印数组
+     * print array, array to String
      *
      * @param array    array
      * @param beginIdx array begin index
@@ -402,7 +402,7 @@ public class Arrayx {
     }
 
     /**
-     * 打印数组
+     * print array, array to String
      *
      * @param array array
      * @return String
@@ -412,11 +412,12 @@ public class Arrayx {
     }
 
     /**
-     * 打印数组
+     * print array, array to String
      *
      * @param array    array
      * @param beginIdx array begin index
      * @param endIdx   array end index
+     * @param <T>      array type
      * @return String
      */
     public static <T> String printArray(T[] array, int beginIdx, int endIdx) {
@@ -435,9 +436,10 @@ public class Arrayx {
     }
 
     /**
-     * 打印数组
+     * print array, array to String
      *
      * @param array array
+     * @param <T>   array type
      * @return String
      */
     public static <T> String printArray(T[] array) {
@@ -445,7 +447,7 @@ public class Arrayx {
     }
 
     /**
-     * reverse char array
+     * reverse array
      *
      * @param array    array
      * @param beginIdx array begin index
@@ -469,7 +471,7 @@ public class Arrayx {
     }
 
     /**
-     * reverse char array
+     * reverse array
      *
      * @param array    array
      * @param beginIdx array begin index
@@ -493,7 +495,7 @@ public class Arrayx {
     }
 
     /**
-     * reverse char array
+     * reverse array
      *
      * @param array    array
      * @param beginIdx array begin index
@@ -517,7 +519,7 @@ public class Arrayx {
     }
 
     /**
-     * reverse char array
+     * reverse array
      *
      * @param array    array
      * @param beginIdx array begin index
@@ -541,7 +543,7 @@ public class Arrayx {
     }
 
     /**
-     * reverse char array
+     * reverse array
      *
      * @param array    array
      * @param beginIdx array begin index
@@ -565,7 +567,7 @@ public class Arrayx {
     }
 
     /**
-     * reverse char array
+     * reverse array
      *
      * @param array    array
      * @param beginIdx array begin index
@@ -589,7 +591,7 @@ public class Arrayx {
     }
 
     /**
-     * reverse char array
+     * reverse array
      *
      * @param array    array
      * @param beginIdx array begin index
@@ -630,10 +632,10 @@ public class Arrayx {
     }
 
     /**
-     * <p> descripiton: 洗牌
+     * <p> shuffle the array
      * <br>-------------------------------------------------
-     * <br> 洗牌（shuffle）算法比混序（derange）算法更复杂
-     * <br> 一次 shuffle 运算，经过多次 derange 和 reverse 运算
+     * <br> Shuffling is more complicated than deranging
+     * <br> A shuffle operation goes through multiple derange and reverse operations
      * <br>-------------------------------------------------
      * </p>
      *
@@ -653,10 +655,10 @@ public class Arrayx {
     }
 
     /**
-     * <p> descripiton: 洗牌
+     * <p> shuffle the array
      * <br>-------------------------------------------------
-     * <br> 洗牌（shuffle）算法比混序（derange）算法更复杂
-     * <br> 一次 shuffle 运算，经过多次 derange 和 reverse 运算
+     * <br> Shuffling is more complicated than deranging
+     * <br> A shuffle operation goes through multiple derange and reverse operations
      * <br>-------------------------------------------------
      * </p>
      *
@@ -664,7 +666,7 @@ public class Arrayx {
      * @param beginIdx array begin index
      * @param endIdx   array end index
      */
-    @Description({"洗牌", "shuffle() = derange() & reverse()"})
+    @Description("shuffle() = derange() and reverse()")
     public static void shuffle(short[] array, int beginIdx, int endIdx) {
         reverse(array, beginIdx, endIdx);
         derange(array, beginIdx, endIdx);
@@ -676,11 +678,11 @@ public class Arrayx {
     }
 
     /**
-     * <p> descripiton: 洗牌
-     * <br>---------------------------------------------
-     * <br> 洗牌（shuffle）算法比混序（mix）算法更复杂
-     * <br> 一次 shuffle 运算，经过多次 mix 和 reverse 运算
-     * <br>---------------------------------------------
+     * <p> shuffle the array
+     * <br>-------------------------------------------------
+     * <br> Shuffling is more complicated than deranging
+     * <br> A shuffle operation goes through multiple derange and reverse operations
+     * <br>-------------------------------------------------
      * </p>
      *
      * @param array    array
@@ -698,11 +700,11 @@ public class Arrayx {
     }
 
     /**
-     * <p> descripiton: 洗牌
-     * <br>---------------------------------------------
-     * <br> 洗牌（shuffle）算法比混序（mix）算法更复杂
-     * <br> 一次 shuffle 运算，经过多次 mix 和 reverse 运算
-     * <br>---------------------------------------------
+     * <p> shuffle the array
+     * <br>-------------------------------------------------
+     * <br> Shuffling is more complicated than deranging
+     * <br> A shuffle operation goes through multiple derange and reverse operations
+     * <br>-------------------------------------------------
      * </p>
      *
      * @param array    array
@@ -720,11 +722,11 @@ public class Arrayx {
     }
 
     /**
-     * <p> descripiton: 洗牌
-     * <br>---------------------------------------------
-     * <br> 洗牌（shuffle）算法比混序（mix）算法更复杂
-     * <br> 一次 shuffle 运算，经过多次 mix 和 reverse 运算
-     * <br>---------------------------------------------
+     * <p> shuffle the array
+     * <br>-------------------------------------------------
+     * <br> Shuffling is more complicated than deranging
+     * <br> A shuffle operation goes through multiple derange and reverse operations
+     * <br>-------------------------------------------------
      * </p>
      *
      * @param array    array
@@ -742,11 +744,11 @@ public class Arrayx {
     }
 
     /**
-     * <p> descripiton: 洗牌
-     * <br>---------------------------------------------
-     * <br> 洗牌（shuffle）算法比混序（mix）算法更复杂
-     * <br> 一次 shuffle 运算，经过多次 mix 和 reverse 运算
-     * <br>---------------------------------------------
+     * <p> shuffle the array
+     * <br>-------------------------------------------------
+     * <br> Shuffling is more complicated than deranging
+     * <br> A shuffle operation goes through multiple derange and reverse operations
+     * <br>-------------------------------------------------
      * </p>
      *
      * @param array    array
@@ -764,11 +766,11 @@ public class Arrayx {
     }
 
     /**
-     * <p> descripiton: 洗牌
-     * <br>---------------------------------------------
-     * <br> 洗牌（shuffle）算法比混序（mix）算法更复杂
-     * <br> 一次 shuffle 运算，经过多次 mix 和 reverse 运算
-     * <br>---------------------------------------------
+     * <p> shuffle the array
+     * <br>-------------------------------------------------
+     * <br> Shuffling is more complicated than deranging
+     * <br> A shuffle operation goes through multiple derange and reverse operations
+     * <br>-------------------------------------------------
      * </p>
      *
      * @param array    array
@@ -786,11 +788,11 @@ public class Arrayx {
     }
 
     /**
-     * <p> descripiton: 洗牌
-     * <br>---------------------------------------------
-     * <br> 洗牌（shuffle）算法比混序（mix）算法更复杂
-     * <br> 一次 shuffle 运算，经过多次 mix 和 reverse 运算
-     * <br>---------------------------------------------
+     * <p> shuffle the array
+     * <br>-------------------------------------------------
+     * <br> Shuffling is more complicated than deranging
+     * <br> A shuffle operation goes through multiple derange and reverse operations
+     * <br>-------------------------------------------------
      * </p>
      *
      * @param array    array
@@ -967,9 +969,11 @@ public class Arrayx {
      * @param array    array
      * @param beginIdx array being index
      * @param endIdx   array end index
+     * @param <T>      array type
      * @return T[]
      */
-    @Description("how to new a generaic array instance")
+    @Recommend
+    @Description("# how to new a generic array instance")
     public static <T> T[] subarray(T[] array, int beginIdx, int endIdx) {
         if (array == null) return null;
         if (beginIdx < 0) beginIdx = 0;
@@ -985,115 +989,134 @@ public class Arrayx {
     }
 
     /**
-     * 数组元素交换
+     * swap array elements
      *
      * @param array array
-     * @param x     array 下标 x
-     * @param y     array 下标 y
+     * @param x     array index x
+     * @param y     array index y
      */
     public static void swap(byte[] array, int x, int y) {
-        if (array[x] == array[y]) return;
+        if (array[x] == array[y]) {
+            return;
+        }
         array[x] = (byte) (array[x] ^ array[y]);
         array[y] = (byte) (array[x] ^ array[y]);
         array[x] = (byte) (array[x] ^ array[y]);
     }
 
     /**
-     * 数组元素交换
+     * swap array elements
      *
      * @param array array
-     * @param x     array 下标 x
-     * @param y     array 下标 y
+     * @param x     array index x
+     * @param y     array index y
      */
     public static void swap(short[] array, int x, int y) {
-        if (array[x] == array[y]) return;
+        if (array[x] == array[y]) {
+            return;
+        }
         array[x] = (short) (array[x] ^ array[y]);
         array[y] = (short) (array[x] ^ array[y]);
         array[x] = (short) (array[x] ^ array[y]);
     }
 
     /**
-     * 数组元素交换
+     * swap array elements
      *
      * @param array array
-     * @param x     array 下标 x
-     * @param y     array 下标 y
+     * @param x     array index x
+     * @param y     array index y
      */
     @Description({
-            "swap data use ^",
-            "#:不能自己和自己进行交换，注意入口校验"})
+            "#: swap elements using exclusive or algorithm(^)",
+            "#: the index of the two elements cannot be the same",
+            "#: perform safety check at the method entrance"
+    })
     public static void swap(int[] array, int x, int y) {
-        if (array[x] == array[y]) return;
+        if (array[x] == array[y]) {
+            return;
+        }
         array[x] = array[x] ^ array[y];
         array[y] = array[x] ^ array[y];
         array[x] = array[x] ^ array[y];
     }
 
     /**
-     * 数组元素交换
+     * swap array elements
      *
      * @param array array
-     * @param x     array 下标 x
-     * @param y     array 下标 y
+     * @param x     array index x
+     * @param y     array index y
      */
     public static void swap(long[] array, int x, int y) {
-        if (array[x] == array[y]) return;
+        if (array[x] == array[y]) {
+            return;
+        }
         array[x] = array[x] ^ array[y];
         array[y] = array[x] ^ array[y];
         array[x] = array[x] ^ array[y];
     }
 
     /**
-     * 数组元素交换
+     * swap array elements
      *
      * @param array array
-     * @param x     array 下标 x
-     * @param y     array 下标 y
+     * @param x     array index x
+     * @param y     array index y
      */
     public static void swap(double[] array, int x, int y) {
-        if (array[x] == array[y]) return;
+        if (array[x] == array[y]) {
+            return;
+        }
         double temp = array[x];
         array[x] = array[y];
         array[y] = temp;
     }
 
     /**
-     * 数组元素交换
+     * swap array elements
      *
      * @param array array
-     * @param x     array 下标 x
-     * @param y     array 下标 y
+     * @param x     array index x
+     * @param y     array index y
      */
     public static void swap(float[] array, int x, int y) {
-        if (array[x] == array[y]) return;
+        if (array[x] == array[y]) {
+            return;
+        }
         float temp = array[x];
         array[x] = array[y];
         array[y] = temp;
     }
 
     /**
-     * 数组元素交换
+     * swap array elements
      *
      * @param array array
-     * @param x     array 下标 x
-     * @param y     array 下标 y
+     * @param x     array index x
+     * @param y     array index y
      */
     public static void swap(char[] array, int x, int y) {
-        if (array[x] == array[y]) return;
+        if (array[x] == array[y]) {
+            return;
+        }
         array[x] = (char) ((int) array[x] ^ (int) array[y]);
         array[y] = (char) ((int) array[x] ^ (int) array[y]);
         array[x] = (char) ((int) array[x] ^ (int) array[y]);
     }
 
     /**
-     * 数组元素交换
+     * swap array elements
      *
      * @param array array
-     * @param x     array 下标 x
-     * @param y     array 下标 y
+     * @param x     array index x
+     * @param y     array index y
+     * @param <T>   array type
      */
     public static <T> void swap(T[] array, int x, int y) {
-        if (array[x] == array[y]) return;
+        if (array[x] == array[y]) {
+            return;
+        }
         T temp = array[x];
         array[x] = array[y];
         array[y] = temp;
