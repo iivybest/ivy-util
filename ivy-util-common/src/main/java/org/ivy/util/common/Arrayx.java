@@ -25,6 +25,7 @@ import java.util.Random;
  * @date 2019/12/16 11:06
  */
 public class Arrayx {
+
     @Description("secure random number instance")
     private static final Random SECURE_RANDOM = new SecureRandom();
 
