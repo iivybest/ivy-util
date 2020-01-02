@@ -15,7 +15,8 @@ import java.util.Random;
  * <br> 2、reverse   数组倒序
  * <br> 3、shuffle   数组洗牌
  * <br> 4、subarray  数组截取
- * <br> 5、swap      swap array elements
+ * <br> 5、sort      array sort
+ * <br> 6、swap      swap array elements
  * <br>---------------------------------------------------------
  * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
@@ -27,7 +28,7 @@ import java.util.Random;
 public class Arrayx {
 
     @Description("secure random number instance")
-    private static final Random SECURE_RANDOM = new SecureRandom();
+    private static final Random RANDOM = new SecureRandom();
 
     /**
      * private constructor for util class
@@ -48,8 +49,8 @@ public class Arrayx {
         int count = len / 2;
         int x, y;
         for (int i = 0; i < count; i++) {
-            x = SECURE_RANDOM.nextInt(len) + beginIdx;
-            y = SECURE_RANDOM.nextInt(len) + beginIdx;
+            x = RANDOM.nextInt(len) + beginIdx;
+            y = RANDOM.nextInt(len) + beginIdx;
             swap(array, x, y);
         }
     }
@@ -66,8 +67,8 @@ public class Arrayx {
         int count = len / 2;
         int x, y;
         for (int i = 0; i < count; i++) {
-            x = SECURE_RANDOM.nextInt(len) + beginIdx;
-            y = SECURE_RANDOM.nextInt(len) + beginIdx;
+            x = RANDOM.nextInt(len) + beginIdx;
+            y = RANDOM.nextInt(len) + beginIdx;
             swap(array, x, y);
         }
     }
@@ -84,8 +85,8 @@ public class Arrayx {
         int count = len / 2;
         int x, y;
         for (int i = 0; i < count; i++) {
-            x = SECURE_RANDOM.nextInt(len) + beginIdx;
-            y = SECURE_RANDOM.nextInt(len) + beginIdx;
+            x = RANDOM.nextInt(len) + beginIdx;
+            y = RANDOM.nextInt(len) + beginIdx;
             swap(array, x, y);
         }
     }
@@ -102,8 +103,8 @@ public class Arrayx {
         int count = len / 2;
         int x, y;
         for (int i = 0; i < count; i++) {
-            x = SECURE_RANDOM.nextInt(len) + beginIdx;
-            y = SECURE_RANDOM.nextInt(len) + beginIdx;
+            x = RANDOM.nextInt(len) + beginIdx;
+            y = RANDOM.nextInt(len) + beginIdx;
             swap(array, x, y);
         }
     }
@@ -120,8 +121,8 @@ public class Arrayx {
         int count = len / 2 + 1;
         int x, y;
         for (int i = 0; i < count; i++) {
-            x = SECURE_RANDOM.nextInt(len) + beginIdx;
-            y = SECURE_RANDOM.nextInt(len) + beginIdx;
+            x = RANDOM.nextInt(len) + beginIdx;
+            y = RANDOM.nextInt(len) + beginIdx;
             swap(array, x, y);
         }
     }
@@ -142,8 +143,8 @@ public class Arrayx {
         int count = len / 2;
         int x, y;
         for (int i = 0; i < count; i++) {
-            x = SECURE_RANDOM.nextInt(len) + beginIdx;
-            y = SECURE_RANDOM.nextInt(len) + beginIdx;
+            x = RANDOM.nextInt(len) + beginIdx;
+            y = RANDOM.nextInt(len) + beginIdx;
             swap(array, x, y);
         }
     }
@@ -160,8 +161,8 @@ public class Arrayx {
         int count = len / 2;
         int x, y;
         for (int i = 0; i < count; i++) {
-            x = SECURE_RANDOM.nextInt(len) + beginIdx;
-            y = SECURE_RANDOM.nextInt(len) + beginIdx;
+            x = RANDOM.nextInt(len) + beginIdx;
+            y = RANDOM.nextInt(len) + beginIdx;
             swap(array, x, y);
         }
     }
@@ -180,8 +181,8 @@ public class Arrayx {
         int count = len / 2;
         int x, y;
         for (int i = 0; i < count; i++) {
-            x = SECURE_RANDOM.nextInt(len) + beginIdx;
-            y = SECURE_RANDOM.nextInt(len) + beginIdx;
+            x = RANDOM.nextInt(len) + beginIdx;
+            y = RANDOM.nextInt(len) + beginIdx;
             swap(array, x, y);
         }
     }
@@ -205,7 +206,7 @@ public class Arrayx {
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor++ == endIdx) return sb.append("]").toString();
+            if (cursor ++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
     }
@@ -238,7 +239,7 @@ public class Arrayx {
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor++ == endIdx) return sb.append("]").toString();
+            if (cursor ++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
     }
@@ -271,7 +272,7 @@ public class Arrayx {
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor++ == endIdx) return sb.append("]").toString();
+            if (cursor ++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
     }
@@ -304,7 +305,7 @@ public class Arrayx {
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor++ == endIdx) return sb.append("]").toString();
+            if (cursor ++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
     }
@@ -337,7 +338,7 @@ public class Arrayx {
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor++ == endIdx) return sb.append("]").toString();
+            if (cursor ++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
     }
@@ -370,7 +371,7 @@ public class Arrayx {
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor++ == endIdx) return sb.append("]").toString();
+            if (cursor ++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
     }
@@ -397,7 +398,7 @@ public class Arrayx {
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor++ == endIdx) return sb.append("]").toString();
+            if (cursor ++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
     }
@@ -431,7 +432,7 @@ public class Arrayx {
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor++ == endIdx) return sb.append("]").toString();
+            if (cursor ++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
     }
@@ -644,7 +645,7 @@ public class Arrayx {
      * @param beginIdx array begin index
      * @param endIdx   array end index
      */
-    @Description({"洗牌", "shuffle() = derange() & reverse()"})
+    @Description({"shuffle", "shuffle() = derange() & reverse()"})
     public static void shuffle(byte[] array, int beginIdx, int endIdx) {
         reverse(array, beginIdx, endIdx);
         derange(array, beginIdx, endIdx);

@@ -86,7 +86,7 @@ public class DateTimeUtil {
      * @return String
      * @throws Exception
      */
-    public static String datePatternAdapte(String date, String oPattern, String nPattern) throws Exception {
+    public static String datePatternAdapt(String date, String oPattern, String nPattern) throws Exception {
         // ----非空检查，主要针对字段 date
         if (StringUtil.containsBlank(date, nPattern, nPattern))
             throw new Exception("====【operaion args can not be null】");
@@ -109,12 +109,12 @@ public class DateTimeUtil {
     /**
      * 将时间戳适配为指定格式时间字符串
      *
-     * @param timestamp
-     * @param pattern
-     * @param unit
-     * @return String
+     * @param timestamp timestamp
+     * @param pattern   pattern
+     * @param unit      time unit
+     * @return the formatted date with pattern
      */
-    public static String datePatternAdapte(Long timestamp, TemporalUnit unit, String pattern) {
+    public static String datePatternAdapt(Long timestamp, TemporalUnit unit, String pattern) {
         return format(getDateTime(timestamp, unit), pattern);
     }
 
@@ -122,11 +122,10 @@ public class DateTimeUtil {
      * @param timestamp
      * @param unit
      * @return String
-     * @className: datePatternAdapte
      * 将时间戳适配为默认格式 "yyyy-MM-dd HH:mm:ss" 时间字符串
      */
-    public static String datePatternAdapte(Long timestamp, TemporalUnit unit) {
-        return datePatternAdapte(timestamp, unit, defaultPattern);
+    public static String datePatternAdapt(Long timestamp, TemporalUnit unit) {
+        return datePatternAdapt(timestamp, unit, defaultPattern);
     }
 
     /**
@@ -196,8 +195,8 @@ public class DateTimeUtil {
     /**
      * 获取某个时刻的时间戳
      *
-     * @param time
-     * @return Long
+     * @param time time
+     * @return Long timestamp
      */
     public static Long getTimestamp(LocalDateTime time) {
         LocalDateTime _time = (null == time) ? LocalDateTime.now() : time;

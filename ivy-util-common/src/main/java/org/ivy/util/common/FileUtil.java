@@ -1,5 +1,6 @@
 package org.ivy.util.common;
 
+import javax.swing.*;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,9 +30,10 @@ public class FileUtil {
     static {
         TEMP_SUFFIX = ".temp";
         UNIX_SEPARATOR = "/";
-        WIN_SEPARATOR = "\\\\";
+        WIN_SEPARATOR = "\\";
         BUF_SIZE = 1024 * 4;
     }
+
 
     /**
      * get file path in unix style
@@ -62,7 +64,7 @@ public class FileUtil {
         if (null == file || file.length() <= 0) return null;
 
         // Replace Windows file separator
-        String path = file.replaceAll(WIN_SEPARATOR + "+", UNIX_SEPARATOR);
+        String path = file.replaceAll("\\\\+", UNIX_SEPARATOR);
         path = path.replaceAll(FileUtil.UNIX_SEPARATOR + "{2,}", FileUtil.UNIX_SEPARATOR);
 
         return path;
