@@ -3,13 +3,13 @@ package org.ivy.util.annotation;
 import java.lang.annotation.*;
 
 /**
- * <p> classname: ThreadSafe
- * <p> description: 线程安全注解
- * <br>--------------------------------------------------------
- * <br> 标明类、方法是否线程安全。
- * <br> 主要用于学习、笔记、教学
- * <br>--------------------------------------------------------
- * <br>Copyright@2019 www.ivybest.org Inc. All rights reserved.
+ * <p> description: the annotation of weather thread safe
+ * <br>---------------------------------------------------------
+ * <br> # Indicates whether the class or method is thread safe.
+ * <br> # Mainly used for learning, note taking and teaching
+ * <br> # Not recommended for production environments
+ * <br>---------------------------------------------------------
+ * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
  *
  * @author Ivybest (ivybestdev@163.com)
@@ -17,23 +17,22 @@ import java.lang.annotation.*;
  * @date 2019/12/18 14:53
  */
 @Retention(RetentionPolicy.SOURCE)
-@Target({ElementType.TYPE})
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
-@Inherited
 public @interface ThreadSafe {
 
     /**
-     * 线程是否安全
+     * Thread Weather Safe
      *
      * @return boolean
      */
     boolean value() default true;
 
     /**
-     * 使用注解类关于线程安全的描述
+     * message information
      *
      * @return String
      */
-    String[] msg();
+    String[] msg() default "";
 
 }
