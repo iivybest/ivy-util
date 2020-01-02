@@ -12,15 +12,16 @@
 ## Version:
 1.0-SNAPSHOT
 
-## Realease Date:
+## Release Date:
 2019/12/23 
 
 ## Description: 
-<p>ivybest's programming utils set
+ivybest's programming utils set
 
-## License
-<br> GPL
-<br> GUN General Public License v3.0
+## License:
+
+* GPL
+* GUN General Public License v3.0
 
 ## Manual
 * ivy-util-annotation 
@@ -30,6 +31,9 @@
 * ivy-util-test
 * ivy-util-tools
 * ivy-util-x
+
+## Git Repo:
+*  https://github.com/iivybest/ivy-util.git
 
 ## Copyright
 Copyright@2019 www.ivybest.org Inc. All rights reserved.
