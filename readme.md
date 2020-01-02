@@ -33,7 +33,7 @@ ivybest's programming utils set
 * ivy-util-x
 
 ## Git Repo:
-*  https://github.com/iivybest/ivy-util.git
+https://github.com/iivybest/ivy-util.git
 
 ## Copyright
 Copyright@2019 www.ivybest.org Inc. All rights reserved.
