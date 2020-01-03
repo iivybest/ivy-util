@@ -15,6 +15,9 @@
 package org.ivy;
 
 import java.io.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 /**
  * @author Ivybest imiaodev@163.com
@@ -34,6 +37,12 @@ public class ClassPathTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        Integer[] ints = {1,2,3};
+
+
+        List<Integer> list = Arrays.asList(ints);
+        System.out.println(list.size());
     }
 
 
