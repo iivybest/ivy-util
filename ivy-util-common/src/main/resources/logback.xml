@@ -35,7 +35,7 @@
         * %m		输出代码中指定的讯息，如log(message)中的message
     -->
     <property name="log.default.pattern"
-              value="[%d{yyyy-MM-dd HH:mm:ss,SSS}]-[%t]-%-5level-%logger{20}-[%M]-[%line]-%m%n"/>
+              value="[%d{ISO8601}]-[%t]-%-5level-%logger{20}-[%M]-[%line]-%m%n"/>
     <!--
         * %black",
         * "%red",
@@ -51,7 +51,7 @@
         *彩色日志，只能用于控制台输出，开发人员调试使用
     -->
     <property name="log.color.pattern"
-              value="%cyan([%d{ISO8601}])-%red([%t])-%highlight(%-5level)-%boldMagenta(%logger{20})-%yellow([%M])-%green([%line])-%blue(%m%n)"/>
+              value="%cyan([%d{HH:mm:ss:SSS}])-%red([%t])-%highlight(%-5level)-%boldMagenta(%logger{20})-%yellow([%M])-%green([%line])-%blue(%m%n)"/>
 
 
     <contextName>${app.name}</contextName>

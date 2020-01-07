@@ -45,7 +45,8 @@ public class ArrayxTest {
         log.debug("{Arrayx.printArray: {}}", Arrayx.printArray(data));
     }
 
-    @Description({"性能测试对比", "test_01_ArrayxPrintArray", "test_02_ArraysToString"})
+    @Description({"// performanceTest",
+            "// test_01_ArrayxPrintArray", "test_02_ArraysToString"})
     @Test
     public void test_01_ArrayxPrintArray() {
         for (int i = 0; i < this.count; i++) {
@@ -53,7 +54,8 @@ public class ArrayxTest {
         }
     }
 
-    @Description({"性能测试对比", "test_01_ArrayxPrintArray", "test_02_ArraysToString"})
+    @Description({"// performanceTest",
+            "// test_01_ArrayxPrintArray", "test_02_ArraysToString"})
     @Test
     public void test_02_ArraysToString() {
         for (int i = 0; i < this.count; i++) {
@@ -82,8 +84,18 @@ public class ArrayxTest {
     @Test
     public void test_06_subArray() {
         String[] arr = {"corolla", "audi", "buggati", "benz", "ford", "bently"};
-        String[] subarr = Arrayx.subarray(arr, 1, 3);
-        log.debug("{arr; {}}", Arrays.toString(arr));
-        log.debug("{subarr; {}}", Arrays.toString(subarr));
+        String[] subArr = Arrayx.subarray(arr, 1, 3);
+        log.debug("{arr: {}}", Arrays.toString(arr));
+        log.debug("{subArr: {}}", Arrays.toString(subArr));
+    }
+
+    @Test
+    public void test_07_genericArray() {
+        Object[] arr = Arrayx.newArray(Long.class, 3);
+        log.debug("{type: {}, Arr: {}}", arr.getClass(), Arrays.toString(arr));
+        arr = Arrayx.newArray(Double.class, 3);
+        log.debug("{type: {}, Arr: {}}", arr.getClass(), Arrays.toString(arr));
+        arr = Arrayx.newArray(String.class, 3);
+        log.debug("{type: {}, Arr: {}}", arr.getClass(), Arrays.toString(arr));
     }
 }

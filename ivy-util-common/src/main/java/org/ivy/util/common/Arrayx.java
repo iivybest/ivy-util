@@ -27,7 +27,7 @@ import java.util.Random;
  */
 public class Arrayx {
 
-    @Description("secure random number instance")
+    @Description("// secure random number instance")
     private static final Random RANDOM = new SecureRandom();
 
     /**
@@ -43,7 +43,7 @@ public class Arrayx {
      * @param beginIdx array begin index
      * @param endIdx   array end index
      */
-    @Description("Array derange(disorder) algorithm")
+    @Description("// Array derange(disorder) algorithm")
     public static void derange(byte[] array, int beginIdx, int endIdx) {
         int len = endIdx - beginIdx + 1;
         int count = len / 2;
@@ -188,6 +188,20 @@ public class Arrayx {
     }
 
     /**
+     * new object array
+     *
+     * @param type the type of array element
+     * @param size the size of array
+     * @param <T>  class type
+     * @return T[]
+     */
+    public static <T> T[] newArray(Class<T> type, int size) {
+        if (size <= 0) size = 0;
+        return (T[]) Array.newInstance(type, size);
+    }
+
+
+    /**
      * print array, array to String
      *
      * @param array    array
@@ -195,7 +209,9 @@ public class Arrayx {
      * @param endIdx   array end index
      * @return String
      */
-    @Recommend(value = false, msg = "测试用，不推荐用于生产环境")
+    @Recommend(value = false, msg = {
+            "// for testing, do not recommended for production",
+            "// recommended api toString of Arrays"})
     public static String printArray(byte[] array, int beginIdx, int endIdx) {
         if (null == array) return null;
         if (beginIdx > array.length - 1) return null;
@@ -206,7 +222,7 @@ public class Arrayx {
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor ++ == endIdx) return sb.append("]").toString();
+            if (cursor++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
     }
@@ -239,7 +255,7 @@ public class Arrayx {
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor ++ == endIdx) return sb.append("]").toString();
+            if (cursor++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
     }
@@ -272,7 +288,7 @@ public class Arrayx {
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor ++ == endIdx) return sb.append("]").toString();
+            if (cursor++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
     }
@@ -305,7 +321,7 @@ public class Arrayx {
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor ++ == endIdx) return sb.append("]").toString();
+            if (cursor++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
     }
@@ -338,7 +354,7 @@ public class Arrayx {
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor ++ == endIdx) return sb.append("]").toString();
+            if (cursor++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
     }
@@ -371,7 +387,7 @@ public class Arrayx {
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor ++ == endIdx) return sb.append("]").toString();
+            if (cursor++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
     }
@@ -398,7 +414,7 @@ public class Arrayx {
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor ++ == endIdx) return sb.append("]").toString();
+            if (cursor++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
     }
@@ -432,7 +448,7 @@ public class Arrayx {
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor ++ == endIdx) return sb.append("]").toString();
+            if (cursor++ == endIdx) return sb.append("]").toString();
             sb.append(", ");
         }
     }
@@ -645,7 +661,9 @@ public class Arrayx {
      * @param beginIdx array begin index
      * @param endIdx   array end index
      */
-    @Description({"shuffle", "shuffle() = derange() & reverse()"})
+    @Description({
+            "// shuffle",
+            "// shuffle() = derange() & reverse()"})
     public static void shuffle(byte[] array, int beginIdx, int endIdx) {
         reverse(array, beginIdx, endIdx);
         derange(array, beginIdx, endIdx);
@@ -668,7 +686,7 @@ public class Arrayx {
      * @param beginIdx array begin index
      * @param endIdx   array end index
      */
-    @Description("shuffle() = derange() and reverse()")
+    @Description("// shuffle() = derange() and reverse()")
     public static void shuffle(short[] array, int beginIdx, int endIdx) {
         reverse(array, beginIdx, endIdx);
         derange(array, beginIdx, endIdx);
@@ -975,7 +993,7 @@ public class Arrayx {
      * @return T[]
      */
     @Recommend
-    @Description("# how to new a generic array instance")
+    @Description("// how to new a generic array instance")
     public static <T> T[] subarray(T[] array, int beginIdx, int endIdx) {
         if (array == null) return null;
         if (beginIdx < 0) beginIdx = 0;
@@ -983,11 +1001,12 @@ public class Arrayx {
         if (beginIdx > endIdx) beginIdx = endIdx;
 
         int newSize = endIdx - beginIdx + 1;
-        if (newSize <= 0) return (T[]) Array.newInstance(array[0].getClass(), 0);
+        Class<T> type = (Class<T>) array[0].getClass();
+        if (newSize <= 0) return newArray(type, 0);
 
-        T[] subarray = (T[]) Array.newInstance(array[0].getClass(), newSize);
-        System.arraycopy(array, beginIdx, subarray, 0, newSize);
-        return subarray;
+        T[] subArr = newArray(type, newSize);
+        System.arraycopy(array, beginIdx, subArr, 0, newSize);
+        return subArr;
     }
 
     /**
@@ -1030,9 +1049,9 @@ public class Arrayx {
      * @param y     array index y
      */
     @Description({
-            "#: swap elements using exclusive or algorithm(^)",
-            "#: the index of the two elements cannot be the same",
-            "#: perform safety check at the method entrance"
+            "// swap elements using exclusive or algorithm(^)",
+            "// the index of the two elements cannot be the same",
+            "// perform safety check at the method entrance"
     })
     public static void swap(int[] array, int x, int y) {
         if (array[x] == array[y]) {
