@@ -211,7 +211,7 @@ public class Arrayx {
      */
     @Recommend(value = false, msg = {
             "// for testing, do not recommended for production",
-            "// recommended api toString of Arrays"})
+            "// recommended Arrays's api toString of JDK"})
     public static String printArray(byte[] array, int beginIdx, int endIdx) {
         if (null == array) return null;
         if (beginIdx > array.length - 1) return null;
@@ -472,16 +472,11 @@ public class Arrayx {
      * @param endIdx   array end index
      */
     public static void reverse(byte[] array, int beginIdx, int endIdx) {
-        int len = endIdx - beginIdx + 1;
-
-        int l, r;
-        for (int i = beginIdx; i < endIdx; i++) {
-            l = i;
-            r = len - 1 - i;
-
-            if (l >= r) break;
-            swap(array, l, r);
-        }
+        if (null == array || array.length <= 1) return;
+        if (beginIdx < 0) beginIdx = 0;
+        if (endIdx > array.length) endIdx = array.length;
+        if (endIdx - beginIdx <= 0) return;
+        for (int l = beginIdx, r = endIdx; r > l; swap(array, l ++, r --));
     }
 
     public static void reverse(byte[] array) {
@@ -496,16 +491,11 @@ public class Arrayx {
      * @param endIdx   array end index
      */
     public static void reverse(short[] array, int beginIdx, int endIdx) {
-        int len = endIdx - beginIdx + 1;
-
-        int l, r;
-        for (int i = beginIdx; i < endIdx; i++) {
-            l = i;
-            r = len - 1 - i;
-
-            if (l >= r) break;
-            swap(array, l, r);
-        }
+        if (null == array || array.length <= 1) return;
+        if (beginIdx < 0) beginIdx = 0;
+        if (endIdx > array.length) endIdx = array.length;
+        if (endIdx - beginIdx <= 0) return;
+        for (int l = beginIdx, r = endIdx; r > l; swap(array, l ++, r --));
     }
 
     public static void reverse(short[] array) {
@@ -520,16 +510,11 @@ public class Arrayx {
      * @param endIdx   array end index
      */
     public static void reverse(int[] array, int beginIdx, int endIdx) {
-        int len = endIdx - beginIdx + 1;
-
-        int l, r;
-        for (int i = beginIdx; i < endIdx; i++) {
-            l = i;
-            r = len - 1 - i;
-
-            if (l >= r) break;
-            swap(array, l, r);
-        }
+        if (null == array || array.length <= 1) return;
+        if (beginIdx < 0) beginIdx = 0;
+        if (endIdx > array.length) endIdx = array.length;
+        if (endIdx - beginIdx <= 0) return;
+        for (int l = beginIdx, r = endIdx; r > l; swap(array, l ++, r --));
     }
 
     public static void reverse(int[] array) {
@@ -544,16 +529,11 @@ public class Arrayx {
      * @param endIdx   array end index
      */
     public static void reverse(long[] array, int beginIdx, int endIdx) {
-        int len = endIdx - beginIdx + 1;
-
-        int l, r;
-        for (int i = beginIdx; i < endIdx; i++) {
-            l = i;
-            r = len - 1 - i;
-
-            if (l >= r) break;
-            swap(array, l, r);
-        }
+        if (null == array || array.length <= 1) return;
+        if (beginIdx < 0) beginIdx = 0;
+        if (endIdx > array.length) endIdx = array.length;
+        if (endIdx - beginIdx <= 0) return;
+        for (int l = beginIdx, r = endIdx; r > l; swap(array, l ++, r --));
     }
 
     public static void reverse(long[] array) {
@@ -568,16 +548,11 @@ public class Arrayx {
      * @param endIdx   array end index
      */
     public static void reverse(double[] array, int beginIdx, int endIdx) {
-        int len = endIdx - beginIdx + 1;
-
-        int l, r;
-        for (int i = beginIdx; i < endIdx; i++) {
-            l = i;
-            r = len - 1 - i;
-
-            if (l >= r) break;
-            swap(array, l, r);
-        }
+        if (null == array || array.length <= 1) return;
+        if (beginIdx < 0) beginIdx = 0;
+        if (endIdx > array.length) endIdx = array.length;
+        if (endIdx - beginIdx <= 0) return;
+        for (int l = beginIdx, r = endIdx; r > l; swap(array, l ++, r --));
     }
 
     public static void reverse(double[] array) {
@@ -592,16 +567,11 @@ public class Arrayx {
      * @param endIdx   array end index
      */
     public static void reverse(float[] array, int beginIdx, int endIdx) {
-        int len = endIdx - beginIdx + 1;
-
-        int l, r;
-        for (int i = beginIdx; i < endIdx; i++) {
-            l = i;
-            r = len - 1 - i;
-
-            if (l >= r) break;
-            swap(array, l, r);
-        }
+        if (null == array || array.length <= 1) return;
+        if (beginIdx < 0) beginIdx = 0;
+        if (endIdx > array.length) endIdx = array.length;
+        if (endIdx - beginIdx <= 0) return;
+        for (int l = beginIdx, r = endIdx; r > l; swap(array, l ++, r --));
     }
 
     public static void reverse(float[] array) {
@@ -616,16 +586,11 @@ public class Arrayx {
      * @param endIdx   array end index
      */
     public static void reverse(char[] array, int beginIdx, int endIdx) {
-        int len = endIdx - beginIdx + 1;
-
-        int l, r;
-        for (int i = beginIdx; i < endIdx; i++) {
-            l = i;
-            r = len - 1 - i;
-
-            if (l >= r) break;
-            swap(array, l, r);
-        }
+        if (null == array || array.length <= 1) return;
+        if (beginIdx < 0) beginIdx = 0;
+        if (endIdx > array.length) endIdx = array.length;
+        if (endIdx - beginIdx <= 0) return;
+        for (int l = beginIdx, r = endIdx; r > l; swap(array, l ++, r --));
     }
 
     public static void reverse(char[] array) {
@@ -633,16 +598,11 @@ public class Arrayx {
     }
 
     public static <T> void reverse(T[] array, int beginIdx, int endIdx) {
-        int len = endIdx - beginIdx + 1;
-
-        int l, r;
-        for (int i = beginIdx; i < endIdx; i++) {
-            l = i;
-            r = len - 1 - i;
-
-            if (l >= r) break;
-            swap(array, l, r);
-        }
+        if (null == array || array.length <= 1) return;
+        if (beginIdx < 0) beginIdx = 0;
+        if (endIdx > array.length) endIdx = array.length;
+        if (endIdx - beginIdx <= 0) return;
+        for (int l = beginIdx, r = endIdx; r > l; swap(array, l ++, r --));
     }
 
     public static <T> void reverse(T[] array) {

@@ -26,12 +26,12 @@ import java.util.Arrays;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class ArrayxTest {
 
-    private byte[] data;
+    private int[] data;
     private int count = 1_000_000;
 
     @Before
     public void setUp() {
-        this.data = new byte[]{12, 11, -9, 36, 1, 0, -1, 41, 54};
+        this.data = new int[]{12, 11, -9, 36, 1, 0, -1, 41, 54};
     }
 
     //    @After
@@ -62,13 +62,11 @@ public class ArrayxTest {
             Arrays.toString(this.data);
         }
     }
-
     @Test
     public void test_03_derange() {
         Arrayx.derange(this.data, 0, this.data.length - 2);
         log.debug("{derange: {}}", Arrayx.printArray(this.data));
     }
-
     @Test
     public void test_04_shuffle() {
         Arrayx.shuffle(this.data, 0, this.data.length - 2);
@@ -98,4 +96,14 @@ public class ArrayxTest {
         arr = Arrayx.newArray(String.class, 3);
         log.debug("{type: {}, Arr: {}}", arr.getClass(), Arrays.toString(arr));
     }
+
+    @Test
+    public void test_08_reverse() {
+        log.debug("{  array: {}}", Arrayx.printArray(this.data));
+        for (int i = 0; i < 1; i++) {
+            Arrayx.reverse(this.data, 0, this.data.length - 1);
+        }
+        log.debug("{reverse: {}}", Arrayx.printArray(this.data));
+    }
+
 }
