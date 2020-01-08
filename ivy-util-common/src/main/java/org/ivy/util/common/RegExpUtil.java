@@ -22,8 +22,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 /**
- * <p>  classname: RegExpUtil
- * <br> description: 正则表达式工具
+ * <p> description: 正则表达式工具
  * <br>---------------------------------------------------------
  * <br>
  * <br>---------------------------------------------------------
@@ -35,6 +34,9 @@ import java.util.regex.Pattern;
  * @date 2019/12/24 18:44
  */
 public enum RegExpUtil {
+    /**
+     * singleton instance
+     */
     instance;
 
 
@@ -43,15 +45,19 @@ public enum RegExpUtil {
      * 匹配正则表达式的所有数据
      *
      * @param data  data
-     * @param regex tegular expression
+     * @param regex regular expression
      * @return List
      */
     public List<String> match(String data, String regex) {
-        if (StringUtil.isBlank(data) || StringUtil.isBlank(regex)) return null;
+        if (StringUtil.isBlank(data) || StringUtil.isBlank(regex)) {
+            return null;
+        }
 
         List<String> result = new ArrayList<String>();
         Matcher m = Pattern.compile(regex).matcher(data);
-        while (m.find()) result.add(m.group());
+        while (m.find()) {
+            result.add(m.group());
+        }
         return result;
     }
 

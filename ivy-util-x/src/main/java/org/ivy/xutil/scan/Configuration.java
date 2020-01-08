@@ -65,28 +65,26 @@ public class Configuration {
         return this.args.containsKey(key);
     }
 
+    //定时检测资源文件更新情况
+    private static class PropertiesScanThread implements Runnable {
+        private int internal;
+        private boolean stop;
+        private PropertiesScanner scanner;
 
+        @Override
+        public void run() {
+            while (!this.stop) {
+                this.scan();
+            }
+        }
+
+        private void scan() {
+
+        }
+    }
 }
 
-//定时检测资源文件更新情况
-class PropertiesScanThread implements Runnable {
-    private int internal;
-    private boolean stop;
-    private PropertiesScanner scanner;
 
-    @Override
-    public void run() {
-        // TODO Auto-generated method stub
-        while (!this.stop) this.scan();
-    }
-
-    private void scan() {
-
-    }
-
-    ;
-
-}
 
 
 

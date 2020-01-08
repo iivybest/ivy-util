@@ -51,15 +51,20 @@ public class BeanMapConvertor {
      */
     public <T> Map<String, Object> convertBean2Map(T bean)
             throws IntrospectionException, IllegalAccessException, InvocationTargetException {
-        if (bean == null) return null;
+        if (bean == null) {
+            return null;
+        }
         Map<String, Object> rtnMap = new HashMap<String, Object>();
         BeanInfo beanInfo = Introspector.getBeanInfo(bean.getClass());
         PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
-        for (PropertyDescriptor descriptor : descriptors) {
-            String property = descriptor.getName();
-            if (!property.equals("class")) {
-                Object value = descriptor.getReadMethod().invoke(bean);
-                rtnMap.put(property, (value != null) ? this.handleValue(value) : "");
+
+        String name;
+        Object value;
+        for (PropertyDescriptor e : descriptors) {
+            name = e.getName();
+            if (! "class".equals(name)) {
+                value = e.getReadMethod().invoke(bean);
+                rtnMap.put(name, (value != null) ? this.handleValue(value) : "");
             }
         }
         return rtnMap;

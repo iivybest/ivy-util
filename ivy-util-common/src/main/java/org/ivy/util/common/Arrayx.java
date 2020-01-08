@@ -196,7 +196,9 @@ public class Arrayx {
      * @return T[]
      */
     public static <T> T[] newArray(Class<T> type, int size) {
-        if (size <= 0) size = 0;
+        if (size <= 0) {
+            size = 0;
+        }
         return (T[]) Array.newInstance(type, size);
     }
 
@@ -955,14 +957,24 @@ public class Arrayx {
     @Recommend
     @Description("// how to new a generic array instance")
     public static <T> T[] subarray(T[] array, int beginIdx, int endIdx) {
-        if (array == null) return null;
-        if (beginIdx < 0) beginIdx = 0;
-        if (endIdx > array.length - 1) endIdx = array.length;
-        if (beginIdx > endIdx) beginIdx = endIdx;
+        if (array == null) {
+            return null;
+        }
+        if (beginIdx < 0) {
+            beginIdx = 0;
+        }
+        if (endIdx > array.length - 1) {
+            endIdx = array.length;
+        }
+        if (beginIdx > endIdx) {
+            beginIdx = endIdx;
+        }
 
         int newSize = endIdx - beginIdx + 1;
         Class<T> type = (Class<T>) array[0].getClass();
-        if (newSize <= 0) return newArray(type, 0);
+        if (newSize <= 0) {
+            return newArray(type, 0);
+        }
 
         T[] subArr = newArray(type, newSize);
         System.arraycopy(array, beginIdx, subArr, 0, newSize);

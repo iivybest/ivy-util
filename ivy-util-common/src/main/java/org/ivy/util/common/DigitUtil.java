@@ -5,8 +5,8 @@ import org.ivy.util.annotation.Recommend;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static org.ivy.util.common.IvyConstant.digitArr;
-import static org.ivy.util.common.IvyConstant.hexArr;
+import static org.ivy.util.common.IvyConstant.DIGIT_ARR;
+import static org.ivy.util.common.IvyConstant.HEX_ARR;
 
 /**
  * <p>  classname: DigitUtil
@@ -37,24 +37,37 @@ import static org.ivy.util.common.IvyConstant.hexArr;
  */
 public class DigitUtil {
 
-    // 小数点
-    private static final String decimalPoint = ".";
-    private static final char cnDecimalPoint = '点';
-    // 中文数字单位序列
-    private static final char[] cuArr = {'十', '百', '千', '万', '亿'};
-    private static final char[] capitalCuArr = {'拾', '佰', '仟', '万', '亿'};
-    // 中文数字序列
-    private static final char[] cnArr = {'零', '一', '二', '三', '四', '五', '六', '七', '八', '九'};
-    private static final char[] capitalCnArr = {'零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'};
-    // 完整中文数字单位
-    private static final char[] allCuArr = {'个', '十', '百', '千', '万', '十', '百', '千', '亿', '十', '百', '千', '万'};
-    // 单位进位，中文默认为4位即（万、亿）
-    private static int UNIT_STEP = 4;
-    // 中文数字正则表达式
-    private static String regex = "([零一二三四五六七八九十百千万亿]{1,})";
-    private static String regex_capital = "([壹贰叁肆伍陆柒捌玖拾佰仟万亿]+)";
-    private static Pattern pattern = Pattern.compile(regex, Pattern.CASE_INSENSITIVE);
-    private static Pattern pattern_capital = Pattern.compile(regex_capital, Pattern.CASE_INSENSITIVE);
+    /**
+     * 小数点
+     */
+    private static final String DECIMAL_POINT = ".";
+    private static final char CN_DECIMAL_POINT = '点';
+    /**
+     * 中文数字单位序列
+     */
+    private static final char[] CU_ARR = {'十', '百', '千', '万', '亿'};
+    private static final char[] CAPITAL_CU_ARR = {'拾', '佰', '仟', '万', '亿'};
+    /**
+     * 中文数字序列
+     */
+    private static final char[] CN_ARR = {'零', '一', '二', '三', '四', '五', '六', '七', '八', '九'};
+    private static final char[] CAPITAL_CN_ARR = {'零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'};
+    /**
+     * 完整中文数字单位
+     */
+    private static final char[] ALL_CU_ARR = {'个', '十', '百', '千', '万', '十', '百', '千', '亿', '十', '百', '千', '万'};
+    /**
+     * 单位进位，中文默认为4位即（万、亿）
+     */
+    private static final int UNIT_STEP = 4;
+    /**
+     * 中文数字正则表达式
+     */
+    private static final String REGEX_CN_DIGIT = "([零一二三四五六七八九十百千万亿]{1,})";
+    private static final String REGEX_CAPITAL_CN_DIGIT = "([壹贰叁肆伍陆柒捌玖拾佰仟万亿]+)";
+    private static final Pattern PATTERN_CN_DIGIT = Pattern.compile(REGEX_CN_DIGIT, Pattern.CASE_INSENSITIVE);
+    private static final Pattern PATTERN_CAPITAL_CN_DIGIT = Pattern.compile(REGEX_CAPITAL_CN_DIGIT, Pattern.CASE_INSENSITIVE);
+
     private DigitUtil() {
     }
 
@@ -62,74 +75,74 @@ public class DigitUtil {
      * <p> description: 获取中文数字单位的基数值
      * <br>--------------------------------------------------------
      * <br> 阿拉伯数字采用10进制，中文单位的基数定义为 10的权值次幂
-     * <br>	拾	0	10^1	10
-     * <br> 佰	1	10^2	100
-     * <br> 仟	2	10^3	1_000
-     * <br> 万	3	10^4	10_000
-     * <br> 亿	4	10^8	100_000_000
+     * <br>	拾    0    10^1    10
+     * <br> 佰    1    10^2    100
+     * <br> 仟    2    10^3    1_000
+     * <br> 万    3    10^4    10_000
+     * <br> 亿    4    10^8    100_000_000
      * <br>--------------------------------------------------------
      * </p>
      *
      * @param unit unit
-     * @return int int
+     * @return int radix
      */
     private static int getChineseDigitUnitRadix(int unit) {
-        if (unit < 0 || unit > cuArr.length) {
+        if (unit < 0 || unit > CU_ARR.length) {
             return Integer.MIN_VALUE;
         }
-        int weight = -1;
+        int radix = -1;
         switch (unit) {
             case 0:
-                weight = 10;
+                radix = 10;
                 break;
             case 1:
-                weight = 100;
+                radix = 100;
                 break;
             case 2:
-                weight = 1_000;
+                radix = 1_000;
                 break;
             case 3:
-                weight = 10_000;
+                radix = 10_000;
                 break;
             case 4:
-                weight = 100_000_000;
+                radix = 100_000_000;
                 break;
             default:
                 break;
         }
-        return weight;
+        return radix;
     }
 
     /**
-     * <p> description: 获取中文数字单位的基数
+     * <p> description: 获取中文数字单位的基数值
      * <br>--------------------------------------------------------
      * <br> 阿拉伯数字采用10进制，中文单位的基数定义为 10的权值次幂
-     * <br>	拾	0	10^1	10
-     * <br> 佰	1	10^2	100
-     * <br> 仟	2	10^3	1_000
-     * <br> 万	3	10^4	10_000
-     * <br> 亿	4	10^8	100_000_000
+     * <br>	拾    0    10^1    10
+     * <br> 佰    1    10^2    100
+     * <br> 仟    2    10^3    1_000
+     * <br> 万    3    10^4    10_000
+     * <br> 亿    4    10^8    100_000_000
      * <br>--------------------------------------------------------
      * </p>
      *
-     * @param unit arg‘s type is char
-     * @return int int
+     * @param unit unit
+     * @return int radix
      */
     private static int getChineseDigitUnitRadix(char unit) {
         // 中文数字单位所在 cuArr 的下标值
         int unitVal = -1;
         // 中文数字单位对应的权值
-        int weight = Integer.MIN_VALUE;
-        for (int i = 0, len = cuArr.length; i < len; i++) {
-            if (cuArr[i] == unit) {
+        int radix = Integer.MIN_VALUE;
+        for (int i = 0, len = CU_ARR.length; i < len; i++) {
+            if (CU_ARR[i] == unit) {
                 unitVal = i;
                 break;
             }
         }
         if (unitVal > 0) {
-            weight = getChineseDigitUnitRadix(unitVal);
+            radix = getChineseDigitUnitRadix(unitVal);
         }
-        return weight;
+        return radix;
     }
 
     /**
@@ -157,11 +170,11 @@ public class DigitUtil {
         if (data < 0) return "负" + long2ChineseDigit(-data, isColloquial);
         /* ====>step-2: 处理小于 10 的整数 */
         // 10以下直接返回对应汉字，ASCII 2 Integer String
-        if (data < 10) return String.valueOf(cnArr[(int) data]);
+        if (data < 10) return String.valueOf(CN_ARR[(int) data]);
         /* ====>step-3: 处理超范围的数*/
         char[] chars = String.valueOf(data).toCharArray();
         // 超过单位表示范围的返回空 TODO
-        if (chars.length > allCuArr.length) return "";
+        if (chars.length > ALL_CU_ARR.length) return "";
         /* ====>step-4: long处理过程*/
         // 记录上次单位进位 万、亿进位
         boolean isLastUnitStep = false;
@@ -173,11 +186,11 @@ public class DigitUtil {
         for (int i = chars.length - 1; i >= 0; i--) {
             char ch = chars[i];
             // ascii 2 int
-            char cnChar = cnArr[ch - '0'];
+            char cnChar = CN_ARR[ch - '0'];
             // 对应的单位坐标
             int unitPos = chars.length - i - 1;
             // 单位
-            char cnUnit = allCuArr[unitPos];
+            char cnUnit = ALL_CU_ARR[unitPos];
             // 是否为 0
             boolean isZero = (ch == '0');
             // 是否低位为 0
@@ -187,9 +200,9 @@ public class DigitUtil {
             // 去除相邻的上一个单位进位
             if (isUnitStep && isLastUnitStep) {
                 cnChars[cursor--] = 'x';
-                if (cursor > 1 && (cnArr[0] != cnChars[cursor - 1])) {
+                if (cursor > 1 && (CN_ARR[0] != cnChars[cursor - 1])) {
                     // 补0
-                    cnChars[++cursor] = cnArr[0];
+                    cnChars[++cursor] = CN_ARR[0];
                 }
             }
 
@@ -208,7 +221,7 @@ public class DigitUtil {
         Arrayx.reverse(cnChars, offset, cursor);
         // 清除最后一位的0
         char chEnd = cnChars[cursor];
-        if (cnArr[0] == chEnd || allCuArr[0] == chEnd) {
+        if (CN_ARR[0] == chEnd || ALL_CU_ARR[0] == chEnd) {
             cnChars[cursor--] = 'x';
         }
 
@@ -217,7 +230,7 @@ public class DigitUtil {
             char chFirst = cnChars[0];
             char chSecond = cnChars[1];
             // 是否以'一'开头，紧跟'十'
-            if (chFirst == cnArr[1] && chSecond == allCuArr[1]) {
+            if (chFirst == CN_ARR[1] && chSecond == ALL_CU_ARR[1]) {
                 cnChars[offset++] = 'x';
             }
         }
@@ -232,7 +245,7 @@ public class DigitUtil {
         char[] dataChars = String.valueOf(data).toCharArray();
         char[] cnChars = new char[dataChars.length];
         for (int i = 0, len = dataChars.length; i < len; i++) {
-            cnChars[i] = cnArr[dataChars[i] - '0'];
+            cnChars[i] = CN_ARR[dataChars[i] - '0'];
         }
         return new String(cnChars);
     }
@@ -243,12 +256,12 @@ public class DigitUtil {
             return "负" + double2ChineseDigit(-data, isColloquial);
         }
         String dataStr = String.valueOf(data);
-        if (!dataStr.contains(decimalPoint)) {
+        if (!dataStr.contains(DECIMAL_POINT)) {
             return long2ChineseDigit((long) data, isColloquial);
         }
-        String[] arr = dataStr.split("\\" + decimalPoint);
+        String[] arr = dataStr.split("\\" + DECIMAL_POINT);
         return long2ChineseDigit(Long.valueOf(arr[0]), isColloquial)
-                + cnDecimalPoint
+                + CN_DECIMAL_POINT
                 + long2ChineseDigitDirect(Long.valueOf(arr[1]));
     }
 
@@ -314,8 +327,8 @@ public class DigitUtil {
 
                 /* ====> step-2：判断 currentElement 类型并为 currentElementIdx、weight 赋值*/
                 // currentElement 非单位，即数字，首先判断 currentElement 是否在 cnArr 中
-                for (int idx = 0, cnLen = cnArr.length; idx < cnLen; idx++) {
-                    if (cnArr[idx] == ele) {
+                for (int idx = 0, cnLen = CN_ARR.length; idx < cnLen; idx++) {
+                    if (CN_ARR[idx] == ele) {
                         isDigit = true;
                         eleIdx = idx;
                         break;
@@ -323,8 +336,8 @@ public class DigitUtil {
                 }
                 // 若 currentElement不是数字，则判断其是否在 cuArr 当中
                 if (!isDigit) {
-                    for (int idx = 0, cuLen = cuArr.length; idx < cuLen; idx++) {
-                        if (cuArr[idx] == ele) {
+                    for (int idx = 0, cuLen = CU_ARR.length; idx < cuLen; idx++) {
+                        if (CU_ARR[idx] == ele) {
                             eleIdx = idx;
                             break;
                         }
@@ -417,8 +430,8 @@ public class DigitUtil {
 
                 /* ====> step-1.1：判断 ele 类型并为 eleIdx、weight 赋值*/
                 // ele 非单位，即数字，首先判断 ele 是否在 cnArr 中
-                for (int idx = 0, cnLen = cnArr.length; idx < cnLen; idx++) {
-                    if (cnArr[idx] == ele) {
+                for (int idx = 0, cnLen = CN_ARR.length; idx < cnLen; idx++) {
+                    if (CN_ARR[idx] == ele) {
                         isDigit = true;
                         eleIdx = idx;
                         break;
@@ -426,8 +439,8 @@ public class DigitUtil {
                 }
                 // 若 ele 不是数字，则判断其是否在 cuArr 当中
                 if (!isDigit) {
-                    for (int idx = 0, cuLen = cuArr.length; idx < cuLen; idx++) {
-                        if (cuArr[idx] == ele) {
+                    for (int idx = 0, cuLen = CU_ARR.length; idx < cuLen; idx++) {
+                        if (CU_ARR[idx] == ele) {
                             eleIdx = idx;
                             break;
                         }
@@ -522,7 +535,7 @@ public class DigitUtil {
             target = sentence.substring(offset, length);
         }
 
-        Matcher matcher = pattern.matcher(target);
+        Matcher matcher = PATTERN_CN_DIGIT.matcher(target);
         StringBuffer sb = new StringBuffer(prifix);
         String arabic;
         while (matcher.find()) {
@@ -550,7 +563,7 @@ public class DigitUtil {
     public static String toBinString(int data) {
         char[] sequence = new char[32];
         for (int j = sequence.length - 1, cursor = 0; j >= 0; ) {
-            sequence[cursor++] = digitArr[((data >>> j--) & 1)];
+            sequence[cursor++] = DIGIT_ARR[((data >>> j--) & 1)];
         }
         return new String(sequence);
     }
@@ -573,8 +586,8 @@ public class DigitUtil {
         int v;
         for (int i = 0; i < len; i++) {
             v = data[i] & 0xFF;
-            hexChars[i * 2] = hexArr[v >>> 4];
-            hexChars[i * 2 + 1] = hexArr[v & 0xF];
+            hexChars[i * 2] = HEX_ARR[v >>> 4];
+            hexChars[i * 2 + 1] = HEX_ARR[v & 0xF];
         }
         return new String(hexChars);
     }

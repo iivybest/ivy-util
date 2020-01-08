@@ -16,18 +16,18 @@ import java.util.Random;
  */
 public class GuidUtil {
 
-    public static final int BeforeMD5 = 1;
-    public static final int AfterMD5 = 2;
-    public static final int FormatString = 3;
-    private static Random myRand;
-    private static SecureRandom mySecureRand;
+    public static final int BEFORE_MD_5 = 1;
+    public static final int AFTER_MD_5 = 2;
+    public static final int FORMAT_STRING = 3;
+    private static Random random;
+    private static SecureRandom secureRandom;
 
     private static String s_id;
 
     static {
-        mySecureRand = new SecureRandom();
-        long secureInitializer = mySecureRand.nextLong();
-        myRand = new Random(secureInitializer);
+        secureRandom = new SecureRandom();
+        long secureInitializer = secureRandom.nextLong();
+        random = new Random(secureInitializer);
         try {
             s_id = InetAddress.getLocalHost().toString();
         } catch (UnknownHostException e) {
@@ -58,10 +58,10 @@ public class GuidUtil {
     public static void main(String args[]) {
         for (int i = 0; i < 100; i++) {
             GuidUtil myGUID = new GuidUtil();
-            System.out.println("SeedingString = " + myGUID.createNewGuid(GuidUtil.BeforeMD5));
-            System.out.println("rawGUID = " + myGUID.createNewGuid(GuidUtil.AfterMD5));
-            System.out.println("RandomGUID1 = " + myGUID.createNewGuid(GuidUtil.FormatString));
-            System.out.println("RandomGUID2 = " + new GuidUtil(true).createNewGuid(GuidUtil.FormatString));
+            System.out.println("SeedingString = " + myGUID.createNewGuid(GuidUtil.BEFORE_MD_5));
+            System.out.println("rawGUID = " + myGUID.createNewGuid(GuidUtil.AFTER_MD_5));
+            System.out.println("RandomGUID1 = " + myGUID.createNewGuid(GuidUtil.FORMAT_STRING));
+            System.out.println("RandomGUID2 = " + new GuidUtil(true).createNewGuid(GuidUtil.FORMAT_STRING));
             System.out.println();
         }
     }
@@ -84,9 +84,9 @@ public class GuidUtil {
             long rand = 0;
 
             if (secure) {
-                rand = mySecureRand.nextLong();
+                rand = secureRandom.nextLong();
             } else {
-                rand = myRand.nextLong();
+                rand = random.nextLong();
             }
 
             // This StringBuffer can be a long as you need; the MD5
@@ -108,8 +108,9 @@ public class GuidUtil {
             StringBuffer sb = new StringBuffer();
             for (int j = 0; j < array.length; ++j) {
                 int b = array[j] & 0xFF;
-                if (b < 0x10)
+                if (b < 0x10) {
                     sb.append("0");
+                }
                 sb.append(Integer.toHexString(b));
             }
 
@@ -123,9 +124,9 @@ public class GuidUtil {
     public String createNewGuid(int nFormatType, boolean secure) {
         getRandomGUID(secure);
         String sGuid = "";
-        if (BeforeMD5 == nFormatType) {
+        if (BEFORE_MD_5 == nFormatType) {
             sGuid = this.seedingString;
-        } else if (AfterMD5 == nFormatType) {
+        } else if (AFTER_MD_5 == nFormatType) {
             sGuid = this.rawGUID;
         } else {
             sGuid = this.toString();
@@ -145,14 +146,10 @@ public class GuidUtil {
     public String toString() {
         String raw = rawGUID.toUpperCase();
         StringBuffer sb = new StringBuffer();
-        sb.append(raw.substring(0, 8));
-        sb.append("-");
-        sb.append(raw.substring(8, 12));
-        sb.append("-");
-        sb.append(raw.substring(12, 16));
-        sb.append("-");
-        sb.append(raw.substring(16, 20));
-        sb.append("-");
+        sb.append(raw.substring(0, 8)).append("-");
+        sb.append(raw.substring(8, 12)).append("-");
+        sb.append(raw.substring(12, 16)).append("-");
+        sb.append(raw.substring(16, 20)).append("-");
         sb.append(raw.substring(20));
         return sb.toString();
     }

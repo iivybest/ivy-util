@@ -32,7 +32,7 @@ public class HttpClient {
             conn.setRequestMethod(type);
             // 发送POST请求必须设置如下两行
             conn.setDoInput(true);    // 读取connection数据
-            conn.setDoOutput(true);    // 写入connection数据
+            conn.setDoOutput(true);   // 写入connection数据
 
 
             // 设置及请求的通用属性
@@ -52,7 +52,7 @@ public class HttpClient {
 
 
             conn.setInstanceFollowRedirects(true);    // 支持server端的redirect
-            conn.setFollowRedirects(true);
+//            conn.setFollowRedirects(true);
 
 
             if (args != null) {

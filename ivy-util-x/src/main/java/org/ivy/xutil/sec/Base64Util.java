@@ -3,10 +3,9 @@ package org.ivy.xutil.sec;
 import java.util.Base64;
 
 /**
- * <p> classname: Base64Util
- * <p> description: Base64 Util
+ * <p> description:
  * <br>---------------------------------------------------------
- * <br>
+ * <br> Base64 Util
  * <br>---------------------------------------------------------
  * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>

@@ -131,7 +131,7 @@ public class NewFileUtil {
         if (async) {
             new Thread(new CopyRunnable(file, dest)).start();
         } else {
-            this.copy(file, dest);
+            copy(file, dest);
         }
     }
 
@@ -146,7 +146,7 @@ public class NewFileUtil {
      */
     public void copy(String fileUrl, String dest, boolean async) {
         File file = new File(fileUrl);
-        this.copy(file, dest, async);
+        copy(file, dest, async);
     }
 
     /**

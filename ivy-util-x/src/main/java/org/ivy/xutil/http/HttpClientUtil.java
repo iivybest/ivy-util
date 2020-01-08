@@ -32,12 +32,14 @@ import java.security.NoSuchAlgorithmException;
 import java.security.cert.X509Certificate;
 
 public class HttpClientUtil {
-    public static final HttpClientContext context = new HttpClientContext(); // 初始化上下文实例
-    private static final HttpClientConnectionManager manager = builderPoolConnectionManager(); // 定义连接池管理变量
+    // 初始化上下文实例
+    public static final HttpClientContext CONTEXT = new HttpClientContext();
+    // 定义连接池管理变量
+    private static final HttpClientConnectionManager MANAGER = builderPoolConnectionManager();
 
     public HttpClientUtil() {
         CookieStore cookieStore = new BasicCookieStore();
-        context.setCookieStore(cookieStore);
+        CONTEXT.setCookieStore(cookieStore);
     }
 
 

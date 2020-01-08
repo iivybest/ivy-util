@@ -125,7 +125,7 @@ class ApacheCommonsHttpClientPost implements Runnable {
         // String resp = new String(HttpClient.service("http://10.120.58.45:8080/hello/", "POST", null));
 
         try {
-            HttpClientUtil.buildHttpClient().execute(get, HttpClientUtil.context);
+            HttpClientUtil.buildHttpClient().execute(get, HttpClientUtil.CONTEXT);
             // System.out.println(EntityUtils.toString(response.getEntity(), Consts.UTF_8));
             System.out.println("========> " + this.id + ", " + "done");
         } catch (IOException e) {

@@ -5,9 +5,10 @@ import java.io.IOException;
 import java.util.LinkedList;
 
 /**
- * @author Createdate    2017年9月5日 下午2:10:21
- * @className BatchCompiler
  * 批量编译
+ *
+ * @author ivybest
+ * @date 2017年9月5日 下午2:10:21
  */
 public class BatchCompiler {
 
@@ -18,14 +19,15 @@ public class BatchCompiler {
             File file = new File(folderList.poll());
             File[] files = file.listFiles();
 
+            String name;
             for (int i = 0; i < files.length; i++) {
                 if (files[i].isDirectory()) {
                     folderList.add(files[i].getPath());
                 } else {
+                    name = files[i].getName();
                     if (files[i].getName().contains(".")
-                            && (files[i].getName().substring(files[i].getName().lastIndexOf(".")).equals(".c")
-                            || files[i].getName().substring(2).substring(files[i].getName().lastIndexOf("."))
-                            .equals(".cpp"))) {
+                            && (".c".equals(name.substring(name.lastIndexOf(".")))
+                            || ".cpp".equals(name.substring(2).substring(name.lastIndexOf("."))))) {
                         try {
                             Runtime.getRuntime()
                                     .exec(new String[]{"gcc", files[i].getAbsoluteFile().toString(), "-o",

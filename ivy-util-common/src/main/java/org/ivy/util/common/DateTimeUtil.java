@@ -88,10 +88,10 @@ public class DateTimeUtil {
      */
     public static String datePatternAdapt(String date, String oPattern, String nPattern) throws Exception {
         // ----非空检查，主要针对字段 date
-        if (StringUtil.containsBlank(date, nPattern, nPattern))
-            throw new Exception("====【operaion args can not be null】");
-
-        Temporal time = null;
+        if (StringUtil.containsBlank(date, nPattern, nPattern)) {
+            throw new Exception("====[operation args can not be null]");
+        }
+        Temporal time;
         try {
             if (oPattern.contains("h") || oPattern.contains("H")) {
                 time = LocalDateTime.parse(date, DateTimeFormatter.ofPattern(oPattern));
@@ -199,8 +199,8 @@ public class DateTimeUtil {
      * @return Long timestamp
      */
     public static Long getTimestamp(LocalDateTime time) {
-        LocalDateTime _time = (null == time) ? LocalDateTime.now() : time;
-        return _time.toInstant(ZoneOffset.of("+8")).toEpochMilli();
+        LocalDateTime time_ = (null == time) ? LocalDateTime.now() : time;
+        return time_.toInstant(ZoneOffset.of("+8")).toEpochMilli();
     }
 
     /**
@@ -219,8 +219,8 @@ public class DateTimeUtil {
      * @return Long
      */
     public static Long getUnixTimestamp(LocalDateTime time) {
-        LocalDateTime _time = (null == time) ? LocalDateTime.now() : time;
-        return _time.toEpochSecond(ZoneOffset.of("+8"));
+        LocalDateTime time_ = (null == time) ? LocalDateTime.now() : time;
+        return time_.toEpochSecond(ZoneOffset.of("+8"));
     }
 
     /**
@@ -232,9 +232,9 @@ public class DateTimeUtil {
      * @return Long
      */
     public static Long getTimestamp(Long from, Long to, TemporalUnit unit) {
-        Long _from = (null == from) ? getTimestamp(null) : from;
+        Long from_ = (null == from) ? getTimestamp(null) : from;
         // ----ChronoUnit / Unit implements interface TemporalUnit
-        LocalDateTime time = getDateTime(_from, ChronoUnit.MILLIS).plus(to, unit);
+        LocalDateTime time = getDateTime(from_, ChronoUnit.MILLIS).plus(to, unit);
         // ----目标时刻转为时间戳
         return getTimestamp(time);
     }
@@ -248,10 +248,9 @@ public class DateTimeUtil {
      * @return Long
      */
     public static Long getUnixTimestamp(long from, long to, TemporalUnit unit) {
-        // ----
-        Long _from = (from <= 0) ? getUnixTimestamp(null) : from;
+        Long from_ = (from <= 0) ? getUnixTimestamp(null) : from;
         // ----ChronoUnit / Unit implements interface TemporalUnit
-        LocalDateTime time = getDateTime(_from, ChronoUnit.SECONDS).plus(to, unit);
+        LocalDateTime time = getDateTime(from_, ChronoUnit.SECONDS).plus(to, unit);
         // ----目标时刻转为时间戳
         return getUnixTimestamp(time);
     }

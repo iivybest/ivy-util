@@ -38,7 +38,7 @@ public class HexStringPerformanceTest {
 
     @Before
     public void setUp() {
-        this.bytes = FileUtil.read(SystemUtil.getClasspath() + "/material/Helloworld.txt");
+        this.bytes = FileUtil.read(SystemUtil.getClasspath() + "/material/HelloWorld.txt");
         this.text = new String(this.bytes);
         this.count = 10000;
     }

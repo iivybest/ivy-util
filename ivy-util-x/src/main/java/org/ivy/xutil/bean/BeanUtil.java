@@ -1,5 +1,7 @@
 package org.ivy.xutil.bean;
 
+import org.ivy.util.common.StringUtil;
+
 import java.beans.BeanInfo;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
@@ -40,13 +42,14 @@ public class BeanUtil {
             IllegalAccessException,
             IllegalArgumentException,
             InvocationTargetException {
-        String methodname = "set" + field.getName().substring(0, 1).toUpperCase()
-                + field.getName().substring(1);
-        Method method = bean.getClass().getMethod(methodname, field.getType());
-        if (method != null) method.invoke(bean, value);
+        String methodName = "set" + StringUtil.fistCharUppercase(field.getName());
+        Method method = bean.getClass().getMethod(methodName, field.getType());
+        if (method != null) {
+            method.invoke(bean, value);
+        }
     }
 
-    public static <T> void setFiledValues(T bean, String field, Object value) throws
+    public static <T> void setFiledValue(T bean, String field, Object value) throws
             NoSuchFieldException,
             SecurityException,
             NoSuchMethodException,
@@ -68,7 +71,7 @@ public class BeanUtil {
      * @return R
      */
     @SuppressWarnings("unchecked")
-    public static <T, R> R getFieldValueByIntrospector(T bean, Field field) {
+    public static <T, R> R getFieldValueByIntrospect(T bean, Field field) {
         R value = null;
         try {
             BeanInfo bif = Introspector.getBeanInfo(bean.getClass());
@@ -98,10 +101,11 @@ public class BeanUtil {
     public static <T, R> R getFieldValueByReflect(T bean, Field field) {
         R value = null;
         try {
-            String methodname = "get" + field.getName().substring(0, 1).toUpperCase()
-                    + field.getName().substring(1);
-            Method method = bean.getClass().getMethod(methodname);
-            if (method != null) value = (R) method.invoke(bean);
+            String methodName = "get" + StringUtil.fistCharUppercase(field.getName());
+            Method method = bean.getClass().getMethod(methodName);
+            if (method != null) {
+                value = (R) method.invoke(bean);
+            }
         } catch (NoSuchMethodException
                 | SecurityException
                 | IllegalAccessException
