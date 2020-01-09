@@ -1,4 +1,4 @@
-package org.ivy.xutil.FieldValidator;
+package org.ivy.xutil.xvalidator;
 
 import javax.validation.Constraint;
 import javax.validation.Payload;

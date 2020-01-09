@@ -134,10 +134,12 @@ public class CertificateUtil {
      * @throws KeyStoreException Exception
      */
     public static List<String> getKeySotreAliases(KeyStore keyStore) throws KeyStoreException {
-        List<String> aliases = new ArrayList<String>();
-        Enumeration<String> _aliases = keyStore.aliases();
-        while (_aliases.hasMoreElements()) aliases.add(_aliases.nextElement());
-        return aliases;
+        List<String> aliasList = new ArrayList<String>();
+        Enumeration<String> aliases = keyStore.aliases();
+        while (aliases.hasMoreElements()) {
+            aliasList.add(aliases.nextElement());
+        }
+        return aliasList;
     }
 
     /**

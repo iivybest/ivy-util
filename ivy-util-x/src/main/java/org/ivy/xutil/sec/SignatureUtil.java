@@ -120,12 +120,16 @@ public class SignatureUtil {
     }
 
     public PublicKey getPublicKey(KeyPair keyPair) {
-        if (keyPair == null) return null;
+        if (keyPair == null) {
+            return null;
+        }
         return keyPair.getPublic();
     }
 
     public PrivateKey getPrivateKey(KeyPair keyPair) {
-        if (keyPair == null) return null;
+        if (keyPair == null) {
+            return null;
+        }
         return keyPair.getPrivate();
     }
 

@@ -165,16 +165,22 @@ public class DigitUtil {
      * @param data data
      * @return String String
      */
-    public static String long2ChineseDigit(long data, boolean isColloquial) {
+    public static String longToChineseDigit(long data, boolean isColloquial) {
         /* ====>step-1: 处理负数*/
-        if (data < 0) return "负" + long2ChineseDigit(-data, isColloquial);
+        if (data < 0) {
+            return "负" + longToChineseDigit(-data, isColloquial);
+        }
         /* ====>step-2: 处理小于 10 的整数 */
         // 10以下直接返回对应汉字，ASCII 2 Integer String
-        if (data < 10) return String.valueOf(CN_ARR[(int) data]);
+        if (data < 10) {
+            return String.valueOf(CN_ARR[(int) data]);
+        }
         /* ====>step-3: 处理超范围的数*/
         char[] chars = String.valueOf(data).toCharArray();
         // 超过单位表示范围的返回空 TODO
-        if (chars.length > ALL_CU_ARR.length) return "";
+        if (chars.length > ALL_CU_ARR.length) {
+            return "";
+        }
         /* ====>step-4: long处理过程*/
         // 记录上次单位进位 万、亿进位
         boolean isLastUnitStep = false;
@@ -212,8 +218,9 @@ public class DigitUtil {
                 isLastUnitStep = isUnitStep;
             }
             // 当前位为 0 且相邻低位为 0，或者当前位为 0 并且为单位进位时进行省略
-            if (isZero && (isZeroLow || isUnitStep)) continue;
-
+            if (isZero && (isZeroLow || isUnitStep)) {
+                continue;
+            }
             cnChars[++cursor] = cnChar;
             isLastUnitStep = false;
         }
@@ -237,8 +244,8 @@ public class DigitUtil {
         return new String(cnChars, offset, cursor + 1 - offset);
     }
 
-    public static String long2ChineseDigit(long data) {
-        return long2ChineseDigit(data, false);
+    public static String longToChineseDigit(long data) {
+        return longToChineseDigit(data, false);
     }
 
     private static String long2ChineseDigitDirect(long data) {
@@ -257,10 +264,10 @@ public class DigitUtil {
         }
         String dataStr = String.valueOf(data);
         if (!dataStr.contains(DECIMAL_POINT)) {
-            return long2ChineseDigit((long) data, isColloquial);
+            return longToChineseDigit((long) data, isColloquial);
         }
         String[] arr = dataStr.split("\\" + DECIMAL_POINT);
-        return long2ChineseDigit(Long.valueOf(arr[0]), isColloquial)
+        return longToChineseDigit(Long.valueOf(arr[0]), isColloquial)
                 + CN_DECIMAL_POINT
                 + long2ChineseDigitDirect(Long.valueOf(arr[1]));
     }
@@ -366,7 +373,9 @@ public class DigitUtil {
                             valueArr[ci] = temp * radix;
                             continue;
                         }
-                        if (unitArr[ci] > eleIdx) break;
+                        if (unitArr[ci] > eleIdx) {
+                            break;
+                        }
                     }
                     // ----step-3.3：将 currentElement 对应的数值 val (val = 权值 X 基数)，累加到 result
                     unitArr[cursor] = eleIdx;
@@ -468,7 +477,9 @@ public class DigitUtil {
                             valueArr[ci] = temp * radix;
                             continue;
                         }
-                        if (unitArr[ci] > eleIdx) break;
+                        if (unitArr[ci] > eleIdx) {
+                            break;
+                        }
                     }
                     // ----step-3.3：将 currentElement 对应的数值 val (val = 权值 X 基数)，累加到 result
                     unitArr[cursor] = eleIdx;
@@ -498,7 +509,9 @@ public class DigitUtil {
         int arabicDigit = chineseDigit2Integer(chineseDigit);
         String result = String.valueOf(arabicDigit);
 
-        if (level <= 0 || result.length() >= level) return result;
+        if (level <= 0 || result.length() >= level) {
+            return result;
+        }
 
         int detta = level - result.length();
         char[] prifix = new char[detta];
@@ -528,8 +541,9 @@ public class DigitUtil {
     public static String chineseDigit2Arabic(String sentence, int offset, int length, int level) {
         /* 将 sentence 切割为 3 部分，target 为 用户指定处理部分*/
         String prifix = "", target, suffix = "";
-        if (offset < 0 || length < 0) target = sentence;
-        else {
+        if (offset < 0 || length < 0) {
+            target = sentence;
+        } else {
             prifix = sentence.substring(0, offset);
             suffix = sentence.substring(offset + length);
             target = sentence.substring(offset, length);

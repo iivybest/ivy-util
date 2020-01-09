@@ -39,7 +39,8 @@ public interface SecurityUtil {
 
     default void addBouncyCastalProvider() {
         Provider[] providers = Security.getProviders();
-        for (int i = 0; i < providers.length; log.log(providers[i++].getName())) ;
+        for (int i = 0; i < providers.length; log.log(providers[i++].getName())) {
+        }
     }
 
 

@@ -25,7 +25,7 @@ import java.util.concurrent.TimeUnit;
  * @author
  * Createdate    2017年9月13日 下午8:04:05
  */
-public class GuavaRateLImiter {
+public class GuavaRateLimiter {
 
     public static void main(String[] args) {
         // 按比例限流，tps为10， 大约100 mills可通过一个请求

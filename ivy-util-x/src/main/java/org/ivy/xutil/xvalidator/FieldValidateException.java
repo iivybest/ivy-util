@@ -1,4 +1,4 @@
-package org.ivy.xutil.FieldValidator;
+package org.ivy.xutil.xvalidator;
 
 /**
  * <p>FieldValidateException</p>

@@ -22,9 +22,9 @@ import java.util.zip.GZIPOutputStream;
  * @className GZipUtil
  * @date 2019/12/18 17:18
  */
-public class GZipUtil {
+public class GzipUtil {
     private static final int BUF_SIZE;
-    public static Logger log = LoggerFactory.getLogger(GZipUtil.class);
+    public static Logger log = LoggerFactory.getLogger(GzipUtil.class);
 
     static {
         BUF_SIZE = 1024 * 4;
@@ -33,12 +33,14 @@ public class GZipUtil {
     /**
      * <p>gZip压缩</p>
      *
-     * @param data
-     * @return
+     * @param data data
+     * @return byte array
      * @throws IOException
      */
     public static byte[] compress(byte[] data) throws IOException {
-        if (data == null || data.length == 0) return null;
+        if (data == null || data.length == 0) {
+            return null;
+        }
         byte[] gZipData = null;
         try (ByteArrayOutputStream baos = new ByteArrayOutputStream();
              ByteArrayInputStream bais = new ByteArrayInputStream(data);
@@ -46,7 +48,9 @@ public class GZipUtil {
              GZIPOutputStream gzipos = new GZIPOutputStream(baos)) {
             int len;
             byte[] buf = new byte[BUF_SIZE];
-            while ((len = bais.read(buf)) > 0) gzipos.write(buf, 0, len);
+            while ((len = bais.read(buf)) > 0) {
+                gzipos.write(buf, 0, len);
+            }
 
             gzipos.finish();
             gzipos.flush();
@@ -58,26 +62,29 @@ public class GZipUtil {
     /**
      * <p>gZip压缩</p>
      *
-     * @param original
-     * @return
+     * @param data data
+     * @return byte array
      * @throws IOException
      */
-    public static byte[] compress(String original) throws IOException {
-        if (original == null || original.length() == 0) return null;
-        byte[] data = original.getBytes();
-        return compress(data);
+    public static byte[] compress(String data) throws IOException {
+        if (data == null || data.length() == 0) {
+            return null;
+        }
+        return compress(data.getBytes());
     }
 
     /**
      * <p>gZip解压缩</p>
      *
-     * @param data
-     * @return
+     * @param data data
+     * @return byte array
      * @throws IOException
      */
     public static byte[] decompress(byte[] data) throws IOException {
-        if (data == null || data.length == 0) return null;
-        byte[] unGZipData = null;
+        if (data == null || data.length == 0) {
+            return null;
+        }
+        byte[] unGzipData;
 
         try (
                 ByteArrayInputStream bais = new ByteArrayInputStream(data);
@@ -90,31 +97,37 @@ public class GZipUtil {
             while ((len = gzipis.read(buf)) > 0) {
                 baos.write(buf, 0, len);
             }
-            unGZipData = baos.toByteArray();
+            unGzipData = baos.toByteArray();
             baos.flush();
 
             // 利用conmmons-io.jar替代baos的输出工作
-            // unGZipData = IOUtils.toByteArray(gzipis);
+            // unGzipData = IOUtils.toByteArray(gzipis);
         } catch (IOException e) {
             log.error("==== decompress error-[]", e.getMessage());
             throw new IOException("==== decompress error", e);
         }
-        return unGZipData;
+        return unGzipData;
     }
 
     public static String decompress2String(byte[] data) throws IOException {
-        if (data == null || data.length == 0) return null;
-        String unGZipData = null;
+        if (data == null || data.length == 0) {
+            return null;
+        }
+        String unGzipData;
         /* strategy 1*/
-        unGZipData = new String(decompress(data));
+        unGzipData = new String(decompress(data));
         /* strategy 2 */
-//		unGZipData = IOUtils.toString(gzipis, encoding);
-        return unGZipData;
+//		unGzipData = IOUtils.toString(gzipis, encoding);
+        return unGzipData;
     }
 
     public static String decompress2String(byte[] data, String encoding) throws IOException {
-        if (data == null || data.length == 0) return null;
-        if (null == encoding || encoding.length() == 0) return null;
+        if (data == null || data.length == 0) {
+            return null;
+        }
+        if (null == encoding || encoding.length() == 0) {
+            return null;
+        }
         return new String(decompress(data), encoding);
     }
 

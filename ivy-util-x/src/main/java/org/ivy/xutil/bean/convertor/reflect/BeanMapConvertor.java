@@ -59,8 +59,9 @@ public class BeanMapConvertor {
      * @return BeanMapConvertor
      */
     public BeanMapConvertor addBeanMapValueHandler(BeanMapValueHandler... handler) {
-        for (BeanMapValueHandler item : handler)
+        for (BeanMapValueHandler item : handler) {
             this.valueHandlers.put(item.getClass().getSimpleName(), item);
+        }
         return this;
     }
 
@@ -71,10 +72,12 @@ public class BeanMapConvertor {
      * @param type type
      * @return BeanMapValueHandler
      */
-    private BeanMapValueHandler BeanMapValueHandlerDispatch(Class<?> type) {
-        if (this.valueHandlers.containsKey((type.getSimpleName() + "TypeValueHandler")))
+    private BeanMapValueHandler beanMapValueHandlerDispatch(Class<?> type) {
+        if (this.valueHandlers.containsKey((type.getSimpleName() + "TypeValueHandler"))) {
             return this.valueHandlers.get((type.getSimpleName() + "TypeValueHandler"));
-        else return null;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -88,9 +91,11 @@ public class BeanMapConvertor {
     private <T> Object handleValue(T bean, Field field) {
         if (valueHandlers == null
                 || valueHandlers.size() <= 0
-                || BeanMapValueHandlerDispatch(field.getType()) == null) return BeanUtil.getFieldValue(bean, field);
+                || beanMapValueHandlerDispatch(field.getType()) == null) {
+            return BeanUtil.getFieldValue(bean, field);
+        }
 
-        return BeanMapValueHandlerDispatch(field.getType()).handle(bean, field);
+        return beanMapValueHandlerDispatch(field.getType()).handle(bean, field);
     }
 
     /**
@@ -100,8 +105,11 @@ public class BeanMapConvertor {
      * @return String
      */
     private String handleKey(String key) {
-        if (null == this.keyHandler) return key;
-        else return this.keyHandler.handle(key);
+        if (null == this.keyHandler) {
+            return key;
+        } else {
+            return this.keyHandler.handle(key);
+        }
     }
 
 
@@ -113,13 +121,16 @@ public class BeanMapConvertor {
      * @return 转化出来的 Map 对象
      */
     public <T> Map<String, Object> convertBean2Map(T bean) {
-        if (bean == null) return null;
+        if (bean == null) {
+            return null;
+        }
         Map<String, Object> rtnMap = new HashMap<String, Object>();
         Field[] fields = bean.getClass().getDeclaredFields();
 
         for (Field field : fields) {
-            if (!this.neglect.contains(field.getName()))
+            if (!this.neglect.contains(field.getName())) {
                 rtnMap.put(this.handleKey(field.getName()), this.handleValue(bean, field));
+            }
         }
         return rtnMap;
     }
@@ -135,7 +146,9 @@ public class BeanMapConvertor {
      * @throws Exception Exception
      */
     public <T> T convertMap2Bean(Class<T> type, Map<String, ?> map) throws Exception {
-        if (map == null) return null;
+        if (map == null) {
+            return null;
+        }
 
         T bean = type.newInstance();
         this.convertMap2Bean(bean, map);
@@ -151,8 +164,9 @@ public class BeanMapConvertor {
      * @param <T>  bean's type
      */
     public <T> void convertMap2Bean(T bean, Map<String, ?> map) throws Exception {
-        if (map == null) return;
-
+        if (map == null) {
+            return;
+        }
         Field[] fields = bean.getClass().getDeclaredFields();
         for (Field f : fields) {
             String key = this.handleKey(f.getName());

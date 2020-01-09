@@ -209,7 +209,7 @@ public class DigitUtilTest {
     @Test
     public void test_03_long2ChineseDigit() {
         long data = 1_010_003_060_200L;
-        String format = DigitUtil.long2ChineseDigit(data);
+        String format = DigitUtil.longToChineseDigit(data);
         log.debug("====>{\nno: {}, \ncn: {}\n}", data, format);
     }
 

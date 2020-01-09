@@ -68,8 +68,14 @@ public class StringUtil {
      * @return boolean result
      */
     public static boolean containsBlank(String... args) {
-        if (args == null) return true;
-        for (String e : args) if (isBlank(e)) return true;
+        if (args == null) {
+            return true;
+        }
+        for (String e : args) {
+            if (isBlank(e)) {
+                return true;
+            }
+        }
         return false;
     }
 
@@ -121,7 +127,9 @@ public class StringUtil {
      * @return String
      */
     public static String wholeIndentation(String data, int offset) {
-        if (isBlank(data)) return "";
+        if (isBlank(data)) {
+            return "";
+        }
         StringBuilder result = new StringBuilder();
         String[] items = data.split("\n");
         for (int i = 0, len = items.length; i < len; i++) {
@@ -233,20 +241,32 @@ public class StringUtil {
 
 
     public static <T> boolean isMap(Class<T> t) {
-        if (t == null) return false;
-        if (t.equals(Map.class)) return true;
-
+        if (t == null) {
+            return false;
+        }
+        if (t.equals(Map.class)) {
+            return true;
+        }
         for (Class<?> i : t.getInterfaces()) {
-            if (isMap(i)) return true;
+            if (isMap(i)) {
+                return true;
+            }
         }
         return false;
     }
 
     public static <T> boolean isCollection(Class<T> t) {
-        if (t == null) return false;
-        if (t.equals(Collection.class)) return true;
-
-        for (Class<?> i : t.getInterfaces()) if (isCollection(i)) return true;
+        if (t == null) {
+            return false;
+        }
+        if (t.equals(Collection.class)) {
+            return true;
+        }
+        for (Class<?> i : t.getInterfaces()) {
+            if (isCollection(i)) {
+                return true;
+            }
+        }
         return false;
     }
 

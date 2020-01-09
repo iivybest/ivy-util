@@ -215,16 +215,28 @@ public class Arrayx {
             "// for testing, do not recommended for production",
             "// recommended Arrays's api toString of JDK"})
     public static String printArray(byte[] array, int beginIdx, int endIdx) {
-        if (null == array) return null;
-        if (beginIdx > array.length - 1) return null;
-        if (endIdx > array.length - 1) return null;
-        if (endIdx < beginIdx) return null;
-        if (array.length == 0) return "[]";
+        if (null == array) {
+            return null;
+        }
+        if (beginIdx > array.length - 1) {
+            return null;
+        }
+        if (endIdx > array.length - 1) {
+            return null;
+        }
+        if (endIdx < beginIdx) {
+            return null;
+        }
+        if (array.length == 0) {
+            return "[]";
+        }
 
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor++ == endIdx) return sb.append("]").toString();
+            if (cursor++ == endIdx) {
+                return sb.append("]").toString();
+            }
             sb.append(", ");
         }
     }
@@ -248,16 +260,28 @@ public class Arrayx {
      * @return String
      */
     public static String printArray(short[] array, int beginIdx, int endIdx) {
-        if (null == array) return null;
-        if (beginIdx > array.length - 1) return null;
-        if (endIdx > array.length - 1) return null;
-        if (endIdx < beginIdx) return null;
-        if (array.length == 0) return "[]";
+        if (null == array) {
+            return null;
+        }
+        if (beginIdx > array.length - 1) {
+            return null;
+        }
+        if (endIdx > array.length - 1) {
+            return null;
+        }
+        if (endIdx < beginIdx) {
+            return null;
+        }
+        if (array.length == 0) {
+            return "[]";
+        }
 
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor++ == endIdx) return sb.append("]").toString();
+            if (cursor++ == endIdx) {
+                return sb.append("]").toString();
+            }
             sb.append(", ");
         }
     }
@@ -281,16 +305,28 @@ public class Arrayx {
      * @return String
      */
     public static String printArray(int[] array, int beginIdx, int endIdx) {
-        if (null == array) return null;
-        if (beginIdx > array.length - 1) return null;
-        if (endIdx > array.length - 1) return null;
-        if (endIdx < beginIdx) return null;
-        if (array.length == 0) return "[]";
+        if (null == array) {
+            return null;
+        }
+        if (beginIdx > array.length - 1) {
+            return null;
+        }
+        if (endIdx > array.length - 1) {
+            return null;
+        }
+        if (endIdx < beginIdx) {
+            return null;
+        }
+        if (array.length == 0) {
+            return "[]";
+        }
 
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor++ == endIdx) return sb.append("]").toString();
+            if (cursor++ == endIdx) {
+                return sb.append("]").toString();
+            }
             sb.append(", ");
         }
     }
@@ -314,16 +350,28 @@ public class Arrayx {
      * @return String
      */
     public static String printArray(long[] array, int beginIdx, int endIdx) {
-        if (null == array) return null;
-        if (beginIdx > array.length - 1) return null;
-        if (endIdx > array.length - 1) return null;
-        if (endIdx < beginIdx) return null;
-        if (array.length == 0) return "[]";
+        if (null == array) {
+            return null;
+        }
+        if (beginIdx > array.length - 1) {
+            return null;
+        }
+        if (endIdx > array.length - 1) {
+            return null;
+        }
+        if (endIdx < beginIdx) {
+            return null;
+        }
+        if (array.length == 0) {
+            return "[]";
+        }
 
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor++ == endIdx) return sb.append("]").toString();
+            if (cursor++ == endIdx) {
+                return sb.append("]").toString();
+            }
             sb.append(", ");
         }
     }
@@ -347,16 +395,28 @@ public class Arrayx {
      * @return String
      */
     public static String printArray(float[] array, int beginIdx, int endIdx) {
-        if (null == array) return null;
-        if (beginIdx > array.length - 1) return null;
-        if (endIdx > array.length - 1) return null;
-        if (endIdx < beginIdx) return null;
-        if (array.length == 0) return "[]";
+        if (null == array) {
+            return null;
+        }
+        if (beginIdx > array.length - 1) {
+            return null;
+        }
+        if (endIdx > array.length - 1) {
+            return null;
+        }
+        if (endIdx < beginIdx) {
+            return null;
+        }
+        if (array.length == 0) {
+            return "[]";
+        }
 
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor++ == endIdx) return sb.append("]").toString();
+            if (cursor++ == endIdx) {
+                return sb.append("]").toString();
+            }
             sb.append(", ");
         }
     }
@@ -380,16 +440,28 @@ public class Arrayx {
      * @return String
      */
     public static String printArray(double[] array, int beginIdx, int endIdx) {
-        if (null == array) return null;
-        if (beginIdx > array.length - 1) return null;
-        if (endIdx > array.length - 1) return null;
-        if (endIdx < beginIdx) return null;
-        if (array.length == 0) return "[]";
+        if (null == array) {
+            return null;
+        }
+        if (beginIdx > array.length - 1) {
+            return null;
+        }
+        if (endIdx > array.length - 1) {
+            return null;
+        }
+        if (endIdx < beginIdx) {
+            return null;
+        }
+        if (array.length == 0) {
+            return "[]";
+        }
 
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor++ == endIdx) return sb.append("]").toString();
+            if (cursor++ == endIdx) {
+                return sb.append("]").toString();
+            }
             sb.append(", ");
         }
     }
@@ -407,16 +479,28 @@ public class Arrayx {
      * @return String
      */
     public static String printArray(char[] array, int beginIdx, int endIdx) {
-        if (null == array) return null;
-        if (beginIdx > array.length - 1) return null;
-        if (endIdx > array.length - 1) return null;
-        if (endIdx < beginIdx) return null;
-        if (array.length == 0) return "[]";
+        if (null == array) {
+            return null;
+        }
+        if (beginIdx > array.length - 1) {
+            return null;
+        }
+        if (endIdx > array.length - 1) {
+            return null;
+        }
+        if (endIdx < beginIdx) {
+            return null;
+        }
+        if (array.length == 0) {
+            return "[]";
+        }
 
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor++ == endIdx) return sb.append("]").toString();
+            if (cursor++ == endIdx) {
+                return sb.append("]").toString();
+            }
             sb.append(", ");
         }
     }
@@ -441,16 +525,28 @@ public class Arrayx {
      * @return String
      */
     public static <T> String printArray(T[] array, int beginIdx, int endIdx) {
-        if (null == array) return null;
-        if (beginIdx > array.length - 1) return null;
-        if (endIdx > array.length - 1) return null;
-        if (endIdx < beginIdx) return null;
-        if (array.length == 0) return "[]";
+        if (null == array) {
+            return null;
+        }
+        if (beginIdx > array.length - 1) {
+            return null;
+        }
+        if (endIdx > array.length - 1) {
+            return null;
+        }
+        if (endIdx < beginIdx) {
+            return null;
+        }
+        if (array.length == 0) {
+            return "[]";
+        }
 
         StringBuilder sb = new StringBuilder("[");
         for (int cursor = beginIdx; ; ) {
             sb.append(array[cursor]);
-            if (cursor++ == endIdx) return sb.append("]").toString();
+            if (cursor++ == endIdx) {
+                return sb.append("]").toString();
+            }
             sb.append(", ");
         }
     }
@@ -474,11 +570,20 @@ public class Arrayx {
      * @param endIdx   array end index
      */
     public static void reverse(byte[] array, int beginIdx, int endIdx) {
-        if (null == array || array.length <= 1) return;
-        if (beginIdx < 0) beginIdx = 0;
-        if (endIdx > array.length) endIdx = array.length;
-        if (endIdx - beginIdx <= 0) return;
-        for (int l = beginIdx, r = endIdx; r > l; swap(array, l ++, r --));
+        if (null == array || array.length <= 1) {
+            return;
+        }
+        if (beginIdx < 0) {
+            beginIdx = 0;
+        }
+        if (endIdx > array.length) {
+            endIdx = array.length;
+        }
+        if (endIdx - beginIdx <= 0) {
+            return;
+        }
+        for (int l = beginIdx, r = endIdx; r > l; swap(array, l++, r--)) {
+        }
     }
 
     public static void reverse(byte[] array) {
@@ -493,11 +598,20 @@ public class Arrayx {
      * @param endIdx   array end index
      */
     public static void reverse(short[] array, int beginIdx, int endIdx) {
-        if (null == array || array.length <= 1) return;
-        if (beginIdx < 0) beginIdx = 0;
-        if (endIdx > array.length) endIdx = array.length;
-        if (endIdx - beginIdx <= 0) return;
-        for (int l = beginIdx, r = endIdx; r > l; swap(array, l ++, r --));
+        if (null == array || array.length <= 1) {
+            return;
+        }
+        if (beginIdx < 0) {
+            beginIdx = 0;
+        }
+        if (endIdx > array.length) {
+            endIdx = array.length;
+        }
+        if (endIdx - beginIdx <= 0) {
+            return;
+        }
+        for (int l = beginIdx, r = endIdx; r > l; swap(array, l++, r--)) {
+        }
     }
 
     public static void reverse(short[] array) {
@@ -512,11 +626,20 @@ public class Arrayx {
      * @param endIdx   array end index
      */
     public static void reverse(int[] array, int beginIdx, int endIdx) {
-        if (null == array || array.length <= 1) return;
-        if (beginIdx < 0) beginIdx = 0;
-        if (endIdx > array.length) endIdx = array.length;
-        if (endIdx - beginIdx <= 0) return;
-        for (int l = beginIdx, r = endIdx; r > l; swap(array, l ++, r --));
+        if (null == array || array.length <= 1) {
+            return;
+        }
+        if (beginIdx < 0) {
+            beginIdx = 0;
+        }
+        if (endIdx > array.length) {
+            endIdx = array.length;
+        }
+        if (endIdx - beginIdx <= 0) {
+            return;
+        }
+        for (int l = beginIdx, r = endIdx; r > l; swap(array, l++, r--)) {
+        }
     }
 
     public static void reverse(int[] array) {
@@ -531,11 +654,20 @@ public class Arrayx {
      * @param endIdx   array end index
      */
     public static void reverse(long[] array, int beginIdx, int endIdx) {
-        if (null == array || array.length <= 1) return;
-        if (beginIdx < 0) beginIdx = 0;
-        if (endIdx > array.length) endIdx = array.length;
-        if (endIdx - beginIdx <= 0) return;
-        for (int l = beginIdx, r = endIdx; r > l; swap(array, l ++, r --));
+        if (null == array || array.length <= 1) {
+            return;
+        }
+        if (beginIdx < 0) {
+            beginIdx = 0;
+        }
+        if (endIdx > array.length) {
+            endIdx = array.length;
+        }
+        if (endIdx - beginIdx <= 0) {
+            return;
+        }
+        for (int l = beginIdx, r = endIdx; r > l; swap(array, l++, r--)) {
+        }
     }
 
     public static void reverse(long[] array) {
@@ -550,11 +682,20 @@ public class Arrayx {
      * @param endIdx   array end index
      */
     public static void reverse(double[] array, int beginIdx, int endIdx) {
-        if (null == array || array.length <= 1) return;
-        if (beginIdx < 0) beginIdx = 0;
-        if (endIdx > array.length) endIdx = array.length;
-        if (endIdx - beginIdx <= 0) return;
-        for (int l = beginIdx, r = endIdx; r > l; swap(array, l ++, r --));
+        if (null == array || array.length <= 1) {
+            return;
+        }
+        if (beginIdx < 0) {
+            beginIdx = 0;
+        }
+        if (endIdx > array.length) {
+            endIdx = array.length;
+        }
+        if (endIdx - beginIdx <= 0) {
+            return;
+        }
+        for (int l = beginIdx, r = endIdx; r > l; swap(array, l++, r--)) {
+        }
     }
 
     public static void reverse(double[] array) {
@@ -569,11 +710,20 @@ public class Arrayx {
      * @param endIdx   array end index
      */
     public static void reverse(float[] array, int beginIdx, int endIdx) {
-        if (null == array || array.length <= 1) return;
-        if (beginIdx < 0) beginIdx = 0;
-        if (endIdx > array.length) endIdx = array.length;
-        if (endIdx - beginIdx <= 0) return;
-        for (int l = beginIdx, r = endIdx; r > l; swap(array, l ++, r --));
+        if (null == array || array.length <= 1) {
+            return;
+        }
+        if (beginIdx < 0) {
+            beginIdx = 0;
+        }
+        if (endIdx > array.length) {
+            endIdx = array.length;
+        }
+        if (endIdx - beginIdx <= 0) {
+            return;
+        }
+        for (int l = beginIdx, r = endIdx; r > l; swap(array, l++, r--)) {
+        }
     }
 
     public static void reverse(float[] array) {
@@ -588,11 +738,20 @@ public class Arrayx {
      * @param endIdx   array end index
      */
     public static void reverse(char[] array, int beginIdx, int endIdx) {
-        if (null == array || array.length <= 1) return;
-        if (beginIdx < 0) beginIdx = 0;
-        if (endIdx > array.length) endIdx = array.length;
-        if (endIdx - beginIdx <= 0) return;
-        for (int l = beginIdx, r = endIdx; r > l; swap(array, l ++, r --));
+        if (null == array || array.length <= 1) {
+            return;
+        }
+        if (beginIdx < 0) {
+            beginIdx = 0;
+        }
+        if (endIdx > array.length) {
+            endIdx = array.length;
+        }
+        if (endIdx - beginIdx <= 0) {
+            return;
+        }
+        for (int l = beginIdx, r = endIdx; r > l; swap(array, l++, r--)) {
+        }
     }
 
     public static void reverse(char[] array) {
@@ -600,11 +759,20 @@ public class Arrayx {
     }
 
     public static <T> void reverse(T[] array, int beginIdx, int endIdx) {
-        if (null == array || array.length <= 1) return;
-        if (beginIdx < 0) beginIdx = 0;
-        if (endIdx > array.length) endIdx = array.length;
-        if (endIdx - beginIdx <= 0) return;
-        for (int l = beginIdx, r = endIdx; r > l; swap(array, l ++, r --));
+        if (null == array || array.length <= 1) {
+            return;
+        }
+        if (beginIdx < 0) {
+            beginIdx = 0;
+        }
+        if (endIdx > array.length) {
+            endIdx = array.length;
+        }
+        if (endIdx - beginIdx <= 0) {
+            return;
+        }
+        for (int l = beginIdx, r = endIdx; r > l; swap(array, l++, r--)) {
+        }
     }
 
     public static <T> void reverse(T[] array) {
@@ -800,14 +968,22 @@ public class Arrayx {
      * @return byte[]
      */
     public static byte[] subarray(byte[] array, int beginIdx, int endIdx) {
-        if (array == null) return null;
-        if (beginIdx < 0) beginIdx = 0;
-        if (endIdx > array.length - 1) endIdx = array.length;
-        if (beginIdx > endIdx) beginIdx = endIdx;
-
+        if (array == null) {
+            return null;
+        }
+        if (beginIdx < 0) {
+            beginIdx = 0;
+        }
+        if (endIdx > array.length - 1) {
+            endIdx = array.length;
+        }
+        if (beginIdx > endIdx) {
+            beginIdx = endIdx;
+        }
         int newSize = endIdx - beginIdx + 1;
-        if (newSize <= 0) return new byte[0];
-
+        if (newSize <= 0) {
+            return new byte[0];
+        }
         byte[] subarray = new byte[newSize];
         System.arraycopy(array, beginIdx, subarray, 0, newSize);
         return subarray;
@@ -822,13 +998,23 @@ public class Arrayx {
      * @return short[]
      */
     public static short[] subarray(short[] array, int beginIdx, int endIdx) {
-        if (array == null) return null;
-        if (beginIdx < 0) beginIdx = 0;
-        if (endIdx > array.length - 1) endIdx = array.length;
-        if (beginIdx > endIdx) beginIdx = endIdx;
+        if (array == null) {
+            return null;
+        }
+        if (beginIdx < 0) {
+            beginIdx = 0;
+        }
+        if (endIdx > array.length - 1) {
+            endIdx = array.length;
+        }
+        if (beginIdx > endIdx) {
+            beginIdx = endIdx;
+        }
 
         int newSize = endIdx - beginIdx + 1;
-        if (newSize <= 0) return new short[0];
+        if (newSize <= 0) {
+            return new short[0];
+        }
 
         short[] subarray = new short[newSize];
         System.arraycopy(array, beginIdx, subarray, 0, newSize);
@@ -844,13 +1030,23 @@ public class Arrayx {
      * @return int[]
      */
     public static int[] subarray(int[] array, int beginIdx, int endIdx) {
-        if (array == null) return null;
-        if (beginIdx < 0) beginIdx = 0;
-        if (endIdx > array.length - 1) endIdx = array.length;
-        if (beginIdx > endIdx) beginIdx = endIdx;
+        if (array == null) {
+            return null;
+        }
+        if (beginIdx < 0) {
+            beginIdx = 0;
+        }
+        if (endIdx > array.length - 1) {
+            endIdx = array.length;
+        }
+        if (beginIdx > endIdx) {
+            beginIdx = endIdx;
+        }
 
         int newSize = endIdx - beginIdx + 1;
-        if (newSize <= 0) return new int[0];
+        if (newSize <= 0) {
+            return new int[0];
+        }
 
         int[] subarray = new int[newSize];
         System.arraycopy(array, beginIdx, subarray, 0, newSize);
@@ -866,13 +1062,23 @@ public class Arrayx {
      * @return long[]
      */
     public static long[] subarray(long[] array, int beginIdx, int endIdx) {
-        if (array == null) return null;
-        if (beginIdx < 0) beginIdx = 0;
-        if (endIdx > array.length - 1) endIdx = array.length;
-        if (beginIdx > endIdx) beginIdx = endIdx;
+        if (array == null) {
+            return null;
+        }
+        if (beginIdx < 0) {
+            beginIdx = 0;
+        }
+        if (endIdx > array.length - 1) {
+            endIdx = array.length;
+        }
+        if (beginIdx > endIdx) {
+            beginIdx = endIdx;
+        }
 
         int newSize = endIdx - beginIdx + 1;
-        if (newSize <= 0) return new long[0];
+        if (newSize <= 0) {
+            return new long[0];
+        }
 
         long[] subarray = new long[newSize];
         System.arraycopy(array, beginIdx, subarray, 0, newSize);
@@ -888,13 +1094,23 @@ public class Arrayx {
      * @return double[]
      */
     public static double[] subarray(double[] array, int beginIdx, int endIdx) {
-        if (array == null) return null;
-        if (beginIdx < 0) beginIdx = 0;
-        if (endIdx > array.length - 1) endIdx = array.length;
-        if (beginIdx > endIdx) beginIdx = endIdx;
+        if (array == null) {
+            return null;
+        }
+        if (beginIdx < 0) {
+            beginIdx = 0;
+        }
+        if (endIdx > array.length - 1) {
+            endIdx = array.length;
+        }
+        if (beginIdx > endIdx) {
+            beginIdx = endIdx;
+        }
 
         int newSize = endIdx - beginIdx + 1;
-        if (newSize <= 0) return new double[0];
+        if (newSize <= 0) {
+            return new double[0];
+        }
 
         double[] subarray = new double[newSize];
         System.arraycopy(array, beginIdx, subarray, 0, newSize);
@@ -910,13 +1126,23 @@ public class Arrayx {
      * @return float[]
      */
     public static float[] subarray(float[] array, int beginIdx, int endIdx) {
-        if (array == null) return null;
-        if (beginIdx < 0) beginIdx = 0;
-        if (endIdx > array.length - 1) endIdx = array.length;
-        if (beginIdx > endIdx) beginIdx = endIdx;
+        if (array == null) {
+            return null;
+        }
+        if (beginIdx < 0) {
+            beginIdx = 0;
+        }
+        if (endIdx > array.length - 1) {
+            endIdx = array.length;
+        }
+        if (beginIdx > endIdx) {
+            beginIdx = endIdx;
+        }
 
         int newSize = endIdx - beginIdx + 1;
-        if (newSize <= 0) return new float[0];
+        if (newSize <= 0) {
+            return new float[0];
+        }
 
         float[] subarray = new float[newSize];
         System.arraycopy(array, beginIdx, subarray, 0, newSize);
@@ -932,13 +1158,22 @@ public class Arrayx {
      * @return char[]
      */
     public static char[] subarray(char[] array, int beginIdx, int endIdx) {
-        if (array == null) return null;
-        if (beginIdx < 0) beginIdx = 0;
-        if (endIdx > array.length - 1) endIdx = array.length;
-        if (beginIdx > endIdx) beginIdx = endIdx;
-
+        if (array == null) {
+            return null;
+        }
+        if (beginIdx < 0) {
+            beginIdx = 0;
+        }
+        if (endIdx > array.length - 1) {
+            endIdx = array.length;
+        }
+        if (beginIdx > endIdx) {
+            beginIdx = endIdx;
+        }
         int newSize = endIdx - beginIdx + 1;
-        if (newSize <= 0) return new char[0];
+        if (newSize <= 0) {
+            return new char[0];
+        }
 
         char[] subarray = new char[newSize];
         System.arraycopy(array, beginIdx, subarray, 0, newSize);

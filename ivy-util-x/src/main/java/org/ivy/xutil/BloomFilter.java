@@ -22,7 +22,7 @@ import java.util.BitSet;
  * @date 2018/5/16 19:47
  */
 public class BloomFilter {
-    private int bit_size;
+    private int bitSize;
     private int[] seeds;
 
     private BitSet bits;
@@ -30,18 +30,18 @@ public class BloomFilter {
     private BloomFilter() {
     }
 
-    public static BloomFilter newInstance(int bit_size) {
-        return new BloomFilter().setBit_size(bit_size).initialize();
+    public static BloomFilter newInstance(int bitSize) {
+        return new BloomFilter().setBitSize(bitSize).initialize();
     }
 
-    private BloomFilter setBit_size(int bit_size) {
-        this.bit_size = bit_size;
+    private BloomFilter setBitSize(int bitSize) {
+        this.bitSize = bitSize;
         return this;
     }
 
     private BloomFilter initialize() {
         this.seeds = new int[]{3, 5, 7, 11, 13, 31, 37, 61};
-        this.bits = new BitSet(this.bit_size);
+        this.bits = new BitSet(this.bitSize);
         return this;
     }
 

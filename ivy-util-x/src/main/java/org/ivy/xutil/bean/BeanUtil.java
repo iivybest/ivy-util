@@ -56,8 +56,8 @@ public class BeanUtil {
             IllegalAccessException,
             IllegalArgumentException,
             InvocationTargetException {
-        Field _field = bean.getClass().getDeclaredField(field);
-        setFiledValue(bean, _field, value);
+        Field field_ = bean.getClass().getDeclaredField(field);
+        setFiledValue(bean, field_, value);
     }
 
 

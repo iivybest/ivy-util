@@ -9,12 +9,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- *  BeanMapConvertor
- *  POJO Map 转换器
+ * BeanMapConvertor
+ * POJO Map 转换器
  *
- * @author Ares miao.xl@live.cn   
- * @date 2017年3月28日 上午10:40:39 
+ * @author Ares miao.xl@live.cn
  * @version V1.0
+ * @date 2017年3月28日 上午10:40:39
  */
 public class BeanMapConvertor {
 
@@ -23,7 +23,7 @@ public class BeanMapConvertor {
     }
 
     /**
-     *  handle Value
+     * handle Value
      *
      * @param value value
      * @param <T>   bean 类型
@@ -40,14 +40,14 @@ public class BeanMapConvertor {
     }
 
     /**
-     *  convert java Bean to Map
+     * convert java Bean to Map
      *
      * @param bean 要转化的JavaBean 对象
-     * @param <T>   bean 类型
+     * @param <T>  bean 类型
      * @return 转化出来的 Map 对象
-     * @throws IntrospectionException         如果分析类属性失败
-     * @throws IllegalAccessException        如果实例化 JavaBean 失败
-     * @throws InvocationTargetException    如果调用属性的 setter 方法失败
+     * @throws IntrospectionException    如果分析类属性失败
+     * @throws IllegalAccessException    如果实例化 JavaBean 失败
+     * @throws InvocationTargetException 如果调用属性的 setter 方法失败
      */
     public <T> Map<String, Object> convertBean2Map(T bean)
             throws IntrospectionException, IllegalAccessException, InvocationTargetException {
@@ -62,7 +62,7 @@ public class BeanMapConvertor {
         Object value;
         for (PropertyDescriptor e : descriptors) {
             name = e.getName();
-            if (! "class".equals(name)) {
+            if (!"class".equals(name)) {
                 value = e.getReadMethod().invoke(bean);
                 rtnMap.put(name, (value != null) ? this.handleValue(value) : "");
             }
@@ -71,21 +71,23 @@ public class BeanMapConvertor {
     }
 
     /**
-     *  convertBean2Map
-     *  将一个 Map 对象转化为一个 JavaBean
+     * convertBean2Map
+     * 将一个 Map 对象转化为一个 JavaBean
      *
-     * @param type    要转化的类型
-     * @param map    包含属性值的 map
-     * @param <T>   bean 类型
+     * @param type 要转化的类型
+     * @param map  包含属性值的 map
+     * @param <T>  bean 类型
      * @return 转化出来的 JavaBean 对象
-     * @throws IntrospectionException        如果分析类属性失败
-     * @throws IllegalAccessException        如果实例化 JavaBean 失败
-     * @throws InstantiationException        如果实例化 JavaBean 失败
-     * @throws InvocationTargetException    如果调用属性的 setter 方法失败
+     * @throws IntrospectionException    如果分析类属性失败
+     * @throws IllegalAccessException    如果实例化 JavaBean 失败
+     * @throws InstantiationException    如果实例化 JavaBean 失败
+     * @throws InvocationTargetException 如果调用属性的 setter 方法失败
      */
     public <T> T convertMap2Bean(Map<String, ?> map, Class<T> type)
             throws IntrospectionException, IllegalAccessException, InstantiationException, InvocationTargetException {
-        if (map == null) return null;
+        if (map == null) {
+            return null;
+        }
 
         BeanInfo beanInfo = Introspector.getBeanInfo(type); // 获取类属性
         T bean = type.newInstance();    // 创建 JavaBean 对象
@@ -94,9 +96,10 @@ public class BeanMapConvertor {
         PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
         for (PropertyDescriptor descriptor : descriptors) {
             String property = descriptor.getName();
-            if (map.containsKey(property))
+            if (map.containsKey(property)) {
                 // 下面一句可以 try 起来，这样当一个属性赋值失败的时候就不会影响其他属性赋值。
                 descriptor.getWriteMethod().invoke(bean, map.get(property));
+            }
         }
         return bean;
     }

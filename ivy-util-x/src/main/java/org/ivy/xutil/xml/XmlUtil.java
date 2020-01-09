@@ -19,7 +19,7 @@ import java.io.StringWriter;
  */
 public class XmlUtil {
 
-    private static final String encoding = "utf-8";
+    private static final String ENCODING = "utf-8";
 
 
     /**
@@ -36,7 +36,7 @@ public class XmlUtil {
         try {
             doc = reader.read(in);
             OutputFormat formater = OutputFormat.createPrettyPrint();
-            formater.setEncoding(encoding);
+            formater.setEncoding(ENCODING);
             XMLWriter writer = new XMLWriter(out, formater);
             writer.setEscapeText(true);
             writer.write(doc);

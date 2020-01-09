@@ -93,8 +93,9 @@ public class ApacheHttpClient {
 
         response = ApacheHttpClient.getInstance().doPost(post);
         System.out.println(EntityUtils.toString(response.getEntity(), Consts.UTF_8));
-        for (Header header : response.getAllHeaders())
+        for (Header header : response.getAllHeaders()) {
             System.out.println(header.getName() + " : " + header.getValue());
+        }
         int statusCode = response.getStatusLine().getStatusCode();
         System.out.println("statusCode:" + statusCode);
 
@@ -107,8 +108,9 @@ public class ApacheHttpClient {
 
         response = ApacheHttpClient.getInstance().doPost(post);
         System.out.println(EntityUtils.toString(response.getEntity(), Consts.UTF_8));
-        for (Header header : response.getAllHeaders())
+        for (Header header : response.getAllHeaders()) {
             System.out.println(header.getName() + " : " + header.getValue());
+        }
 
 
 //		response = ApacheHttpClient.getInstance().doGet("http://www.sohu.com/");
@@ -217,7 +219,9 @@ public class ApacheHttpClient {
         switch (method.trim().toUpperCase()) {
             case "POST":
                 req = new HttpPost(url);
-                if (msg != null && msg.length() > 0) ((HttpPost) req).setEntity(new StringEntity(msg, "UTF-8"));
+                if (msg != null && msg.length() > 0) {
+                    ((HttpPost) req).setEntity(new StringEntity(msg, "UTF-8"));
+                }
                 break;
             case "GET":
                 req = new HttpGet(url);

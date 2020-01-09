@@ -10,12 +10,16 @@ package org.ivy.xutil.lang;
 public class LangUtil {
 
     public static boolean isPrimitiveClass(Class<?> type) {
-        if (type == null) return false;
+        if (type == null) {
+            return false;
+        }
         return type.isPrimitive();
     }
 
     public static boolean isLiteralClass(Class<?> type) {
-        if (type == null) return false;
+        if (type == null) {
+            return false;
+        }
         return type.isPrimitive()
                 || type == String.class
                 || type == Integer.class

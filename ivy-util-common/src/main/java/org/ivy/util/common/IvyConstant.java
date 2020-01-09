@@ -20,7 +20,9 @@ package org.ivy.util.common;
  */
 public interface IvyConstant {
 
-    // *.xml
+    /**
+     * pattern: *.xml
+     */
     String REGEXP_XML = "^[^\\.]+.*\\.[x|X][m|M][l|L]$";
 
     String UNIX_SEPARATOR = "/";

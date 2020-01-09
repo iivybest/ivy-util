@@ -77,7 +77,9 @@ public class ObjectUtil2 {
 
                         field.setAccessible(true);
                         Object fieldValue = field.get(obj);
-                        if (fieldValue == null) continue;
+                        if (fieldValue == null) {
+                            continue;
+                        }
                         toBeQueue.add(fieldValue);
                     }
                     tmpObjClass = tmpObjClass.getSuperclass();
@@ -105,8 +107,10 @@ public class ObjectUtil2 {
     public static void main(String[] args) {
         int size = 10000;
         List<String> list = new ArrayList<>(size);
-        for (int i = 0; i < size; i++) list.add("item_" + i);
-        System.out.printf("%.2f", (long) sizeOf(list) / 1024D / 1024D);
+        for (int i = 0; i < size; i++) {
+            list.add("item_" + i);
+        }
+        System.out.printf("%.2f", sizeOf(list) / 1024D / 1024D);
     }
 
 }

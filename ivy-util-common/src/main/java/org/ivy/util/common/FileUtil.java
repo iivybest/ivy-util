@@ -456,7 +456,10 @@ public class FileUtil {
      * @return byte[]
      */
     public static byte[] read(File file) {
-        if ((null == file || !file.exists()) || file.isDirectory()) {
+        if ((null == file || !file.exists())) {
+            return null;
+        }
+        if (file.isDirectory()) {
             return null;
         }
         byte[] data = null;
@@ -521,7 +524,10 @@ public class FileUtil {
      */
     public static String reader(File file, String encoding) {
         // 文件不存在，或者文件为目录，返回null
-        if ((null == file || !file.exists()) || file.isDirectory()) {
+        if ((null == file || !file.exists())) {
+            return null;
+        }
+        if (file.isDirectory()) {
             return null;
         }
         String data = null;
@@ -582,7 +588,10 @@ public class FileUtil {
      * @param isAppend whether append
      */
     public static void write(File file, byte[] data, boolean isAppend) {
-        if (null == file || (null == data || data.length == 0)) {
+        if (null == file) {
+            return;
+        }
+        if (null == data || data.length == 0) {
             return;
         }
         // make sure file exists

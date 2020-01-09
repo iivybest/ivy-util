@@ -112,9 +112,15 @@ public class MacUtil {
      * @return byte[]
      */
     public static byte[] digest(String algorithm, byte[] data, String key) {
-        if (algorithm == null || algorithm.length() == 0) return null;
-        if (data == null || data.length == 0) return null;
-        if (key == null || key.length() == 0) return null;
+        if (algorithm == null || algorithm.length() == 0) {
+            return null;
+        }
+        if (data == null || data.length == 0) {
+            return null;
+        }
+        if (key == null || key.length() == 0) {
+            return null;
+        }
 
         byte[] cipherByte = digest(data, generateSecretKey(algorithm, key.getBytes()));
         return cipherByte;
@@ -129,7 +135,9 @@ public class MacUtil {
      * @return byte[]
      */
     public static byte[] digest(String algorithm, String data, String key) {
-        if (data == null || data.length() == 0) return null;
+        if (data == null || data.length() == 0) {
+            return null;
+        }
         return digest(algorithm, data.getBytes(), key);
     }
 

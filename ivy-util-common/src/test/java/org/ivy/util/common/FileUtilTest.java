@@ -69,6 +69,4 @@ public class FileUtilTest {
         FileUtil.cut("D:/app/logs/test", "D:/logs/ivybest");
         //FileUtil.cut("D:\\ImiaoDev\\logs", "D:\\");
     }
-
-
 }

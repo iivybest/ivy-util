@@ -105,7 +105,9 @@ public class DigitalEnvelopeUtil {
 //				ex.printStackTrace();
             }
         }
-        if (plainBytes == null) return cipher;
+        if (plainBytes == null) {
+            return cipher;
+        }
         return new String(plainBytes, encoding);
     }
 

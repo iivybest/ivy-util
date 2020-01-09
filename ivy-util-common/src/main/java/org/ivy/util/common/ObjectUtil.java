@@ -16,13 +16,13 @@ import java.util.List;
  * @date 2016年3月24日-下午12:30:35
  */
 public class ObjectUtil {
-    private final static int _SIZE = 5000;
+    private final static int SIZE = 5000;
     private static final Runtime RUNTIME = Runtime.getRuntime();
 
     public static <T> long sizeof(T t) {
         runGC();
         long start = RUNTIME.freeMemory();
-        T _t = t;
+        T bean = t;
         runGC();
         long end = RUNTIME.freeMemory();
         return start - end;
@@ -31,7 +31,7 @@ public class ObjectUtil {
     private static void runGC() {
         long usedMem1 = usedMemory();
         long usedMem2 = Long.MAX_VALUE;
-        for (int i = 0; (usedMem1 < usedMem2) && (i < _SIZE); ++i) {
+        for (int i = 0; (usedMem1 < usedMem2) && (i < SIZE); ++i) {
             RUNTIME.runFinalization();
             RUNTIME.gc();
             Thread.yield();

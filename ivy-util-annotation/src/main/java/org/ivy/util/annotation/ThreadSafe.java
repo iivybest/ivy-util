@@ -17,7 +17,7 @@ import java.lang.annotation.*;
  * @date 2019/12/18 14:53
  */
 @Retention(RetentionPolicy.SOURCE)
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
 @Documented
 public @interface ThreadSafe {
 
@@ -33,6 +33,6 @@ public @interface ThreadSafe {
      *
      * @return String
      */
-    String[] msg() default "";
+    String[] msg() default {""};
 
 }

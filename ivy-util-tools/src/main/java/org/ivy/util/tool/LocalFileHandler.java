@@ -12,7 +12,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 
@@ -69,7 +68,9 @@ public class LocalFileHandler {
         File[] sub = FileUtil.getAllNonDirFileList(path);
         Stream.of(sub).forEach(e -> {
             String type = FileUtil.getFileType(e);
-            if (!types.contains(type)) return;
+            if (!types.contains(type)) {
+                return;
+            }
 
             // ----原文件非MP4文件，处理方式
             if (!"mp4".equals(originFileType)) {
@@ -79,9 +80,12 @@ public class LocalFileHandler {
 //					if (logger.isDebugEnabled()) logger.debug("---->scanning- " + e.getName());
                     try {
                         if (new File(originFilename).exists()) {
-                            if (logger.isDebugEnabled()) logger.debug("---->scanning- " + e.getName());
-                            if (logger.isDebugEnabled())
+                            if (logger.isDebugEnabled()) {
+                                logger.debug("---->scanning- " + e.getName());
+                            }
+                            if (logger.isDebugEnabled()) {
                                 logger.debug("====>processed-" + ++counter + "-" + originFilename);
+                            }
                             FileUtil.cut(originFilename, temp);
                         }
                     } catch (IOException ex) {
@@ -94,11 +98,11 @@ public class LocalFileHandler {
             if ("mp4".equals(originFileType)) {
                 if ("mp4".equals(type) && e.getName().endsWith("~1.mp4")) {
                     String originFilename = e.getAbsolutePath().replace("~1.mp4", ".mp4");
-                    logger.debug("---->scanning-" + e.getName());
+                    logger.debug("---->scanning-{}", e.getName());
                     File originFile = new File(originFilename);
                     try {
                         if (originFile.exists()) {
-                            logger.debug("====>processed-" + ++counter + "- " + originFilename);
+                            logger.debug("====>processed-{}-{}", ++counter, originFilename);
                             FileUtil.cut(originFile, temp);
                         }
                     } catch (IOException e1) {
@@ -120,12 +124,14 @@ public class LocalFileHandler {
 
         Stream.of(sub).forEach(e -> {
             String type = FileUtil.getFileType(e);
-            if (!types.contains(type)) return;
+            if (!types.contains(type)) {
+                return;
+            }
 
             logger.debug("----processing-" + ++counter + "-" + e.getName() + ", type:" + type);
-//			String newname = e.getParentFile().getAbsolutePath() + "/" + e.getParentFile().getName() + "-" + e.getName();
-            String newname = e.getParentFile().getAbsolutePath() + "/" + e.getName().replaceAll("\\s+", "_");
-            e.renameTo(new File(newname));
+//			String newName = e.getParentFile().getAbsolutePath() + "/" + e.getParentFile().getName() + "-" + e.getName();
+            String newName = e.getParentFile().getAbsolutePath() + "/" + e.getName().replaceAll("\\s+", "_");
+            e.renameTo(new File(newName));
         });
         logger.debug("---------------------> " + counter);
     }
@@ -139,7 +145,9 @@ public class LocalFileHandler {
         File[] sub = FileUtil.getAllNonDirFileList(path);
         Arrays.asList(sub).forEach(e -> {
             String type = FileUtil.getFileType(e);
-            if (!types.contains(type)) return;
+            if (!types.contains(type)) {
+                return;
+            }
             String filename = e.getName();
 //			logger.debug("----processing-" + ++counter + "- " + filename + ", type:" + type);
             Matcher matcher = pattern.matcher(filename);
@@ -164,39 +172,32 @@ public class LocalFileHandler {
 
     @Test
     public void fixFilename2() {
-        String _path = "D:\\BaiduNetdiskDownload\\黑马57期\\09 微服务电商【黑马乐优商城】·";
-
+        String path = "D:\\BaiduNetdiskDownload\\黑马57期\\09 微服务电商【黑马乐优商城】·";
         String regex = "\\d+[_][A-Za-z0-9]+(.mp4)";
 
-        File[] sub = FileUtil.getAllNonDirFileList(_path);
+        File[] sub = FileUtil.getAllNonDirFileList(path);
         Arrays.asList(sub).forEach(e -> {
             String type = FileUtil.getFileType(e);
-            if (!types.contains(type)) return;
+            if (!types.contains(type)) {
+                return;
+            }
             String filename = e.getName();
-            String _filename = null;
+            String filenameTo;
             if (filename.matches(regex)) {
-                _filename = e.getParentFile().getAbsolutePath() + "/" + filename.replaceAll("(_)[A-Za-z0-9]+", "");
-                logger.debug("\r\n{ \r\n \"filename\": \"{}\", \r\n \"_filename\": \"{}\" \r\n }", filename, _filename);
-                e.renameTo(new File(_filename));
+                filenameTo = e.getParentFile().getAbsolutePath()
+                        + "/"
+                        + filename.replaceAll("(_)[A-Za-z0-9]+", "");
+                logger.debug("\r\n{ \r\n\"filename\": \"{}\", \r\n\"filenameTo\": \"{}\"\r\n }", filename, filenameTo);
+                e.renameTo(new File(filenameTo));
             }
         });
     }
 
     @Test
     public void testRecursiveLoadSubFile() {
-//		this.path = "D:/BaiduNetdiskDownload/done/";
-//		File[] sub = FileUtil.getAllNonDirFileList(this.path);
-//		Arrays.asList(sub).forEach(System.out::println);
-//		IntStream.range(0, 10).forEach(System.out::println);
-//		int i = 0;
-//		while (i < 10) logger.debug(i ++);
-        for (int j = 0; j < 10; System.out.println(j++)) ;
-        logger.debug("-----------------------------------");
-        for (int j = 0; j < 10; ) System.out.println(j++);
-        logger.debug("-----------------------------------");
-        for (int j = 0; j < 10; j++) System.out.println(j);
-        logger.debug("-----------------------------------");
-        IntStream.range(0, 10).forEach(System.out::println);
+        this.path = "D:/BaiduNetdiskDownload/done/";
+        File[] sub = FileUtil.getAllNonDirFileList(this.path);
+        Arrays.asList(sub).forEach(System.out::println);
     }
 
 

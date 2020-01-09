@@ -83,7 +83,7 @@ public class DesUtil {
      * @return byte[]
      */
     public byte[] encrypt(String algorithm, byte[] data, byte[] key) {
-        return this.DesAlgoNG(algorithm, data, key, this.ENCRYPT_MODE);
+        return this.desAlgoNG(algorithm, data, key, this.ENCRYPT_MODE);
     }
 
     /**
@@ -107,7 +107,7 @@ public class DesUtil {
      * @return byte[]
      */
     public byte[] decrypt(String algorithm, byte[] cipher, byte[] key) {
-        return this.DesAlgoNG(algorithm, cipher, key, this.DECRYPT_MODE);
+        return this.desAlgoNG(algorithm, cipher, key, this.DECRYPT_MODE);
     }
 
     /**
@@ -177,7 +177,7 @@ public class DesUtil {
      * @param model     model
      * @return byte[]
      */
-    public byte[] DesAlgoNG(String algorithm, byte[] data, byte[] key, int model) {
+    public byte[] desAlgoNG(String algorithm, byte[] data, byte[] key, int model) {
         byte[] handled = null;
         SecretKey secretKey = new SecretKeySpec(key, this.getAlgorithmType(algorithm));
         IvParameterSpec iv = new IvParameterSpec(Arrays.copyOfRange(key, 0, 16));

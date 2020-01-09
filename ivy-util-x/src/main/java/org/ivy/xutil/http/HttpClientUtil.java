@@ -155,8 +155,9 @@ public class HttpClientUtil {
         HttpResponse response = httpClient.execute(get);
         System.out.println(EntityUtils.toString(response.getEntity(), Consts.UTF_8));
 
-        for (Header header : response.getAllHeaders())
+        for (Header header : response.getAllHeaders()) {
             System.out.println(header.getName() + " : " + header.getValue());
+        }
     }
 
 //	public static void main(String[] args) throws Exception {

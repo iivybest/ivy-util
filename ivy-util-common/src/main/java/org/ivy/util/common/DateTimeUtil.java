@@ -43,7 +43,9 @@ public class DateTimeUtil {
      * @return String
      */
     public static String currentDateTime(String pattern) {
-        if (StringUtil.isBlank(pattern)) pattern = defaultPattern;
+        if (StringUtil.isBlank(pattern)) {
+            pattern = defaultPattern;
+        }
         return format(currentDateTime(), pattern);
     }
 
@@ -159,8 +161,11 @@ public class DateTimeUtil {
      */
     public static LocalDateTime getDateTime(long timestamp, TemporalUnit unit) {
         Instant instant = null;
-        if (ChronoUnit.MILLIS.equals(unit)) instant = Instant.ofEpochMilli(timestamp);
-        else if (ChronoUnit.SECONDS.equals(unit)) instant = Instant.ofEpochSecond(timestamp);
+        if (ChronoUnit.MILLIS.equals(unit)) {
+            instant = Instant.ofEpochMilli(timestamp);
+        } else if (ChronoUnit.SECONDS.equals(unit)) {
+            instant = Instant.ofEpochSecond(timestamp);
+        }
 
         return LocalDateTime.ofInstant(instant, ZoneId.systemDefault());
     }
@@ -199,8 +204,8 @@ public class DateTimeUtil {
      * @return Long timestamp
      */
     public static Long getTimestamp(LocalDateTime time) {
-        LocalDateTime time_ = (null == time) ? LocalDateTime.now() : time;
-        return time_.toInstant(ZoneOffset.of("+8")).toEpochMilli();
+        LocalDateTime dateTime = (null == time) ? LocalDateTime.now() : time;
+        return dateTime.toInstant(ZoneOffset.of("+8")).toEpochMilli();
     }
 
     /**
@@ -219,22 +224,22 @@ public class DateTimeUtil {
      * @return Long
      */
     public static Long getUnixTimestamp(LocalDateTime time) {
-        LocalDateTime time_ = (null == time) ? LocalDateTime.now() : time;
-        return time_.toEpochSecond(ZoneOffset.of("+8"));
+        LocalDateTime dateTime = (null == time) ? LocalDateTime.now() : time;
+        return dateTime.toEpochSecond(ZoneOffset.of("+8"));
     }
 
     /**
-     * 获取一个距离from间隔为to的时间戳
+     * 获取一个距离 from 间隔为 to 的时间戳
      *
      * @param from 起点时间（时间戳） -- from == null起点时间为now
      * @param to   间隔时间（指定值）-- 距离起点时间间隔To
      * @param unit 时间单位（用户指定的时间单位）
-     * @return Long
+     * @return Long timestamp
      */
-    public static Long getTimestamp(Long from, Long to, TemporalUnit unit) {
-        Long from_ = (null == from) ? getTimestamp(null) : from;
+    public static Long getTimestamp(long from, long to, TemporalUnit unit) {
+        Long originTimeStamp = (from < 0) ? getTimestamp(null) : from;
         // ----ChronoUnit / Unit implements interface TemporalUnit
-        LocalDateTime time = getDateTime(from_, ChronoUnit.MILLIS).plus(to, unit);
+        LocalDateTime time = getDateTime(originTimeStamp, ChronoUnit.MILLIS).plus(to, unit);
         // ----目标时刻转为时间戳
         return getTimestamp(time);
     }
@@ -248,9 +253,9 @@ public class DateTimeUtil {
      * @return Long
      */
     public static Long getUnixTimestamp(long from, long to, TemporalUnit unit) {
-        Long from_ = (from <= 0) ? getUnixTimestamp(null) : from;
+        Long stampFrom = (from < 0) ? getUnixTimestamp(null) : from;
         // ----ChronoUnit / Unit implements interface TemporalUnit
-        LocalDateTime time = getDateTime(from_, ChronoUnit.SECONDS).plus(to, unit);
+        LocalDateTime time = getDateTime(stampFrom, ChronoUnit.SECONDS).plus(to, unit);
         // ----目标时刻转为时间戳
         return getUnixTimestamp(time);
     }

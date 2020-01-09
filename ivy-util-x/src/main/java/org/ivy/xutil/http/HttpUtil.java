@@ -96,8 +96,11 @@ public class HttpUtil {
         StringBuffer param = new StringBuffer();
         int i = 0;
         for (String key : params.keySet()) {
-            if (i == 0) param.append("?");
-            else param.append("&");
+            if (i == 0) {
+                param.append("?");
+            } else {
+                param.append("&");
+            }
             param.append(key).append("=").append(params.get(key));
             i++;
         }
@@ -119,7 +122,9 @@ public class HttpUtil {
 
                 byte[] buf = new byte[1024];
                 int len;
-                while ((len = bis.read(buf)) > 0) baos.write(buf, 0, len);
+                while ((len = bis.read(buf)) > 0) {
+                    baos.write(buf, 0, len);
+                }
                 result = baos.toByteArray();
 
                 instream.close();

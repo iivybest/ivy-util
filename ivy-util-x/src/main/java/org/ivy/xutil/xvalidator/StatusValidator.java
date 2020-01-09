@@ -1,4 +1,4 @@
-package org.ivy.xutil.FieldValidator;
+package org.ivy.xutil.xvalidator;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
@@ -13,8 +13,9 @@ public class StatusValidator implements ConstraintValidator<Status, String> {
 
     @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
-        if (Arrays.asList(ALL_STATUS).contains(value))
+        if (Arrays.asList(ALL_STATUS).contains(value)) {
             return true;
+        }
         return false;
     }
 }

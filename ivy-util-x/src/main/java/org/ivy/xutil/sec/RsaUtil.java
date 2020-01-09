@@ -180,8 +180,11 @@ public class RsaUtil {
             // 生成Cipher对象指定其支持RSA算法
             cipher = Cipher.getInstance(this.RSA);
             // 根据密钥对Cipher对象进行初始化, ENCRYPT_MODE表示加密模式
-            if (ENCRYPT_MODE == model) cipher.init(Cipher.ENCRYPT_MODE, key);
-            else if (DECRYPT_MODE == model) cipher.init(Cipher.DECRYPT_MODE, key);
+            if (ENCRYPT_MODE == model) {
+                cipher.init(Cipher.ENCRYPT_MODE, key);
+            } else if (DECRYPT_MODE == model) {
+                cipher.init(Cipher.DECRYPT_MODE, key);
+            }
             // 对original解密或加密运算
             handled = cipher.doFinal(data);
         } catch (NoSuchAlgorithmException e) {

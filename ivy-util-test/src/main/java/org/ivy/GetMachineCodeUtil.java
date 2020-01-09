@@ -6,10 +6,11 @@ import java.util.Properties;
 import java.util.Scanner;
 
 /**
- *  GetMachineCodeUtil
+ * GetMachineCodeUtil
+ *
  * @author ivybest imiaodev@163.com
  * @date 2018年8月30日 上午8:56:21
- *  获取机器编码
+ * 获取机器编码
  */
 public class GetMachineCodeUtil {
     public static void main(String[] args) {
@@ -29,13 +30,13 @@ public class GetMachineCodeUtil {
 //			System.out.println(tt);
 
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
 
 
         Properties p = System.getProperties();
-        for (Map.Entry<Object, Object> e : p.entrySet())
+        for (Map.Entry<Object, Object> e : p.entrySet()) {
             System.out.println(e.getKey() + ": " + e.getValue());
+        }
     }
 }

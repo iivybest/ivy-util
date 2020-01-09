@@ -28,7 +28,7 @@ public class ExportPrivateKey {
     private String alias;
     private File exportedFile;
 
-    public static void main(String args[]) throws Exception {
+    public static void main(String[] args) throws Exception {
         ExportPrivateKey export = new ExportPrivateKey();
         export.keystoreFile = new File("E:/Ivybest/test/Aisino.einv.cmcc.CA.pfx");
         export.keyStoreType = "PKCS12";

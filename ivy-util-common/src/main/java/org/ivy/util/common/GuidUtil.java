@@ -55,7 +55,7 @@ public class GuidUtil {
         bSecure = secure;
     }
 
-    public static void main(String args[]) {
+    public static void main(String[] args) {
         for (int i = 0; i < 100; i++) {
             GuidUtil myGUID = new GuidUtil();
             System.out.println("SeedingString = " + myGUID.createNewGuid(GuidUtil.BEFORE_MD_5));

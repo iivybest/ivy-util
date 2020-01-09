@@ -33,8 +33,9 @@ public class Configuration {
 
     public void update() {
         Map<String, String> increments = this.scanner.update();
-        if (increments == null) return;
-
+        if (increments == null) {
+            return;
+        }
         lock.writeLock().lock();
         try {
             this.args.putAll(increments);

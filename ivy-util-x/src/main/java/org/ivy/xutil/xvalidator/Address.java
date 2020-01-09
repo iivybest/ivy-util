@@ -1,4 +1,4 @@
-package org.ivy.xutil.FieldValidator;
+package org.ivy.xutil.xvalidator;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.Range;

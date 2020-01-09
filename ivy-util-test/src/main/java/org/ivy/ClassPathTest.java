@@ -47,21 +47,25 @@ public class ClassPathTest {
 
 
     public static byte[] read(InputStream in) {
-        if (null == in) return null;
-        byte[] original = null;
+        if (null == in) {
+            return null;
+        }
+        byte[] data = null;
         try (
                 BufferedInputStream bis = new BufferedInputStream(in);
-                ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                ByteArrayOutputStream baos = new ByteArrayOutputStream()
         ) {
             byte[] buf = new byte[1024];
             int len;
-            while ((len = bis.read(buf)) > 0) baos.write(buf, 0, len);
-            original = baos.toByteArray();
+            while ((len = bis.read(buf)) > 0) {
+                baos.write(buf, 0, len);
+            }
+            data = baos.toByteArray();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return original;
+        return data;
     }
 }

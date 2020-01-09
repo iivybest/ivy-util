@@ -97,7 +97,9 @@ public class SerialNumberUtil {
             Process p = Runtime.getRuntime().exec("cscript //NoLogo " + path);
             BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line;
-            while ((line = input.readLine()) != null) result += line;
+            while ((line = input.readLine()) != null) {
+                result += line;
+            }
             input.close();
             file.delete();
         } catch (Exception e) {

@@ -26,7 +26,9 @@ public class HttpClient {
             url = new URL(host);
             conn = (HttpURLConnection) url.openConnection();
 
-            if (conn == null) return null;
+            if (conn == null) {
+                return null;
+            }
             baos = new ByteArrayOutputStream();
 
             conn.setRequestMethod(type);
@@ -59,7 +61,7 @@ public class HttpClient {
                 // 获取URLConnection对象对应的输出流
                 out = new PrintWriter(conn.getOutputStream());
                 // 发送请求参数
-                out.print(Map2String(args));
+                out.print(mapToString(args));
                 // flush输出流的缓冲
                 out.flush();
             }
@@ -70,9 +72,9 @@ public class HttpClient {
             boolean redirect = false;
             int status = conn.getResponseCode();
 
-            if (status != HttpURLConnection.HTTP_OK)
+            if (status != HttpURLConnection.HTTP_OK) {
                 redirect = status == HttpURLConnection.HTTP_MOVED_TEMP || status == HttpURLConnection.HTTP_MOVED_PERM || status == HttpURLConnection.HTTP_SEE_OTHER;
-
+            }
             if (redirect) {
                 // get redirect url from "location" header field
                 String newUrl = conn.getHeaderField("Location");
@@ -101,19 +103,27 @@ public class HttpClient {
                 in = conn.getInputStream();
                 byte[] buf = new byte[1024];
                 int len;
-                while ((len = in.read(buf)) > 0) baos.write(buf, 0, len);
+                while ((len = in.read(buf)) > 0) {
+                    baos.write(buf, 0, len);
+                }
                 resp = baos.toByteArray();
             }
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             try {
-                if (out != null) out.close();
-                out = null;
-                if (in != null) in.close();
-                in = null;
-                if (baos != null) baos.close();
-                baos = null;
+                if (out != null) {
+                    out.close();
+                    out = null;
+                }
+                if (in != null) {
+                    in.close();
+                    in = null;
+                }
+                if (baos != null) {
+                    baos.close();
+                    baos = null;
+                }
             } catch (Exception ex) {
                 ex.printStackTrace();
             }
@@ -121,12 +131,15 @@ public class HttpClient {
         return resp;
     }
 
-    public static String Map2String(Map<String, String> map) throws UnsupportedEncodingException {
+    public static String mapToString(Map<String, String> map) throws UnsupportedEncodingException {
         StringBuffer sb = new StringBuffer();
         if (map != null) {
-            for (Entry<String, String> e : map.entrySet())
-                sb.append(e.getKey()).append("=")
-                        .append(URLEncoder.encode(e.getValue(), "UTF-8")).append("&");
+            for (Entry<String, String> e : map.entrySet()) {
+                sb.append(e.getKey())
+                        .append("=")
+                        .append(URLEncoder.encode(e.getValue(), "UTF-8"))
+                        .append("&");
+            }
         }
         String str = sb.toString();
         str.substring(0, str.length() - 1);

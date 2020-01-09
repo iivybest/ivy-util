@@ -4,8 +4,7 @@ import java.io.*;
 import java.util.*;
 
 /**
- * <p>  classname: PropertiesUtil
- * <br> description: properties 工具类
+ * <p> description: properties 工具类
  * <br>---------------------------------------------------------
  * <br>
  * <br>---------------------------------------------------------
@@ -20,21 +19,19 @@ public class PropertiesUtil {
     /**
      * load properties
      *
-     * @param fileUrl
+     * @param fileUrl file path
      * @return Properties
      * @throws IOException
      * @throws FileNotFoundException
-     * @author miao.xl
-     * @date 2015年1月15日 上午9:05:35
-     * @version 1.0
      */
     public static Properties load(String fileUrl) throws FileNotFoundException, IOException {
-        if (StringUtil.isBlank(fileUrl)) return null;
+        if (StringUtil.isBlank(fileUrl)) {
+            return null;
+        }
         Properties prop = null;
         try (InputStream is = new BufferedInputStream(new FileInputStream(fileUrl))) {
             // Class.class.getResourceAsStream，只支持classpath的相对路径
-            if (fileUrl.matches(IvyConstant.REGEXP_XML)) prop = loadFromXML(is);
-            else prop = loadFromProperties(is);
+            prop = (fileUrl.matches(IvyConstant.REGEXP_XML)) ? loadFromXML(is) : loadProperties(is);
         }
         return prop;
     }
@@ -42,13 +39,10 @@ public class PropertiesUtil {
     /**
      * load properties from xml file
      *
-     * @param is
-     * @return
+     * @param is InputStream
+     * @return Properties
      * @throws IOException
      * @throws InvalidPropertiesFormatException
-     * @author miao.xl
-     * @date 2014年12月9日 下午5:09:19
-     * @version 1.0
      */
     public static Properties loadFromXML(InputStream is) throws InvalidPropertiesFormatException, IOException {
         Properties prop = new Properties();
@@ -59,35 +53,33 @@ public class PropertiesUtil {
     /**
      * load properties from properties file
      *
-     * @param is
-     * @return
+     * @param is InputStream
+     * @return Properties
      * @throws IOException
      */
-    public static Properties loadFromProperties(InputStream is) throws IOException {
+    public static Properties loadProperties(InputStream is) throws IOException {
         Properties prop = new Properties();
         prop.load(is);
         return prop;
     }
 
     /**
-     * store properties
+     * store Properties to file system
      *
-     * @param prop
-     * @param fileUrl
-     * @param comment
-     * @author miao.xl
-     * @date 2014年12月9日 下午4:20:18
-     * @version 1.0
+     * @param prop    Properties
+     * @param fileUrl file path
+     * @param comment comment
      */
     public static void storeProperties(Properties prop, String fileUrl, String comment) {
-        // 文件不存在，创建文件
-        if (!new File(fileUrl).exists()) FileUtil.createNewFile(fileUrl);
-
+        if (!new File(fileUrl).exists()) {
+            FileUtil.createNewFile(fileUrl);
+        }
         try (OutputStream os = new BufferedOutputStream(new FileOutputStream(fileUrl))) {
-            if (fileUrl.matches(IvyConstant.REGEXP_XML))
-                storeProperties2XML(prop, os, comment);
-            else
+            if (fileUrl.matches(IvyConstant.REGEXP_XML)) {
+                storePropertiesToXML(prop, os, comment);
+            } else {
                 storeProperties(prop, os, comment);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -96,12 +88,9 @@ public class PropertiesUtil {
     /**
      * store properties file
      *
-     * @param prop
-     * @param os
-     * @param comment
-     * @author miao.xl
-     * @date 2014年12月9日 下午4:24:24
-     * @version 1.0
+     * @param prop    Properties
+     * @param os      OutputStream
+     * @param comment comment
      */
     public static void storeProperties(Properties prop, OutputStream os, String comment) {
         try {
@@ -114,14 +103,11 @@ public class PropertiesUtil {
     /**
      * store properties to xml file
      *
-     * @param prop
-     * @param os
-     * @param comment
-     * @author miao.xl
-     * @date 2014年12月9日 下午4:26:18
-     * @version 1.0
+     * @param prop    Properties
+     * @param os      OutputStream
+     * @param comment comment
      */
-    public static void storeProperties2XML(Properties prop, OutputStream os, String comment) {
+    public static void storePropertiesToXML(Properties prop, OutputStream os, String comment) {
         try {
             prop.storeToXML(os, comment);
         } catch (IOException e) {
@@ -132,17 +118,15 @@ public class PropertiesUtil {
     /**
      * convert properties to map
      *
-     * @param prop
-     * @return map
-     * @author miao.xl
-     * @date 2015年1月15日 上午9:42:46
-     * @version 1.0
+     * @param prop Properties
+     * @return Map
      */
     public static Map<String, String> convertToMap(Properties prop) {
-        if (prop == null) return null;
-
+        if (prop == null) {
+            return null;
+        }
         Map<String, String> map = new HashMap<String, String>();
-        Enumeration<?> keys = (Enumeration<?>) prop.propertyNames();
+        Enumeration<?> keys = prop.propertyNames();
         while (keys.hasMoreElements()) {
             String key = String.valueOf(keys.nextElement());
             map.put(key, prop.getProperty(key));

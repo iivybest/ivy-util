@@ -80,8 +80,7 @@ public class IvyUtilConf {
 
     public static String getProperty(String key) {
         String ikey = IvyUtilConstant.PRIFIX + IvyUtilConstant.SEPARATOR + key;
-        if (containsKey(key)) return propertyMap.get(ikey);
-        else return "";
+        return (containsKey(key)) ? propertyMap.get(ikey) : "";
     }
 
     public static boolean containsKey(String key) {

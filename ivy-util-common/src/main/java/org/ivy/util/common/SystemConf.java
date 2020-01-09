@@ -62,9 +62,9 @@ public enum SystemConf {
      * @return SystemConf
      */
     @Description({
-            "初始化读写锁",
-            "初始化参数",
-            "读取所有配置文件"})
+            "// initialize read write lock",
+            "// initialize parameters",
+            "// initialize configuration file"})
     private SystemConf init() {
         return this.initReadWriteLock().initArgs().loadProp();
     }
@@ -131,14 +131,16 @@ public enum SystemConf {
         for (int i = this.propertiesPathMap.size(); i >= 1; i--) {
             File file = new File(propertiesPathMap.get(String.valueOf(i)));
             // ----目录不存在，则退出本次循环
-            if (!file.exists()) continue;
+            if (!file.exists()) {
+                continue;
+            }
             // ----获取该目录下子文件列表
             File[] subFileList = (needScanningSubPathIdx.contains(i))
                     ? FileUtil.getAllNonDirFileList(file)
                     : FileUtil.getNonDirFileList(file);
             // ----遍历每个文件，加载各个配置项
             Properties prop = null;
-            for (File f : subFileList)
+            for (File f : subFileList) {
                 if (f.getName().endsWith(".properties")) {
                     try {
                         prop = PropertiesUtil.load(f.getAbsolutePath());
@@ -148,12 +150,15 @@ public enum SystemConf {
                         ex.printStackTrace();
                     }
                 }
+            }
         }
         return this;
     }
 
     public String get(String key) {
-        if (!this.containsKey(key)) return "";
+        if (!this.containsKey(key)) {
+            return "";
+        }
         try {
             this.readLock.lock();
             return keyValueMap.get(key);
@@ -165,11 +170,14 @@ public enum SystemConf {
 
     public void set(String key, String val) {
         try {
-            if (containsKey(key)) this.writeLock.lock();
+            if (containsKey(key)) {
+                this.writeLock.lock();
+            }
             this.keyValueMap.put(key, val);
         } finally {
-            if (this.writeLock.isHeldByCurrentThread())
+            if (this.writeLock.isHeldByCurrentThread()) {
                 this.writeLock.unlock();
+            }
         }
     }
 
@@ -177,13 +185,17 @@ public enum SystemConf {
      * 获取必须包含项配置----若配置信息为空--抛出异常
      *
      * @param key key
-     * @return String
+     * @return value
      * @throws Exception
      */
     public String getForcedIncludeConfiguration(String key) throws Exception {
-        if (!this.containsKey(key)) throw new Exception("====not find [" + key + "] in configuration");
+        if (!this.containsKey(key)) {
+            throw new Exception("====not find [" + key + "] in configuration");
+        }
         String val = this.get(key);
-        if (StringUtil.isBlank(val)) throw new Exception("====key [" + key + "] in configuration, but value is blank");
+        if (StringUtil.isBlank(val)) {
+            throw new Exception("====key [" + key + "] in configuration, but value is blank");
+        }
         return val;
     }
 
@@ -195,9 +207,13 @@ public enum SystemConf {
      * @return String
      */
     public String get(String key, String defaultVal) {
-        if (!this.containsKey(key)) return defaultVal;
+        if (!this.containsKey(key)) {
+            return defaultVal;
+        }
         String val = this.get(key);
-        if (StringUtil.isBlank(val)) val = defaultVal;
+        if (StringUtil.isBlank(val)) {
+            val = defaultVal;
+        }
         return val;
     }
 
@@ -211,7 +227,9 @@ public enum SystemConf {
         String value = "";
         for (String e : keys) {
             value = this.get(e);
-            if (StringUtil.isNonBlank(value)) break;
+            if (StringUtil.isNonBlank(value)) {
+                break;
+            }
         }
         return value;
     }
@@ -224,12 +242,13 @@ public enum SystemConf {
      * 列出所有资源属性
      */
     public void list() {
-        StringBuffer sb = new StringBuffer();
+        StringBuffer buffer = new StringBuffer();
         try {
             this.readLock.lock();
-            for (Map.Entry<String, String> entry : this.keyValueMap.entrySet())
-                sb.append(entry.getKey()).append(" : ").append(entry.getValue()).append("\n");
-            System.out.println(sb.toString());
+            for (Map.Entry<String, String> entry : this.keyValueMap.entrySet()) {
+                buffer.append(entry.getKey()).append(" : ").append(entry.getValue()).append("\n");
+            }
+            System.out.println(buffer.toString());
         } finally {
             this.readLock.unlock();
         }
@@ -243,10 +262,13 @@ public enum SystemConf {
     public SystemConf reload() {
         try {
             this.writeLock.lock();
-            this.clear().initArgs().loadProp();    // 初始化所有参数，重新读取配置文件
+            // 初始化所有参数，重新读取配置文件
+            this.clear().initArgs().loadProp();
             return this;
         } finally {
-            if (this.writeLock.isHeldByCurrentThread()) this.writeLock.unlock();
+            if (this.writeLock.isHeldByCurrentThread()) {
+                this.writeLock.unlock();
+            }
         }
     }
 
@@ -256,7 +278,9 @@ public enum SystemConf {
             this.keyValueMap.clear();
             return this;
         } finally {
-            if (this.writeLock.isHeldByCurrentThread()) this.writeLock.unlock();
+            if (this.writeLock.isHeldByCurrentThread()) {
+                this.writeLock.unlock();
+            }
         }
     }
 

@@ -98,11 +98,11 @@ public class PKCS7Tool {
         init();
         // 加载证书库
         KeyStore keyStore = null;
-        if (keyStorePath.toLowerCase().endsWith(".pfx"))
+        if (keyStorePath.toLowerCase().endsWith(".pfx")) {
             keyStore = KeyStore.getInstance("PKCS12");
-        else
+        } else {
             keyStore = KeyStore.getInstance("JKS");
-
+        }
 
         try (FileInputStream fis = new FileInputStream(keyStorePath)) {
             keyStore.load(fis, keyStorePassword.toCharArray());
@@ -118,7 +118,9 @@ public class PKCS7Tool {
             while (aliases.hasMoreElements()) {
                 keyAlias = (String) aliases.nextElement();
                 Certificate[] certs = keyStore.getCertificateChain(keyAlias);
-                if (certs == null || certs.length == 0) continue;
+                if (certs == null || certs.length == 0) {
+                    continue;
+                }
 
                 X509Certificate cert = (X509Certificate) certs[0];
                 if (matchUsage(cert.getKeyUsage(), 1)) {
@@ -133,21 +135,26 @@ public class PKCS7Tool {
         }
 
         // 没有找到可用签名私钥
-        if (keyAlias == null)
+        if (keyAlias == null) {
             throw new GeneralSecurityException("None certificate for sign in this keystore");
-        if (debug) System.out.println(keyAlias);
+        }
+        if (debug) {
+            System.out.println(keyAlias);
+        }
         X509Certificate[] certificates = null;
         if (keyStore.isKeyEntry(keyAlias)) {
             // 检查证书链
             Certificate[] certs = keyStore.getCertificateChain(keyAlias);
             for (int i = 0; i < certs.length; i++) {
-                if (!(certs[i] instanceof X509Certificate))
+                if (!(certs[i] instanceof X509Certificate)) {
                     throw new GeneralSecurityException("Certificate[" + i + "] in chain '" + keyAlias + "' is not a X509Certificate.");
+                }
             }
             // 转换证书链
             certificates = new X509Certificate[certs.length];
-            for (int i = 0; i < certs.length; i++)
+            for (int i = 0; i < certs.length; i++) {
                 certificates[i] = (X509Certificate) certs[i];
+            }
         } else if (keyStore.isCertificateEntry(keyAlias)) {
             // 只有单张证书
             Certificate cert = keyStore.getCertificate(keyAlias);
@@ -202,21 +209,25 @@ public class PKCS7Tool {
      * @return boolean
      */
     private static boolean matchUsage(boolean[] keyUsage, int usage) {
-        if (usage == 0 || keyUsage == null)
+        if (usage == 0 || keyUsage == null) {
             return true;
+        }
         for (int i = 0; i < Math.min(keyUsage.length, 32); i++) {
-            if ((usage & (1 << i)) != 0 && !keyUsage[i])
+            if ((usage & (1 << i)) != 0 && !keyUsage[i]) {
                 return false;
+            }
         }
         return true;
     }
 
     private static void init() {
-        if (jvm != 0)
+        if (jvm != 0) {
             return;
+        }
         String vendor = System.getProperty("java.vm.vendor");
-        if (vendor == null)
+        if (vendor == null) {
             vendor = "";
+        }
         String vendorUC = vendor.toUpperCase();
         try {
             if (vendorUC.indexOf("SUN") >= 0) {
@@ -255,7 +266,9 @@ public class PKCS7Tool {
      * @throws IllegalArgumentException Exception
      */
     public String sign(byte[] data) throws Exception {
-        if (mode != SIGNER) throw new IllegalStateException("====call a PKCS7Tool instance not for signature.");
+        if (mode != SIGNER) {
+            throw new IllegalStateException("====call a PKCS7Tool instance not for signature.");
+        }
         Signature signer = Signature.getInstance(signatureAlgorithm);
         signer.initSign(privateKey);
         signer.update(data, 0, data.length);
@@ -334,22 +347,25 @@ public class PKCS7Tool {
      */
     public void verify(String signature, byte[] data, String dn) throws IOException, NoSuchAlgorithmException,
             SignatureException, InvalidKeyException, CertificateException, NoSuchProviderException {
-        if (mode != VERIFIER)
+        if (mode != VERIFIER) {
             throw new IllegalStateException("call a PKCS7Tool instance not for verify.");
+        }
         byte[] sign = Base64.getDecoder().decode(signature);
         PKCS7 p7 = new PKCS7(sign);
         X509Certificate[] certs = p7.getCertificates();
-        if (debug)
+        if (debug) {
             for (int i = 0; i < certs.length; i++) {
                 X509Certificate cert = certs[i];
                 System.out.println("SIGNER " + i + "=\n" + cert);
                 System.out.println("SIGNER " + i + "=\n" + Base64.getEncoder().encodeToString(cert.getEncoded()));
             }
+        }
         // 验证签名本身、证书用法、证书扩展
         SignerInfo[] sis = p7.verify(data);
         // check the results of the verification
-        if (sis == null)
+        if (sis == null) {
             throw new SignatureException("Signature failed verification, data has been tampered");
+        }
         for (int i = 0; i < sis.length; i++) {
             SignerInfo si = sis[i];
             X509Certificate cert = si.getCertificate(p7);
@@ -362,9 +378,10 @@ public class PKCS7Tool {
             // 验证dn
             if (i == 0 && dn != null) {
                 X500Principal name = cert.getSubjectX500Principal();
-                if (!dn.equals(name.getName(X500Principal.RFC1779)) && !new X500Principal(dn).equals(name))
+                if (!dn.equals(name.getName(X500Principal.RFC1779)) && !new X500Principal(dn).equals(name)) {
                     throw new SignatureException(
                             "Signer dn '" + name.getName(X500Principal.RFC1779) + "' does not matchs '" + dn + "'");
+                }
             }
         }
     }

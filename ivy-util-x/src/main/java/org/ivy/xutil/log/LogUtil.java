@@ -13,7 +13,7 @@ import java.nio.channels.FileChannel;
 /**
  * <p> description:
  * <br>--------------------------------------------------------
- * <br> 自定义日志工具
+ * <br> custom log util
  * <br>--------------------------------------------------------
  * <br>Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
@@ -23,7 +23,7 @@ import java.nio.channels.FileChannel;
  * @date 2014/5/19 09:24
  */
 public class LogUtil {
-    /* LogUtil工具内部参数 start **********************************/
+    /* LogUtil 工具内部参数 start **********************************/
     /**
      * 路径分隔符
      */
@@ -32,7 +32,7 @@ public class LogUtil {
      * 默认日志名
      */
     private String defaultLogName;
-    /* LogUtil工具内部参数 end ************************************/
+    /* LogUtil 工具内部参数 end ************************************/
 
     /**
      * 记录日志者的class类型
@@ -127,8 +127,11 @@ public class LogUtil {
      * @return String
      */
     private String getCurrentLogUrl() {
-        if (this.splitLogByThreadId) return this.logUrl + "_" + Thread.currentThread().getId();
-        else return this.logUrl;
+        if (this.splitLogByThreadId) {
+            return this.logUrl + "_" + Thread.currentThread().getId();
+        } else {
+            return this.logUrl;
+        }
     }
 
     /**
@@ -215,10 +218,14 @@ public class LogUtil {
      * @param printable printable
      */
     public void log(Object data, boolean printable) {
-        if (null == data) data = "null";
+        if (null == data) {
+            data = "null";
+        }
         data = this.format(data.toString());
 
-        if (printable) this.print(data);
+        if (printable) {
+            this.print(data);
+        }
         this.writer.println(data);
         this.writer.flush();
     }

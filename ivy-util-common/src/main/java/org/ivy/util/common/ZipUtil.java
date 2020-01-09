@@ -30,7 +30,9 @@ public class ZipUtil {
             } else {
                 BufferedReader br = new BufferedReader(new InputStreamReader(zipFile.getInputStream(ze), "GBK"));
                 String line;
-                while ((line = br.readLine()) != null) buffer.append(line);
+                while ((line = br.readLine()) != null) {
+                    buffer.append(line);
+                }
                 br.close();
             }
         }
@@ -47,7 +49,9 @@ public class ZipUtil {
 
             byte[] buffer = new byte[1024];
             int len;
-            while ((len = instream.read(buffer)) > 0) outstream.write(buffer, 0, len);
+            while ((len = instream.read(buffer)) > 0) {
+                outstream.write(buffer, 0, len);
+            }
             outstream.closeEntry();
         }
     }
@@ -60,7 +64,7 @@ public class ZipUtil {
     public void unzip(File zipFile, String dest) throws IOException {
         try (
                 FileInputStream fis = new FileInputStream(zipFile);
-                ZipInputStream zis = new ZipInputStream(fis);
+                ZipInputStream zis = new ZipInputStream(fis)
         ) {
             ZipEntry ze;
             while ((ze = zis.getNextEntry()) != null) {

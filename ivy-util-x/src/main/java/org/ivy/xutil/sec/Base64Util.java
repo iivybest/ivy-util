@@ -1,6 +1,7 @@
 package org.ivy.xutil.sec;
 
 import java.util.Base64;
+import java.util.stream.IntStream;
 
 /**
  * <p> description:
@@ -28,7 +29,9 @@ public class Base64Util {
      * @return byte[]
      */
     public static byte[] encode(byte[] data) {
-        if (data == null) return null;
+        if (data == null) {
+            return null;
+        }
         return Base64.getEncoder().encode(data);
     }
 
@@ -39,37 +42,51 @@ public class Base64Util {
      * @return byte[]
      */
     public static byte[] encode(String data) {
-        if (data == null) return null;
+        if (data == null) {
+            return null;
+        }
         return encode(data.getBytes());
     }
 
     public static String encodeToString(byte[] data) {
-        if (data == null) return null;
+        if (data == null) {
+            return null;
+        }
         return Base64.getEncoder().encodeToString(data);
     }
 
     public static String encodeToString(String data) {
-        if (data == null) return null;
+        if (data == null) {
+            return null;
+        }
         return encodeToString(data.getBytes());
     }
 
     public static byte[] decode(String data) {
-        if (null == data) return null;
+        if (null == data) {
+            return null;
+        }
         return Base64.getDecoder().decode(data);
     }
 
     public static byte[] decode(byte[] data) {
-        if (data == null) return null;
+        if (data == null) {
+            return null;
+        }
         return Base64.getDecoder().decode(data);
     }
 
     public static String decodeToString(String data) {
-        if (null == data) return null;
+        if (null == data) {
+            return null;
+        }
         return new String(decode(data));
     }
 
     public static String decodeToString(byte[] data) {
-        if (data == null) return null;
+        if (data == null) {
+            return null;
+        }
         return new String(decode(data));
     }
 

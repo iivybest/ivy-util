@@ -80,9 +80,9 @@ class TaskItem implements Callable<String> {
 
     private void launch() {
 
-        for (int i = 1; i <= count; i++)
+        for (int i = 1; i <= count; i++) {
             new Thread(new ApacheCommonsHttpClientPost(beginLatch, finishLatch, i)).start();
-
+        }
         try {
             // 下达任务执行命令，所有任务线程并行执行任务
             this.beginLatch.countDown();
