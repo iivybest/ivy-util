@@ -248,7 +248,7 @@ public class DigitUtil {
         return longToChineseDigit(data, false);
     }
 
-    private static String long2ChineseDigitDirect(long data) {
+    private static String longToChineseDigitDirect(long data) {
         char[] dataChars = String.valueOf(data).toCharArray();
         char[] cnChars = new char[dataChars.length];
         for (int i = 0, len = dataChars.length; i < len; i++) {
@@ -258,9 +258,9 @@ public class DigitUtil {
     }
 
 
-    public static String double2ChineseDigit(double data, boolean isColloquial) {
+    public static String doubleToChineseDigit(double data, boolean isColloquial) {
         if (data < 0) {
-            return "负" + double2ChineseDigit(-data, isColloquial);
+            return "负" + doubleToChineseDigit(-data, isColloquial);
         }
         String dataStr = String.valueOf(data);
         if (!dataStr.contains(DECIMAL_POINT)) {
@@ -269,15 +269,15 @@ public class DigitUtil {
         String[] arr = dataStr.split("\\" + DECIMAL_POINT);
         return longToChineseDigit(Long.valueOf(arr[0]), isColloquial)
                 + CN_DECIMAL_POINT
-                + long2ChineseDigitDirect(Long.valueOf(arr[1]));
+                + longToChineseDigitDirect(Long.valueOf(arr[1]));
     }
 
-    public static String double2ChineseDigit(double data) {
-        return double2ChineseDigit(data, false);
+    public static String doubleToChineseDigit(double data) {
+        return doubleToChineseDigit(data, false);
     }
 
 
-    public static int capitalChineseDigit2Integer(String capitalChineseDigit) {
+    public static int capitalchineseDigitToInteger(String capitalChineseDigit) {
         // TODO
         return Integer.MIN_VALUE;
     }
@@ -288,8 +288,8 @@ public class DigitUtil {
      * @param chineseDigit chineseDigit
      * @return int int
      */
-    public static int chineseDigit2Integer(String chineseDigit) {
-        return chineseDigit2Integer(chineseDigit.toCharArray());
+    public static int chineseDigitToInteger(String chineseDigit) {
+        return chineseDigitToInteger(chineseDigit.toCharArray());
     }
 
     /**
@@ -307,7 +307,7 @@ public class DigitUtil {
      * @param chineseDigit chineseDigit
      * @return int int
      */
-    public static int chineseDigit2Integer(char[] chineseDigit) {
+    public static int chineseDigitToInteger(char[] chineseDigit) {
         int result = 0;
         // 存放所有的单位下标
         int[] unitArr = new int[chineseDigit.length];
@@ -398,8 +398,8 @@ public class DigitUtil {
      * @param chineseDigit chineseDigit
      * @return long
      */
-    public static long chineseDigit2Long(String chineseDigit) {
-        return chineseDigit2Long(chineseDigit.toCharArray());
+    public static long chineseDigitToLong(String chineseDigit) {
+        return chineseDigitToLong(chineseDigit.toCharArray());
     }
 
     /**
@@ -415,7 +415,7 @@ public class DigitUtil {
      * @param chineseDigit chineseDigit
      * @return long
      */
-    public static long chineseDigit2Long(char[] chineseDigit) {
+    public static long chineseDigitToLong(char[] chineseDigit) {
         long result = 0;
         // 存放所有的单位下标
         int[] unitArr = new int[chineseDigit.length];
@@ -505,8 +505,8 @@ public class DigitUtil {
      * @param level        the length of ArabicDigit  user expect
      * @return String String
      */
-    public static String chineseDigit2Arabic(char[] chineseDigit, int level) {
-        int arabicDigit = chineseDigit2Integer(chineseDigit);
+    public static String chineseDigitToArabic(char[] chineseDigit, int level) {
+        int arabicDigit = chineseDigitToInteger(chineseDigit);
         String result = String.valueOf(arabicDigit);
 
         if (level <= 0 || result.length() >= level) {
@@ -538,7 +538,7 @@ public class DigitUtil {
      * @param level    format the width of arabicDigits
      * @return String String
      */
-    public static String chineseDigit2Arabic(String sentence, int offset, int length, int level) {
+    public static String chineseDigitToArabic(String sentence, int offset, int length, int level) {
         /* 将 sentence 切割为 3 部分，target 为 用户指定处理部分*/
         String prifix = "", target, suffix = "";
         if (offset < 0 || length < 0) {
@@ -553,7 +553,7 @@ public class DigitUtil {
         StringBuffer sb = new StringBuffer(prifix);
         String arabic;
         while (matcher.find()) {
-            arabic = chineseDigit2Arabic(matcher.group().toCharArray(), level);
+            arabic = chineseDigitToArabic(matcher.group().toCharArray(), level);
             matcher.appendReplacement(sb, arabic);
         }
         matcher.appendTail(sb);
@@ -561,26 +561,45 @@ public class DigitUtil {
         return sb.append(suffix).toString();
     }
 
-    public static String chineseDigit2Arabic(String sentence, int offset, int length) {
-        return chineseDigit2Arabic(sentence, offset, length, -1);
+    public static String chineseDigitToArabic(String sentence, int offset, int length) {
+        return chineseDigitToArabic(sentence, offset, length, -1);
     }
 
-    public static String chineseDigit2Arabic(String sentence, int level) {
-        return chineseDigit2Arabic(sentence, -1, -1, level);
+    public static String chineseDigitToArabic(String sentence, int level) {
+        return chineseDigitToArabic(sentence, -1, -1, level);
     }
 
-    public static String chineseDigit2Arabic(String sentence) {
-        return chineseDigit2Arabic(sentence, -1);
+    public static String chineseDigitToArabic(String sentence) {
+        return chineseDigitToArabic(sentence, -1);
     }
 
+    public static String toBinString(byte data) {
+        return toBinString(data, 8);
+    }
+    public static String toBinString(short data) {
+        return toBinString(data, 16);
+    }
+    public static String toBinString(char data) {
+        return toBinString(data, 16);
+    }
 
     public static String toBinString(int data) {
-        char[] sequence = new char[32];
+        return toBinString(data, 32);
+    }
+    public static String toBinString(long data) {
+        int prifix = (int) (data >>> 32);
+        int suffix = (int) data;
+        return toBinString(prifix) + toBinString(suffix);
+    }
+
+    private static String toBinString(int data, int length) {
+        char[] sequence = new char[length];
         for (int j = sequence.length - 1, cursor = 0; j >= 0; ) {
             sequence[cursor++] = DIGIT_ARR[((data >>> j--) & 1)];
         }
         return new String(sequence);
     }
+
 
     /**
      * 字节数字转 Hex 字符串
