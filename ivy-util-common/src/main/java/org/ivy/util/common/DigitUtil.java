@@ -573,19 +573,38 @@ public class DigitUtil {
         return chineseDigitToArabic(sentence, -1);
     }
 
-    public static String toBinString(byte data) {
-        return toBinString(data, 8);
+    public static String toBinString(byte ... data) {
+        int len = data.length;
+        if (len == 1) {
+            return toBinString(data[0], 8);
+        }
+        StringBuilder builder = new StringBuilder(len);
+        for (int i = 0; i < len; i++) {
+            builder.append(toBinString(data[i], 8));
+        }
+        return builder.toString();
     }
+
     public static String toBinString(short data) {
         return toBinString(data, 16);
     }
-    public static String toBinString(char data) {
-        return toBinString(data, 16);
+
+    public static String toBinString(char... data) {
+        int len = data.length;
+        if (len == 1) {
+            return toBinString(data[0], 16);
+        }
+        StringBuilder builder = new StringBuilder(len);
+        for (int i = 0; i < len; i++) {
+            builder.append(toBinString(data[i], 16));
+        }
+        return builder.toString();
     }
 
     public static String toBinString(int data) {
         return toBinString(data, 32);
     }
+
     public static String toBinString(long data) {
         int prifix = (int) (data >>> 32);
         int suffix = (int) data;
@@ -604,29 +623,60 @@ public class DigitUtil {
     /**
      * 字节数字转 Hex 字符串
      *
-     * @param data
+     * @param data data
      * @return String
      */
     @Recommend(value = true, msg = {
-            "1、char arr 代替 StringBuilder",
-            "2、不推荐使用 Integer.toHex",
-            "3、byte 8 位，Hex 长度为 2",
-            "4、byte 高 4 位，data >>> 4 | data & 0xF0",
-            "5、byte 低 4 位，data & 0xF"})
+            "// 1、char arr 代替 StringBuilder",
+            "// 2、不推荐使用 Integer.toHex",
+            "// 3、byte 8 位，Hex 长度为 2",
+            "// 4、byte 高 4 位，data >>> 4 | data & 0xF0",
+            "// 5、byte 低 4 位，data & 0xF"})
     public static String toHexString(byte... data) {
         int len = data.length;
         char[] hexChars = new char[len * 2];
         int v;
         for (int i = 0; i < len; i++) {
             v = data[i] & 0xFF;
-            hexChars[i * 2] = HEX_ARR[v >>> 4];
+            hexChars[i * 2] = HEX_ARR[(v >>> 4)];
             hexChars[i * 2 + 1] = HEX_ARR[v & 0xF];
         }
         return new String(hexChars);
     }
 
-    public static String toHexString(char data) {
-        return toHexString((short) data);
+    /**
+     * 字节数字转 Hex 字符串
+     *
+     * @param data data
+     * @return String
+     */
+    @Recommend(value = true, msg = {
+            "// 1、char arr 代替 StringBuilder",
+            "// 2、不推荐使用 Integer.toHex",
+            "// 3、byte 8 位，Hex 长度为 2",
+            "// 4、byte 高 4 位，data >>> 4 | data & 0xF0",
+            "// 5、byte 低 4 位，data & 0xF"})
+    public static String toHexString2(byte... data) {
+        char[] hexChars = new char[data.length * 2];
+        int cursor = 0, val;
+        for (byte e : data) {
+            val = e & 0xFF;
+            hexChars[cursor ++] = HEX_ARR[val >>> 4];
+            hexChars[cursor ++] = HEX_ARR[val & 0xF];
+        }
+        return new String(hexChars);
+    }
+
+    public static String toHexString(char... data) {
+        int len = data.length;
+        if (len == 1) {
+            return toHexString((short) data[0]);
+        }
+        StringBuilder builder = new StringBuilder(len);
+        for (char e : data) {
+            builder.append(toHexString((short) e));
+        }
+        return builder.toString();
     }
 
     public static String toHexString(short data) {
@@ -656,6 +706,7 @@ public class DigitUtil {
                 (byte) (data & 0xFF)
         );
     }
+
 }
 
 
