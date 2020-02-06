@@ -89,9 +89,10 @@ public class BeanMapConvertor {
             return null;
         }
 
-        BeanInfo beanInfo = Introspector.getBeanInfo(type); // 获取类属性
-        T bean = type.newInstance();    // 创建 JavaBean 对象
-
+        // 获取类属性
+        BeanInfo beanInfo = Introspector.getBeanInfo(type);
+        // 创建 JavaBean 对象
+        T bean = type.newInstance();
         // 给 JavaBean 对象的属性赋值
         PropertyDescriptor[] descriptors = beanInfo.getPropertyDescriptors();
         for (PropertyDescriptor descriptor : descriptors) {

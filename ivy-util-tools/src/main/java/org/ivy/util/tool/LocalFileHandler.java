@@ -200,6 +200,30 @@ public class LocalFileHandler {
         Arrays.asList(sub).forEach(System.out::println);
     }
 
+    /**
+     * origin: musicName_author.type
+     * target: author_musicName.type
+     */
+    @Test
+    public void test_05_fixMusicName() {
+        String path = "F:\\Downloads";
+        File[] files = FileUtil.getAllNonDirFileList(path);
+        Arrays.stream(files).forEach(e -> {
+            String dest = e.getParentFile().getAbsolutePath();
+            String type = FileUtil.getFileType(e);
+            String name = e.getName();
+
+            String nameWithoutType = FileUtil.getFilenameWithoutFileType(e);
+            String fixed = name;
+            if (nameWithoutType.contains("_")) {
+                String [] items = nameWithoutType.split("_");
+                fixed = items[1] + " - " + items[0] + "." + type;
+                e.renameTo(new File(dest + "/" + fixed));
+            }
+            logger.debug("{dest: {}, type: {}, name: {}, fixed: {}}", dest, type, name, fixed);
+        });
+    }
+
 
 }
 

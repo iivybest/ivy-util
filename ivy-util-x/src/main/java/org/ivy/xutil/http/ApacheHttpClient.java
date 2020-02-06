@@ -202,7 +202,8 @@ public class ApacheHttpClient {
         SSLContext ctx = null;
         try {    // 利用apache httpclient 设置 SSL truts检查策略都为true，跳过 服务器证书检查
             ctx = SSLContextBuilder.create()
-                    .loadTrustMaterial(null, (X509Certificate[] chain, String authType) -> true)
+//                    .loadTrustMaterial(null, (X509Certificate[] chain, String authType) -> true)
+                    .loadTrustMaterial(null, (chain, authType) -> true)
                     .build();
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
