@@ -181,7 +181,7 @@ public class DigitUtilTest {
                 "六"
         };
         for (String e : digits) {
-            log.debug("====>{cn: {}, nu: {}}", e, DigitUtil.chineseDigit2Integer(e));
+            log.debug("====>{cn: {}, nu: {}}", e, DigitUtil.chineseDigitToInteger(e));
         }
     }
 
@@ -202,7 +202,7 @@ public class DigitUtilTest {
                 "六"
         };
         for (String e : digits) {
-            log.debug("====>{cn: {}, nu: {}}", e, DigitUtil.chineseDigit2Long(e));
+            log.debug("====>{cn: {}, nu: {}}", e, DigitUtil.chineseDigitToLong(e));
         }
     }
 
@@ -217,7 +217,7 @@ public class DigitUtilTest {
     public void test_04_chineseDigit2ArabicDigit() {
         String text = "第五十天 系统基本文件管理肆拾伍十五";
 //        String format = DigitUtil.chineseDigit2Arabic(text, 0, 6, 5);
-        String format = DigitUtil.chineseDigit2Arabic(text);
+        String format = DigitUtil.chineseDigitToArabic(text);
         log.debug("====>{\ntext: {}, \nformat: {}\n}", text, format);
     }
 
@@ -250,7 +250,7 @@ public class DigitUtilTest {
     @Test
     public void test_07_double2ChineseDigit() {
         double num = 1020034.34D;
-        String digit = DigitUtil.double2ChineseDigit(num, true);
+        String digit = DigitUtil.doubleToChineseDigit(num, true);
         log.debug("====>{\nnum: {}, \ndigit: {}\n}", num, digit);
     }
 

@@ -1,6 +1,8 @@
 package org.ivy.util.common;
 
 import lombok.extern.slf4j.Slf4j;
+import org.ivy.util.annotation.Description;
+import org.ivy.util.annotation.Recommend;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -10,7 +12,7 @@ import org.junit.runners.MethodSorters;
 /**
  * <p> description:
  * <br>--------------------------------------------------------
- * <br> TODO
+ * <br> to bin performance testcase
  * <br>--------------------------------------------------------
  * <br>Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
@@ -22,13 +24,14 @@ import org.junit.runners.MethodSorters;
  */
 @Slf4j
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class DigitUtilPerformanceTest {
+public class DigitToBinPerformanceTest {
+    private final static char[] DIGIT_ARR = "0123456789".toCharArray();
 
-    private final static char[] digitArr = "0123456789".toCharArray();
     private int[] data = {
             Integer.MIN_VALUE, Integer.MAX_VALUE, 0, 1, -1, 3, -3, 123456789
     };
     private int count = 100_000;
+
 
     public static String toBinString(int data) {
         StringBuilder sb = new StringBuilder();
@@ -45,9 +48,11 @@ public class DigitUtilPerformanceTest {
         return sb.toString();
     }
 
+    @Recommend(msg = "//use char arr instead of StringBuilder/StringBuffer")
     public static String toBinString3(int data) {
         char[] sequence = new char[32];
-        for (int j = 31, cursor = 0; j >= 0; sequence[cursor++] = digitArr[((data >>> j--) & 1)]) ;
+        for (int j = 31, cursor = 0; j >= 0; sequence[cursor++] = DIGIT_ARR[((data >>> j--) & 1)]) {
+        }
         return new String(sequence);
     }
 
@@ -72,24 +77,36 @@ public class DigitUtilPerformanceTest {
             );
     }
 
+    @Description({
+            "// toBin Performance testcase",
+            "// test_01",
+            "// test_02",
+            "// test_03"
+    })
     @Test
     public void test_01() {
         for (int i = 0; i < this.count; i++) {
-            for (int e : this.data) toBinString(e);
+            for (int e : this.data) {
+                toBinString(e);
+            }
         }
     }
 
     @Test
     public void test_02() {
         for (int i = 0; i < this.count; i++) {
-            for (int e : this.data) toBinString2(e);
+            for (int e : this.data) {
+                toBinString2(e);
+            }
         }
     }
 
     @Test
     public void test_03() {
         for (int i = 0; i < this.count; i++) {
-            for (int e : this.data) toBinString3(e);
+            for (int e : this.data) {
+                toBinString3(e);
+            }
         }
     }
 
