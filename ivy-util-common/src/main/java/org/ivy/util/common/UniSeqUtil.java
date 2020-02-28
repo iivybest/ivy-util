@@ -28,8 +28,8 @@ public class UniSeqUtil {
      * @param sead sead
      * @return String
      */
-    @Recommend(value = false, msg = {
-            "// it may be repeated if request in high concurrence"})
+    @Recommend(value = false,
+            msg = "// it may be repeated if request in high concurrence")
     public static String generateUniSeq(String sead) {
         String uuid = generateUUID();
         long timestamp = DateTimeUtil.getTimestamp(null);

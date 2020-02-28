@@ -62,7 +62,7 @@ public class FileUtil {
                 : file.getAbsolutePath().replace(File.separator, FileUtil.UNIX_SEPARATOR);
 
         // if file is Dir, make sure file's path end with unix separator
-        if (file.isDirectory() && !path.endsWith(FileUtil.UNIX_SEPARATOR)) {
+        if (file.isDirectory() && ! path.endsWith(FileUtil.UNIX_SEPARATOR)) {
             path += FileUtil.UNIX_SEPARATOR;
         }
         return path;
@@ -198,19 +198,21 @@ public class FileUtil {
              BufferedInputStream bis = new BufferedInputStream(fis);
              FileOutputStream fos = new FileOutputStream(tempFile);
              BufferedOutputStream bos = new BufferedOutputStream(fos)) {
-            int len;                            // 每次读取字节长度
-            byte[] buf = new byte[BUF_SIZE];    // 缓冲区
+            int len;
+            byte[] buf = new byte[BUF_SIZE];
             while ((len = bis.read(buf)) > 0) {
                 bos.write(buf, 0, len);
             }
-            bos.flush();                        // 释放缓存
-            successFlag++;                     // 文件复制成功后，标识自增1
+            // 释放缓存
+            bos.flush();
+            // 文件复制成功后，标识自增1
+            successFlag++;
         } finally {
             // 复制失败，删除临时文件
             if (successFlag == 0) {
                 tempFile.delete();
             }
-            // 文件改名，只用关闭流后操作才行
+            // 临时文件改名为目标文件名，需文件流关闭后执行
             if (tempFile != null && dest != null) {
                 tempFile.renameTo(dest);
             }

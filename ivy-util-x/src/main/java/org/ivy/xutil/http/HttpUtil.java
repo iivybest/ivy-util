@@ -47,7 +47,7 @@ import java.util.Map;
  * @version : 1.0.0
  * @date : 2015/7/21
  */
-@Recommend(value = false, msg = {"过时"})
+@Recommend(value = false, msg = "过时")
 public class HttpUtil {
     private static final int MAX_TIMEOUT = 7000;
     private static PoolingHttpClientConnectionManager connMgr;

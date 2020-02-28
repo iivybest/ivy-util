@@ -11,14 +11,7 @@ import java.util.Map;
 import java.util.Properties;
 
 /**
- * <p> classname: IvyUtilConf
- * <p> description: ivy-util 配置参数
- * <br>--------------------------------------------------------
- * <br> 1、配置
- * <br>--------------------------------------------------------
- * <br>Copyright@2019 www.ivybest.org Inc. All rights reserved.
- * </p>
- *
+ * @description ivy-util 配置参数
  * @author Ivybest (ivybestdev@163.com)
  * @version 1.0
  * @date 2016/3/22 09:03
@@ -40,10 +33,13 @@ public class IvyUtilConf {
 
     /**
      * <p> 初始化成员变量
+     * <br>------------------------------------------------
      * <br> ivy-util 资源文件定义位置及优先级顺序
      * <br>	   1、classpath/config/ivy-util.properties
      * <br>    2、classpath/ivy-util.properties
      * <br>    3、. ivy-util.properties	// 当前路径下
+     * <br>------------------------------------------------
+     * <p/>
      */
     private static void initArgs() {
         propertyMap = new HashMap<>();

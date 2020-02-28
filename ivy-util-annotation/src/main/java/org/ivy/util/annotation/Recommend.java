@@ -34,6 +34,6 @@ public @interface Recommend {
      *
      * @return String
      */
-    String[] msg() default "";
+    String[] msg() default {""};
 
 }

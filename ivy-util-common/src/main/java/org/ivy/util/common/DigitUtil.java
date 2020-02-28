@@ -125,7 +125,7 @@ public class DigitUtil {
      * <br>--------------------------------------------------------
      * </p>
      *
-     * @param unit unit
+     * @param unit unit 单位
      * @return int radix
      */
     private static int getChineseDigitUnitRadix(char unit) {

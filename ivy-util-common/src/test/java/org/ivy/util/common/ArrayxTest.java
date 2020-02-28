@@ -46,7 +46,8 @@ public class ArrayxTest {
     }
 
     @Description({"// performanceTest",
-            "// test_01_ArrayxPrintArray", "test_02_ArraysToString"})
+            "// test_01_ArrayxPrintArray",
+            "// test_02_ArraysToString"})
     @Test
     public void test_01_ArrayxPrintArray() {
         for (int i = 0; i < this.count; i++) {
@@ -55,7 +56,8 @@ public class ArrayxTest {
     }
 
     @Description({"// performanceTest",
-            "// test_01_ArrayxPrintArray", "test_02_ArraysToString"})
+            "// test_01_ArrayxPrintArray",
+            "// test_02_ArraysToString"})
     @Test
     public void test_02_ArraysToString() {
         for (int i = 0; i < this.count; i++) {

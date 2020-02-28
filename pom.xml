@@ -42,6 +42,7 @@
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
+            <scope>test</scope>
         </dependency>
 
         <!-- https://mvnrepository.com/artifact/org.slf4j/slf4j-api -->
@@ -49,12 +50,14 @@
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
             <version>${slf4j.version}</version>
+            <scope>provided</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-classic -->
         <dependency>
             <groupId>ch.qos.logback</groupId>
             <artifactId>logback-classic</artifactId>
             <version>${logback.version}</version>
+            <scope>provided</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/ch.qos.logback/logback-core -->
         <dependency>
@@ -67,6 +70,7 @@
                     <artifactId>slf4j-api</artifactId>
                 </exclusion>
             </exclusions>
+            <scope>provided</scope>
         </dependency>
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
@@ -88,19 +92,14 @@
                     <destDir>apidocs/${artifactId}</destDir>
                     <tags>
                         <tag>
-                            <name>date</name>
-                            <placement>a</placement>
-                            <head>Date:</head>
-                        </tag>
-                        <tag>
-                            <name>version</name>
-                            <placement>a</placement>
-                            <head>Version:</head>
-                        </tag>
-                        <tag>
                             <name>className</name>
                             <placement>a</placement>
                             <head>ClassName:</head>
+                        </tag>
+                        <tag>
+                            <name>description</name>
+                            <placement>a</placement>
+                            <head>Description:</head>
                         </tag>
                     </tags>
                 </configuration>

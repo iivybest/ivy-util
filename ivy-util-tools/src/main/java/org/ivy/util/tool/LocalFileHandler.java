@@ -206,18 +206,39 @@ public class LocalFileHandler {
      */
     @Test
     public void test_05_fixMusicName() {
-        String path = "F:\\Downloads";
-        File[] files = FileUtil.getAllNonDirFileList(path);
+        String separator = " - ";
+        String path = "J:\\ivybest\\My Files\\Audio\\Music\\Singles\\320k/";
+        File[] files = FileUtil.getNonDirFileList(path);
+        Arrays.stream(files).forEach(e -> {
+            String dest = e.getParentFile().getAbsolutePath();
+            String type = FileUtil.getFileType(e);
+
+            String nameWithoutType = FileUtil.getFilenameWithoutFileType(e);
+            String fixed = e.getName();
+            if (nameWithoutType.contains("_")) {
+                String [] items = nameWithoutType.split("_");
+                fixed = items[1] + separator + items[0] + "." + type;
+                e.renameTo(new File(dest + "/" + fixed));
+            }
+            logger.debug("{dest: {}, type: {}, name: {}, fixed: {}}", dest, type, e.getName(), fixed);
+        });
+    }
+
+    /**
+     * add sequence '(Live)' 4 music name
+     */
+    @Test
+    public void test_05_fixMusicName4Live() {
+        String separator = " (Live)";
+        String path = "J:\\ivybest\\My Files\\Audio\\Music\\song\\done/";
+        File[] files = FileUtil.getNonDirFileList(path);
         Arrays.stream(files).forEach(e -> {
             String dest = e.getParentFile().getAbsolutePath();
             String type = FileUtil.getFileType(e);
             String name = e.getName();
-
             String nameWithoutType = FileUtil.getFilenameWithoutFileType(e);
-            String fixed = name;
-            if (nameWithoutType.contains("_")) {
-                String [] items = nameWithoutType.split("_");
-                fixed = items[1] + " - " + items[0] + "." + type;
+            String fixed = nameWithoutType + separator + "." + type;
+            if (! nameWithoutType.contains(separator)) {
                 e.renameTo(new File(dest + "/" + fixed));
             }
             logger.debug("{dest: {}, type: {}, name: {}, fixed: {}}", dest, type, name, fixed);
