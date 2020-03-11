@@ -18,15 +18,17 @@ import static org.ivy.util.common.IvyConstant.WIN_SEPARATOR;
  */
 public class SystemUtil {
     private static String classpath;
+    private static String userDir;
 
     static {
         initClasspath();
+        initUserDir();
     }
 
     /**
      * 初始化classpath
      */
-    public static void initClasspath() {
+    private static void initClasspath() {
         String fileSeparator = System.getProperty("file.separator");
 
 //		String root = Class.class.getClass().getResource("/").getPath().replace("%20", " ");
@@ -55,12 +57,35 @@ public class SystemUtil {
         }
     }
 
+    private static void initUserDir() {
+        userDir = FileUtil.getUnixStyleFilePath(System.getProperty("user.dir") + IvyConstant.UNIX_SEPARATOR);
+    }
 
+
+    /**
+     * 获取项目 classpath
+     *
+     * @return classpath string
+     */
     public static String getClasspath() {
         return classpath;
     }
 
-    public static String getOsname() {
+    /**
+     * 获取项目路径
+     *
+     * @return user dir string
+     */
+    public static String getUserDir() {
+        return userDir;
+    }
+
+    /**
+     * 获取系统名称
+     *
+     * @return os name
+     */
+    public static String getOsName() {
         String osname = System.getProperty("os.name").toUpperCase();
         String os = "";
         if (osname.contains("LINUX")) {
@@ -69,6 +94,18 @@ public class SystemUtil {
             os = "WINDOWS";
         }
         return os;
+    }
+
+    /**
+     * 获取操作系统架构 64 / 32
+     *
+     * @return os arch
+     */
+    public static String getOSArch() {
+        String arch = System.getProperty("os.arch").contains("64")
+                ? "64"
+                : "32";
+        return arch;
     }
 
 }

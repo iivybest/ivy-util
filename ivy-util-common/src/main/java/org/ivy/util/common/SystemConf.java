@@ -25,7 +25,6 @@ import java.util.concurrent.locks.ReentrantReadWriteLock.WriteLock;
  * @version 1.0
  * @date 2017/6/20 12:24
  */
-
 public enum SystemConf {
     /**
      * 单例对象
@@ -66,7 +65,7 @@ public enum SystemConf {
             "// initialize parameters",
             "// initialize configuration file"})
     private SystemConf init() {
-        return this.initReadWriteLock().initArgs().loadProp();
+        return this.initReadWriteLock().initArgs().loadConf();
     }
 
     private SystemConf initReadWriteLock() {
@@ -122,9 +121,10 @@ public enum SystemConf {
      *
      * @return SystemConf
      */
-    private SystemConf loadProp() {
+    private SystemConf loadConf() {
         // ----将系统参数 classpath 保存到 SystemConf 中。
         this.keyValueMap.put("class.path", SystemUtil.getClasspath());
+        this.keyValueMap.put("user.dir", SystemUtil.getUserDir());
         // ----需递归扫描子路径的路径ID集合
         Collection<Integer> needScanningSubPathIdx = Arrays.asList(1, 4);
 
@@ -263,7 +263,7 @@ public enum SystemConf {
         try {
             this.writeLock.lock();
             // 初始化所有参数，重新读取配置文件
-            this.clear().initArgs().loadProp();
+            this.clear().initArgs().loadConf();
             return this;
         } finally {
             if (this.writeLock.isHeldByCurrentThread()) {

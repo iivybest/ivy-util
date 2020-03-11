@@ -127,8 +127,9 @@ public class PropertiesUtil {
         }
         Map<String, String> map = new HashMap<String, String>();
         Enumeration<?> keys = prop.propertyNames();
+        String key;
         while (keys.hasMoreElements()) {
-            String key = String.valueOf(keys.nextElement());
+            key = String.valueOf(keys.nextElement());
             map.put(key, prop.getProperty(key));
         }
         return map;

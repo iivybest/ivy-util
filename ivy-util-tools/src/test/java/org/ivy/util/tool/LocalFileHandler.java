@@ -245,6 +245,15 @@ public class LocalFileHandler {
         });
     }
 
+    @Test
+    public void test_002 () {
+        String path = "E:\\Ivybest\\work\\aisino\\07.OFD版式文件\\00.OFD发票模板\\电子发票通用模板-20200301\\电子发票通用模板/";
+        File[] files = FileUtil.getFileList(path);
+        System.out.println(files.length);
+        Stream.of(files).forEach(e -> {
+            System.out.print(e.getName() + "、");
+        });
+    }
 
 }
 

@@ -32,8 +32,13 @@ public class FileUtilTest {
     }
 
     @Test
-    public void test_00_base() {
+    public void test_00_base() throws Exception{
         File file = new File(CLASS_PATH + "material/HelloWorld.txt");
+        String path = FileUtil.getUnixStyleFilePath(new File("")) + "/";
+        log.debug("{path: {}}", path);
+        log.debug("{path: {}}", FileUtil.getUnixStyleFilePath(System.getProperty("user.dir") + IvyConstant.UNIX_SEPARATOR));
+        log.debug("{CLASS_PATH: {}}", CLASS_PATH);
+
         log.debug("{file.exists(): {}}", file.exists());
         log.debug("file.isDirectory(): {}}", file.isDirectory());
         log.debug("{file.isFile(): {}}", file.isFile());

@@ -1,0 +1,3 @@
+a.name = a.name.herry
+a.gender = a.gender.male
+a.age = a.age.18
