@@ -1,4 +1,4 @@
-package org.ivy.util.tool;
+package org.ivy.util.complex;
 
 import org.ivy.util.common.FileUtil;
 import org.ivy.util.common.PropertiesUtil;
@@ -63,11 +63,12 @@ public class Configurator {
     /**
      * 配置文件管理器、内部工作者
      */
-    private ConfMgr confMgr;
+    private ConfActionMgr confActionMgr;
     /**
-     * 配置文件计数器
+     * 配置文件计数器,用于优先级计数，数字越小，优先级越高
+     * 用户未指定优先级时，使用该计数器为path设置优先级
      */
-    private AtomicInteger counter;
+    private AtomicInteger priorityCounter;
 
 
     static {
@@ -93,7 +94,15 @@ public class Configurator {
     }
 
 
-    public Configurator addConfPath(int priority, boolean recursion, String... path) {
+    /**
+     * setting config path
+     *
+     * @param priority  config path priority, the number smaller priority higher
+     * @param recursion whether recursive scanning the path
+     * @param path      config path
+     * @return Configurator this object
+     */
+    public Configurator configPath(int priority, boolean recursion, String... path) {
         for (String e : path) {
             this.scanContainer.add(ConfPathEntry.newInstance(priority, recursion, e));
         }
@@ -101,14 +110,19 @@ public class Configurator {
     }
 
     /**
-     * add one or multi scanning path(file or directory)
+     * setting one or multi scanning path(file or directory)
      *
      * @param recursion weather recursion read directory
      * @param path      scanning file paht
      * @return Configurator this object
      */
-    public Configurator addConfPath(boolean recursion, String... path) {
-        return addConfPath(this.counter.getAndIncrement(), recursion, path);
+    public Configurator configPath(boolean recursion, String... path) {
+        return configPath(this.priorityCounter.getAndIncrement(), recursion, path);
+    }
+
+
+    public Configurator configPath(int priority, String... path) {
+        return this.configPath(priority, Boolean.FALSE, path);
     }
 
     /**
@@ -118,8 +132,8 @@ public class Configurator {
      * @param path scanning file paht
      * @return Configurator this object
      */
-    public Configurator addConfPath(String... path) {
-        return this.addConfPath(false, path);
+    public Configurator configPath(String... path) {
+        return this.configPath(Boolean.FALSE, path);
     }
 
 
@@ -130,7 +144,7 @@ public class Configurator {
      * @param path scanning file paht
      * @return Configurator this object
      */
-    public Configurator addExpectPath(String... path) {
+    public Configurator exceptPath(String... path) {
         for (String e : path) {
             this.exceptContainer.add(ConfPathEntry
                     .newInstance(-1, Boolean.TRUE, FileUtil.getUnixStyleFilePath(e)));
@@ -157,21 +171,32 @@ public class Configurator {
                 .initializeScanContainerBeforeBuild()
                 // ----检查设置例外路径，并设置有效例外路径
                 .initializeEffectiveExceptContainerBeforeBuild()
-                // ----初始化 ConfMgr -- # confMgr.init() 返回对象为 confMgr
-                .getConfMgr().init();
+                // ----初始化 ConfActionMgr -- # ConfActionMgr.init() 返回对象为 ConfActionMgr
+                .getConfActionMgr().init();
         return this;
     }
 
     /**
-     * initialize scanContainer Before operation Build
+     * <p>
+     * <br>---------------------------------------------------------------
+     * <br> description:
+     * <br> initialize scanContainer Before operation Build
+     * <br>     1、if ScanContainer size is zero，use defaultConfContainer
+     * <br>     2、sort all items in ScanContainer
+     * <br>---------------------------------------------------------------
+     * <br> Copyright@2020 www.ivybest.org Inc. All rights reserved.
+     * </p>
      *
      * @return Configurator
      */
     public Configurator initializeScanContainerBeforeBuild() {
-        // ----检查设置扫描路径集合
         if (this.getScanContainer().size() == 0) {
             this.setScanContainer(Configurator.defaultConfContainer);
+            return this;
         }
+
+        Collections.sort(this.scanContainer, this.ConfPathEntryPriorityComparator);
+
         return this;
     }
 
@@ -203,12 +228,12 @@ public class Configurator {
      * @return Configurator this object
      */
     private Configurator initializeInstanceArgsWithLiteral() {
-        this.counter = new AtomicInteger(1_000);
+        this.priorityCounter = new AtomicInteger(10_000_000);
         return this
                 .setScanContainer(new ArrayList<>())
                 .setExceptContainer(new ArrayList<>())
                 .setEffectiveExceptContainer(new ArrayList<>())
-                .setConfMgr(new ConfMgr(this));
+                .setConfActionMgr(new ConfActionMgr(this));
     }
 
 
@@ -228,16 +253,16 @@ public class Configurator {
      * @return configuration map
      */
     public Map<String, String> get(boolean removePrefix, String keyPrefix) {
-       return this.confMgr.get(removePrefix, keyPrefix);
+        return this.confActionMgr.get(removePrefix, keyPrefix);
     }
 
     public String get(String key) {
-        return this.confMgr.get(key);
+        return this.confActionMgr.get(key);
     }
 
 
     public void set(String key, String val) {
-        this.confMgr.set(key, val);
+        this.confActionMgr.set(key, val);
     }
 
     /**
@@ -248,7 +273,7 @@ public class Configurator {
      * @throws Exception
      */
     public String getForcedIncludeConfiguration(String key) throws Exception {
-        return this.confMgr.getForcedIncludeConfiguration(key);
+        return this.confActionMgr.getForcedIncludeConfiguration(key);
     }
 
     /**
@@ -259,7 +284,7 @@ public class Configurator {
      * @return String
      */
     public String get(String key, String defaultVal) {
-        return this.confMgr.get(key, defaultVal);
+        return this.confActionMgr.get(key, defaultVal);
     }
 
     /**
@@ -269,18 +294,18 @@ public class Configurator {
      * @return String
      */
     public String get(String... keys) {
-        return this.confMgr.get(keys);
+        return this.confActionMgr.get(keys);
     }
 
     public boolean containsKey(String key) {
-        return this.confMgr.containsKey(key);
+        return this.confActionMgr.containsKey(key);
     }
 
     /**
      * 列出所有资源属性
      */
     public void list() {
-        this.confMgr.list();
+        this.confActionMgr.list();
     }
 
 
@@ -320,12 +345,12 @@ public class Configurator {
         return this;
     }
 
-    public ConfMgr getConfMgr() {
-        return confMgr;
+    public ConfActionMgr getConfActionMgr() {
+        return confActionMgr;
     }
 
-    public Configurator setConfMgr(ConfMgr confMgr) {
-        this.confMgr = confMgr;
+    public Configurator setConfActionMgr(ConfActionMgr confActionMgr) {
+        this.confActionMgr = confActionMgr;
         return this;
     }
 
@@ -342,7 +367,7 @@ public class Configurator {
      * @version 1.0
      * @date 2017/6/20 12:24
      */
-    private static class ConfMgr {
+    private static class ConfActionMgr {
         private Configurator configurator;
         /**
          * lock
@@ -360,20 +385,20 @@ public class Configurator {
          */
         private Map<String, Map<String, String>> specificPrefixConfigurationsCache;
 
-        public ConfMgr(Configurator configurator) {
+        public ConfActionMgr(Configurator configurator) {
             this.configurator = configurator;
         }
 
         /**
          * init
          *
-         * @return ConfMgr
+         * @return ConfActionMgr
          */
-        private ConfMgr init() {
-            return this.initReadWriteLock().initArgs().loadConf();
+        private ConfActionMgr init() {
+            return this.initReadWriteLock().initArgs().loadConfiguration();
         }
 
-        private ConfMgr initReadWriteLock() {
+        private ConfActionMgr initReadWriteLock() {
             this.lock = new ReentrantReadWriteLock();
             this.readLock = lock.readLock();
             this.writeLock = lock.writeLock();
@@ -383,7 +408,7 @@ public class Configurator {
         /**
          * 初始化成员变量
          */
-        private ConfMgr initArgs() {
+        private ConfActionMgr initArgs() {
             this.allConfigurationsMap = new HashMap<String, String>();
             this.specificPrefixConfigurationsCache = new HashMap<>();
             return this;
@@ -393,10 +418,20 @@ public class Configurator {
         /**
          * 加载 project 配置项
          *
-         * @return ConfMgr
+         * <p>
+         * <br>---------------------------------------------------------
+         * <br> description:
+         * <br> load all configurations
+         * <br>    1、add system default configuration items.
+         * <br>    2、Reverse load configuration items.
+         * <br>---------------------------------------------------------
+         * <br> Copyright@2020 www.ivybest.org Inc. All rights reserved.
+         * </p>
+         *
+         * @return ConfActionMgr
          */
-        private ConfMgr loadConf() {
-            // ----将系统参数 classpath 保存到 ConfMgr 中。
+        private ConfActionMgr loadConfiguration() {
+            // ----将系统参数 classpath 保存到 ConfActionMgr 中。
             this.allConfigurationsMap.put("class.path", SystemUtil.getClasspath());
             this.allConfigurationsMap.put("user.dir", SystemUtil.getUserDir());
             this.allConfigurationsMap.put("os.arch", SystemUtil.getOSArch());
@@ -407,7 +442,6 @@ public class Configurator {
             File file;
             for (int i = scanContainer.size() - 1; i >= 0; i--) {
                 file = new File(scanContainer.get(i).getValue());
-                // ----文件不存在，则退出本次循环
                 if (!file.exists()) {
                     continue;
                 }
@@ -417,7 +451,21 @@ public class Configurator {
             return this;
         }
 
-        private ConfMgr loadConfAtomic(File file, boolean recursion) {
+        /**
+         * <p>
+         * <br>---------------------------------------------------------
+         * <br> description: 加载配置文件原子逻辑
+         * <br>    1、
+         * <br>
+         * <br>---------------------------------------------------------
+         * <br> Copyright@2020 www.ivybest.org Inc. All rights reserved.
+         * </p>
+         *
+         * @param file      configuration file
+         * @param recursion whether recursive scanning this path,
+         * @return ConfActionMgr this objects
+         */
+        private ConfActionMgr loadConfAtomic(File file, boolean recursion) {
             if (!file.exists()) {
                 return this;
             }
@@ -446,7 +494,7 @@ public class Configurator {
             return this;
         }
 
-        private ConfMgr loadConfAtomic(String file, boolean recursion) {
+        private ConfActionMgr loadConfAtomic(String file, boolean recursion) {
             return this.loadConfAtomic(new File(file), recursion);
         }
 
@@ -496,22 +544,24 @@ public class Configurator {
          * @return configuration map
          */
         public Map<String, String> get(boolean removePrefix, String keyPrefix) {
-            if (!this.specificPrefixConfigurationsCache.containsKey(keyPrefix)) {
+            String prefix = keyPrefix.endsWith(".") ? keyPrefix.substring(0, keyPrefix.length() - 1) : keyPrefix;
+            if (!this.specificPrefixConfigurationsCache.containsKey(prefix)) {
                 synchronized (this) {
-                    if (!this.specificPrefixConfigurationsCache.containsKey(keyPrefix)) {
+                    if (!this.specificPrefixConfigurationsCache.containsKey(prefix)) {
                         Map<String, String> specificMap = new HashMap<>();
                         String key;
                         for (Map.Entry<String, String> e : this.allConfigurationsMap.entrySet()) {
                             key = e.getKey();
-                            if (key.startsWith(keyPrefix)) {
-                                key = removePrefix ? key.replace(keyPrefix, "") : key;
+                            if (key.startsWith(prefix)) {
+                                key = removePrefix ? key.replace(prefix + ".", "") : key;
                                 specificMap.put(key, e.getValue());
                             }
                         }
+                        this.specificPrefixConfigurationsCache.put(prefix, specificMap);
                     }
                 }
             }
-            return this.specificPrefixConfigurationsCache.get(keyPrefix);
+            return this.specificPrefixConfigurationsCache.get(prefix);
         }
 
 
@@ -586,8 +636,7 @@ public class Configurator {
         public String get(String... keys) {
             String value = "";
             for (String e : keys) {
-                value = this.get(e);
-                if (StringUtil.isNonBlank(value)) {
+                if (StringUtil.isNonBlank(value = this.get(e))) {
                     break;
                 }
             }
@@ -617,13 +666,13 @@ public class Configurator {
         /**
          * reload
          *
-         * @return ConfMgr
+         * @return ConfActionMgr
          */
-        public ConfMgr reload() {
+        public ConfActionMgr reload() {
             try {
                 this.writeLock.lock();
                 // 初始化所有参数，重新读取配置文件
-                this.clear().initArgs().loadConf();
+                this.clear().initArgs().loadConfiguration();
                 return this;
             } finally {
                 if (this.writeLock.isHeldByCurrentThread()) {
@@ -632,7 +681,7 @@ public class Configurator {
             }
         }
 
-        public ConfMgr clear() {
+        public ConfActionMgr clear() {
             try {
                 this.writeLock.lock();
                 this.allConfigurationsMap.clear();
@@ -649,7 +698,7 @@ public class Configurator {
     /**
      * @author ivybest (ivybestdev@163.com)
      * @version 1.0
-     * @description 配置文件描述项
+     * @description 配置文件描述项封装对象
      * @date 2020/2/28 17:20
      */
     private static class ConfPathEntry {
@@ -667,11 +716,6 @@ public class Configurator {
          * 取值范围 [0-n)，--数字越小优先级越高
          */
         private int priority;
-        /**
-         * 扫描路径默认优先级
-         * 用户未指定 priority 时，按照 defaultPriority 排序
-         */
-        private int defaultPriority;
 
 
         public static ConfPathEntry newInstance(int priority, boolean recursion, String value) {
@@ -709,15 +753,6 @@ public class Configurator {
             this.priority = priority;
             return this;
         }
-
-        public int getDefaultPriority() {
-            return defaultPriority;
-        }
-
-        public ConfPathEntry setDefaultPriority(int defaultPriority) {
-            this.defaultPriority = defaultPriority;
-            return this;
-        }
     }
 
     /**
@@ -726,10 +761,15 @@ public class Configurator {
      * @version 1.0
      * @date 2020/3/4 0:28
      */
-    Comparator<ConfPathEntry> confPathEntryPriorityComparator = new Comparator<ConfPathEntry>() {
+    private Comparator<ConfPathEntry> ConfPathEntryPriorityComparator = new Comparator<ConfPathEntry>() {
         @Override
         public int compare(ConfPathEntry arg0, ConfPathEntry arg1) {
-            return arg0.getPriority() - arg1.getPriority();
+            // ----升序比较设置
+            int result = arg0.getPriority() - arg1.getPriority();
+            if (result == 0) {
+                result = arg0.getValue().compareTo(arg1.getValue());
+            }
+            return result;
         }
     };
 

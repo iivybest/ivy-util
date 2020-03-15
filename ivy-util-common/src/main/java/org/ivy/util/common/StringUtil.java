@@ -273,6 +273,11 @@ public class StringUtil {
 
     public static void main(String[] args) {
         byte[] b = {0, 15, -117, -23, -30, -118, -111, 103, 47, 19, 66, -95, 74, -35, 110, 60, -119, -86};
+        byte[] copyB = b.clone();
+
+        System.out.println(Arrayx.printArray(b));
+        System.out.println(Arrayx.printArray(copyB));
+
 
         Class<?> type = b.getClass();
         // 数组中元素class类型

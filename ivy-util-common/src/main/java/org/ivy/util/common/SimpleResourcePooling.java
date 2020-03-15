@@ -6,15 +6,21 @@ import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
 /**
- * @author: ivybest imiaodev@163.com
- * @date: 2019年5月6日 下午5:02:49
- * @Description: 带缓存的资源池
- * <p>-------------------------------------------------
+ * <p>
+ * <br>---------------------------------------------------------
+ * <br> description:
  * <br> 1、使用内存池，避免多次new对象的资源开销
  * <br> 2、使用AtomicInteger、BlockingQueue，保证多线程并发性
- * <p>-------------------------------------------------
+ * <br>
+ * <br>---------------------------------------------------------
+ * <br> Copyright@2020 www.ivybest.org Inc. All rights reserved.
+ * </p>
+ *
+ * @description 可回收对象简单资源池
+ * @author ivybest (ivybestdev@163.com)
+ * @version 1.0
+ * @date 2020/3/12 11:34
  */
 public class SimpleResourcePooling<T> {
 

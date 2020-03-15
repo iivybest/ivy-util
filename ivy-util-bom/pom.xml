@@ -26,6 +26,11 @@
         </dependency>
         <dependency>
             <groupId>org.ivy</groupId>
+            <artifactId>ivy-util-complex</artifactId>
+            <version>${version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.ivy</groupId>
             <artifactId>ivy-util-x</artifactId>
             <version>${version}</version>
         </dependency>

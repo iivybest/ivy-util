@@ -1,12 +1,17 @@
 package org.ivy.xutil.sec;
 
+import lombok.extern.slf4j.Slf4j;
 import org.ivy.util.common.Arrayx;
+import org.ivy.util.common.DigitUtil;
+import org.ivy.util.common.FileUtil;
 import org.junit.Before;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runners.MethodSorters;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import java.io.File;
 
 /**
  * <p> description: MdUtil Test
@@ -22,8 +27,8 @@ import org.slf4j.LoggerFactory;
  * @date 2014/6/11 16:25
  */
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@Slf4j
 public class MessageDigestUtilTest {
-    private Logger log = LoggerFactory.getLogger(this.getClass());
     private String plain;
 
     @Before
@@ -53,6 +58,17 @@ public class MessageDigestUtilTest {
         log.debug("{{}-{}-{}}", String.format("%-12s", "SHA512"), SHA512.length, Arrayx.printArray(SHA512));
     }
 
+    @Test
+    public void test_02_templateSign() {
+        String path = "E:\\Ivybest\\work\\aisino\\07.OFD版式文件\\00.OFD发票模板\\电子发票通用模板-20200312/";
+        File[] files = FileUtil.getAllNonDirFileList(path);
+        String sign = null;
+        for (File e : files) {
+            sign = DigitUtil.toHexString(SecurityUtil.md.digest(MessageDigestUtil.MD5, FileUtil.read(e)));
+            log.info("{file: {}, sign: {}}", e.getName(), sign);
+        }
+
+    }
 
 }
 

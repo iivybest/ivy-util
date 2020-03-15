@@ -32,6 +32,7 @@
         <module>ivy-util-x</module>
         <module>ivy-util-test</module>
         <module>ivy-util-tools</module>
+        <module>ivy-util-complex</module>
     </modules>
 
     <!--
