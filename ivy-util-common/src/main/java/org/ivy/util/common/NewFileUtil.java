@@ -30,11 +30,15 @@ public class NewFileUtil {
             if (file.isDirectory()) {
                 dest += File.separator + file.getName();
                 File dir = new File(dest);
-                if (!(dir.exists() && dir.isDirectory())) dir.mkdirs();
+                if (!(dir.exists() && dir.isDirectory())) {
+                    dir.mkdirs();
+                }
 
                 File[] files = file.listFiles();
 
-                for (int i = 0; i < files.length; i++) copy(files[i], dest);
+                for (int i = 0; i < files.length; i++) {
+                    copy(files[i], dest);
+                }
             } else if (file.isFile()) {
                 // 文件复制过程中，临时文件全名
                 String tempFileUrl = dest + File.separator + file.getName() + FileUtil.TEMP_SUFFIX;
@@ -51,7 +55,9 @@ public class NewFileUtil {
                     ByteBuffer buf = ByteBuffer.allocate(FILE_BUF_SIZE);
                     while (true) {
                         buf.clear();
-                        if (inChannel.read(buf) <= 0) break;
+                        if (inChannel.read(buf) <= 0) {
+                            break;
+                        }
                         buf.flip();
                         outChannel.write(buf);
                     }
@@ -59,16 +65,26 @@ public class NewFileUtil {
                     e.printStackTrace();
                 } finally {
                     try {
-                        if (inChannel != null) inChannel.close();
-                        inChannel = null;
-                        if (outChannel != null) outChannel.close();
-                        outChannel = null;
-                        if (fos != null) fos.close();
-                        fos = null;
-                        if (fis != null) fis.close();
-                        fis = null;
+                        if (inChannel != null) {
+                            inChannel.close();
+                            inChannel = null;
+                        }
+                        if (outChannel != null) {
+                            outChannel.close();
+                            outChannel = null;
+                        }
+                        if (fos != null) {
+                            fos.close();
+                            fos = null;
+                        }
+                        if (fis != null) {
+                            fis.close();
+                            fis = null;
+                        }
                         // 文件改名只用关闭流后操作才行， 文件复制完后，文件改名，去掉后缀
-                        if (tempFile != null && targetFile != null) tempFile.renameTo(targetFile);
+                        if (tempFile != null && targetFile != null) {
+                            tempFile.renameTo(targetFile);
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -104,12 +120,15 @@ public class NewFileUtil {
                 e.printStackTrace();
             } finally {
                 try {
-                    if (baos != null)
+                    if (baos != null) {
                         baos.close();
-                    if (channel != null)
+                    }
+                    if (channel != null) {
                         channel.close();
-                    if (fis != null)
+                    }
+                    if (fis != null) {
                         fis.close();
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

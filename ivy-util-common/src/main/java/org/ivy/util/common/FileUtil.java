@@ -1,5 +1,7 @@
 package org.ivy.util.common;
 
+import org.ivy.util.common.StringUtil;
+
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,15 @@ import java.util.List;
  * @date 2014/6/5 09:01:55
  */
 public class FileUtil {
+
+    /**
+     * 文件复制时，重复文件处理方式
+     */
+    public static final int OPT_COPY_ABANDON = 0;
+    public static final int OPT_COPY_COVER = 1;
+    public static final int OPT_COPY_BOTH = 2;
+
+
     /**
      * 文件复制中间临时文件后缀
      */
@@ -62,7 +73,7 @@ public class FileUtil {
                 : file.getAbsolutePath().replace(File.separator, FileUtil.UNIX_SEPARATOR);
 
         // if file is Dir, make sure file's path end with unix separator
-        if (file.isDirectory() && ! path.endsWith(FileUtil.UNIX_SEPARATOR)) {
+        if (file.isDirectory() && !path.endsWith(FileUtil.UNIX_SEPARATOR)) {
             path += FileUtil.UNIX_SEPARATOR;
         }
         return path;
@@ -82,12 +93,16 @@ public class FileUtil {
         String path = file.replaceAll("\\\\+", UNIX_SEPARATOR);
         // remove repetitive file separator
         path = path.replaceAll(FileUtil.UNIX_SEPARATOR + "{2,}", FileUtil.UNIX_SEPARATOR);
+        if (path.startsWith(FileUtil.UNIX_SEPARATOR)) {
+            path = path.substring(1, path.length());
+        }
         return path;
     }
 
     /**
-     * 确保文件复制时，目标文件可操作性；
+     * <p>
      * <br>--------------------------------------------
+     * <br> description: 确保文件复制时，目标文件可操作性
      * <br> 1、目录，确保其存在
      * <br> 2、文件，确保目标路径是否含有同名文件
      * <br>     2.1 检查目标文件是否存在存在同名文件
@@ -95,23 +110,38 @@ public class FileUtil {
      * <br>         2.2.1 重复 2.1操作
      * <br> 2.3 若不存在，返回该文件
      * <br>--------------------------------------------
+     * </p>
      *
      * @param dest destination
      * @return File
      */
-    private static File makeSureTargetFile4Copy(File dest) {
+    private static File getFinalDestByOptForCopy(int opt, File dest) throws IOException {
         if (dest.isDirectory()) {
             return dest;
         }
-        int idx = 0;
-        String prefix = dest.getParent()
-                + FileUtil.UNIX_SEPARATOR + getFilenameWithoutFileType(dest);
-        String suffix = (getFileType(dest).length() > 0)
-                ? ("." + getFileType(dest))
-                : "";
-        for (; dest.exists(); dest = new File(prefix + "-(" + idx++ + ")" + suffix)) {
+        // ----覆盖模式进行文件复制
+        if (OPT_COPY_COVER == opt) {
+            if (dest.exists()) {
+                dest.delete();
+            }
+            return dest;
         }
-        return dest;
+        // ----放弃模式进行文件复制
+        if (OPT_COPY_ABANDON == opt) {
+            return dest.exists() ? null : dest;
+        }
+        // ----保留两个文件模式进行复制，目标文件格式 schema: filename-(count).type
+        if (OPT_COPY_BOTH == opt) {
+            int idx = 0;
+            String prefix = dest.getParent() + FileUtil.UNIX_SEPARATOR + getFilenameWithoutFileType(dest);
+            String suffix = (getFileType(dest).length() > 0)
+                    ? ("." + getFileType(dest))
+                    : "";
+            for (; dest.exists(); dest = new File(prefix + "-(" + idx++ + ")" + suffix)) {
+            }
+            return dest;
+        }
+        throw new IOException("==== opt[" + opt + "] is illegal, valid opt set[0, 1, 2]");
     }
 
     /**
@@ -176,11 +206,80 @@ public class FileUtil {
      * <br> 6、复制完成，去掉临时文件后缀
      * <br> ----------------------------------------
      *
+     * @param opt  operation type
+     * @param in   file
+     * @param dest destination
+     * @throws IOException
+     */
+    private static void copyNonDirFile(int opt, InputStream in, File dest) throws IOException {
+        // 输入流不存在，直接退出
+        if (null == in) {
+            return;
+        }
+        // 目标路径不存在，直接退出
+        if (null == dest) {
+            throw new IOException("====arg dest can not be null");
+        }
+        // 源文件为输入流，dest 须为文件，不能是目录
+        if (dest.isDirectory()) {
+            throw new IOException("====arg dest can not be a directory");
+        }
+        // 检查 dest 所在文件夹，若不存在穿件该目录
+        checkDir(dest.getParentFile(), true);
+        // ----目标路径下存在同名文件处理, 需要考虑目标文件名中没有文件类型的情况
+        dest = getFinalDestByOptForCopy(opt, dest);
+        if (dest == null) {
+            // ----dest == null, 说明采取了放弃模式进行文件复制
+            return;
+        }
+        // ----临时文件----文件拷贝过程中，使用临时文件，拷贝完成，将临时文件改名为目标文件
+        File temp = new File(dest.getAbsolutePath() + TEMP_SUFFIX);
+        int successFlag = 0;
+        try (
+                FileOutputStream fos = new FileOutputStream(temp);
+                BufferedOutputStream bos = new BufferedOutputStream(fos)
+        ) {
+            int len;
+            byte[] buf = new byte[BUF_SIZE];
+            while ((len = in.read(buf)) > 0) {
+                bos.write(buf, 0, len);
+            }
+            // 释放缓存
+            bos.flush();
+            // 文件复制成功后，标识自增1
+            successFlag++;
+        } finally {
+            // 复制失败，删除临时文件
+            if (successFlag == 0) {
+                temp.delete();
+            }
+            // 临时文件改名为目标文件名，需文件流关闭后执行
+            if (temp != null && dest != null) {
+                temp.renameTo(dest);
+            }
+        }
+    }
+
+
+    /**
+     * file copy
+     * <br> ----------------------------------------
+     * <br> 1、文件不存在，退出
+     * <br> 2、目标文键为null，退出
+     * <br> 3、目标路径下是否有同名文件处理，
+     * <br>     3.1 若有同名文件，使用数字累加处理
+     * <br>     3.2 考虑目标文件名没有类型的情况处理
+     * <br> 4、采用缓冲、以字节流来读写文件
+     * <br> 5、复制过程中采用临时文件
+     * <br> 6、复制完成，去掉临时文件后缀
+     * <br> ----------------------------------------
+     *
+     * @param opt  operation type
      * @param file file
      * @param dest destination
      * @throws IOException
      */
-    private static void copyNonDirFile(File file, File dest) throws IOException {
+    private static void copyNonDirFile(int opt, File file, File dest) throws IOException {
         // 文件不存在，直接退出
         if (null == file || !file.exists()) {
             return;
@@ -189,15 +288,21 @@ public class FileUtil {
         if (null == dest) {
             throw new IOException("====arg dest can not be null");
         }
-        // 目标路径下存在同名文件处理, 需要考虑目标文件名中没有文件类型的情况
-        dest = makeSureTargetFile4Copy(dest);
-        // 文件拷贝 - 文件复制过程中，使用临时文件
+        // ----目标路径下存在同名文件处理, 需要考虑目标文件名中没有文件类型的情况
+        dest = getFinalDestByOptForCopy(opt, dest);
+        if (dest == null) {
+            // ----dest == null, 说明采取了放弃模式进行文件复制
+            return;
+        }
+        // ----临时文件----文件拷贝过程中，使用临时文件，拷贝完成，将临时文件改名为目标文件
         File tempFile = new File(dest.getAbsolutePath() + TEMP_SUFFIX);
         int successFlag = 0;
-        try (FileInputStream fis = new FileInputStream(file);
-             BufferedInputStream bis = new BufferedInputStream(fis);
-             FileOutputStream fos = new FileOutputStream(tempFile);
-             BufferedOutputStream bos = new BufferedOutputStream(fos)) {
+        try (
+                FileInputStream fis = new FileInputStream(file);
+                BufferedInputStream bis = new BufferedInputStream(fis);
+                FileOutputStream fos = new FileOutputStream(tempFile);
+                BufferedOutputStream bos = new BufferedOutputStream(fos)
+        ) {
             int len;
             byte[] buf = new byte[BUF_SIZE];
             while ((len = bis.read(buf)) > 0) {
@@ -236,14 +341,14 @@ public class FileUtil {
      * @param dest destination
      * @throws IOException
      */
-    public static void copy(File file, String dest) throws IOException {
+    public static void copy(int opt, File file, String dest) throws IOException {
         // 拷贝文件夹不存在，直接退出。
         if (null == file || !file.exists()) {
-            return;
+            throw new IOException("====arg file [" + file + "] not exists");
         }
         // 目标路径为空，退出
         if (null == dest || dest.trim().length() == 0) {
-            throw new IOException("====arg dest can not be blank");
+            throw new IOException("====arg dest is blank");
         }
         // 检查目标路径不通过，退出
         if (!checkDir(dest, true)) {
@@ -257,8 +362,8 @@ public class FileUtil {
             dest = getUnixStyleFilePath(dest) + FileUtil.UNIX_SEPARATOR + file.getName();
             // 确认目标路径存在，采用递归调用，进行子文件进行复制
             if (checkDir(dest, true)) {
-                for (File f : file.listFiles()) {
-                    copy(f, dest);
+                for (File e : file.listFiles()) {
+                    copy(opt, e, dest);
                 }
             }
         } else if (file.isFile()) {
@@ -266,7 +371,7 @@ public class FileUtil {
             if (!dest.endsWith(file.getName())) {
                 dest = getUnixStyleFilePath(dest + FileUtil.UNIX_SEPARATOR + file.getName());
             }
-            copyNonDirFile(file, new File(dest));
+            copyNonDirFile(opt, file, new File(dest));
         }
     }
 
@@ -278,12 +383,61 @@ public class FileUtil {
      * @param dest destination
      * @throws IOException
      */
-    public static void copy(String file, String dest) throws IOException {
+    public static void copy(int opt, String file, String dest) throws IOException {
         if (null == file || file.trim().length() == 0) {
-            return;
+            throw new IOException("====arg file [" + file + "] not exists");
         }
-        copy(new File(file), dest);
+
+        if (file.startsWith("classpath:")) {
+            copyFromClasspath(opt, file.replace("classpath:", ""), dest);
+        } else {
+            copy(opt, new File(file), dest);
+        }
+
     }
+
+    public static void copy(File file, String dest) throws IOException {
+        copy(OPT_COPY_BOTH, file, dest);
+    }
+
+    public static void copy(String file, String dest) throws IOException {
+        copy(OPT_COPY_BOTH, file, dest);
+    }
+
+    /**
+     * 按照 classpath 路径进行文件复制
+     *
+     * @param path classpath 相对路径
+     * @param dest 目标路径，文件系统陆行
+     * @throws Exception
+     */
+    public static void copyFromClasspath(int opt, String path, String dest) throws IOException {
+        if (StringUtil.containsBlank(path, dest)) {
+            throw new IOException("==== path [" + path + "], dest [" + dest + "] can not be blank");
+        }
+        try (InputStream in = FileUtil.class.getClassLoader().getResourceAsStream(path)) {
+            File destFile = new File(dest);
+            copyNonDirFile(opt, in, destFile);
+        }
+    }
+
+    /**
+     * 按照 classpath 路径进行文件复制
+     *
+     * @param path classpath 相对路径
+     * @param dest 目标路径，文件系统陆行
+     * @throws Exception
+     */
+    public static void copyFromClasspath(String path, String dest) throws IOException {
+        if (StringUtil.containsBlank(path, dest)) {
+            throw new IOException("==== path [" + path + "], dest [" + dest + "] can not be blank");
+        }
+        try (InputStream in = FileUtil.class.getClassLoader().getResourceAsStream(path)) {
+            File destFile = new File(dest);
+            copyNonDirFile(OPT_COPY_COVER, in, destFile);
+        }
+    }
+
 
     /**
      * delete file
@@ -431,7 +585,7 @@ public class FileUtil {
      * @param inputStream inputStream
      * @return byte[]
      */
-    public static byte[] read(InputStream inputStream) {
+    public static byte[] read(InputStream inputStream) throws IOException {
         if (null == inputStream) {
             return null;
         }
@@ -444,8 +598,6 @@ public class FileUtil {
                 baos.write(buf, 0, len);
             }
             data = baos.toByteArray();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         return data;
     }
@@ -457,7 +609,7 @@ public class FileUtil {
      * @param file file
      * @return byte[]
      */
-    public static byte[] read(File file) {
+    public static byte[] read(File file) throws IOException {
         if ((null == file || !file.exists())) {
             return null;
         }
@@ -467,10 +619,6 @@ public class FileUtil {
         byte[] data = null;
         try (FileInputStream fis = new FileInputStream(file)) {
             data = read(fis);
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         return data;
     }
@@ -481,7 +629,7 @@ public class FileUtil {
      * @param file file
      * @return byte[]
      */
-    public static byte[] read(String file) {
+    public static byte[] read(String file) throws IOException {
         if (null == file || file.trim().length() == 0) {
             return null;
         }
@@ -960,6 +1108,8 @@ public class FileUtil {
         return getAllNonDirFileList(new File(dir));
     }
 }
+
+
 
 
 

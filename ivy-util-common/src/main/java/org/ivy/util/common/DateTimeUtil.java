@@ -74,7 +74,7 @@ public class DateTimeUtil {
         return format(getDateTime(date), pattern);
     }
 
-    public static String formate(Date date) {
+    public static String format(Date date) {
         return format(date, defaultPattern);
     }
 

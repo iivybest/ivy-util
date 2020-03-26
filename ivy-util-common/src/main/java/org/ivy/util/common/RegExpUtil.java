@@ -33,11 +33,10 @@ import java.util.regex.Pattern;
  * @version 1.0
  * @date 2019/12/24 18:44
  */
-public enum RegExpUtil {
-    /**
-     * singleton instance
-     */
-    instance;
+public class RegExpUtil {
+
+    private RegExpUtil() {
+    }
 
 
     /**
@@ -48,13 +47,26 @@ public enum RegExpUtil {
      * @param regex regular expression
      * @return List
      */
-    public List<String> match(String data, String regex) {
+    public static List<String> match(String data, String regex) {
         if (StringUtil.isBlank(data) || StringUtil.isBlank(regex)) {
             return null;
         }
+        Pattern pattern = Pattern.compile(regex);
+        return RegExpUtil.match(data, pattern);
+    }
 
+
+    public static List<String> match(String data, Pattern pattern) {
+        if (StringUtil.isBlank(data)) {
+            return null;
+        }
         List<String> result = new ArrayList<String>();
-        Matcher m = Pattern.compile(regex).matcher(data);
+        if (null == pattern) {
+            result.add(data);
+            return result;
+        }
+
+        Matcher m = pattern.matcher(data);
         while (m.find()) {
             result.add(m.group());
         }

@@ -7,7 +7,7 @@
  -->
 <configuration scan="true" scanPeriod="60 seconds" debug="false">
 
-    <property name="app.name" value="ivy-util-complex"/>
+    <property name="app.name" value="ivy-util-common"/>
     <property name="log.level" value="debug"/>
     <property name="log.maxHistory" value="30"/>
     <!--

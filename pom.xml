@@ -25,14 +25,14 @@
 
 
     <modules>
-        <module>ivy-util-bom</module>
         <module>ivy-util-annotation</module>
-        <module>ivy-util-common</module>
+        <module>ivy-util-bom</module>
         <module>ivy-util-cfg</module>
-        <module>ivy-util-x</module>
+        <module>ivy-util-common</module>
+        <module>ivy-util-complex</module>
         <module>ivy-util-test</module>
         <module>ivy-util-tools</module>
-        <module>ivy-util-complex</module>
+        <module>ivy-util-x</module>
     </modules>
 
     <!--

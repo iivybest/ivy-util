@@ -47,7 +47,10 @@ public class StringUtil {
      * @return boolean result
      */
     public static boolean isNonBlank(String arg0) {
-        return !isBlank(arg0.trim());
+        if (arg0 == null) {
+            return false;
+        }
+        return ! isBlank(arg0.trim());
     }
 
 
@@ -81,12 +84,12 @@ public class StringUtil {
 
 
     /**
-     * fist Char Uppercase
+     * first Char Uppercase
      *
      * @param arg0 argument
      * @return String
      */
-    public static String fistCharUppercase(String arg0) {
+    public static String firstCharUppercase(String arg0) {
         return arg0.substring(0, 1).toUpperCase() + arg0.substring(1, arg0.length());
     }
 

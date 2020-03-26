@@ -66,7 +66,7 @@ public class FileUtilTest {
 
     @Test
     public void test_03_copy() throws Exception {
-        FileUtil.copy("D:/app/logs", "D:/logs/ivybest/");
+        FileUtil.copy(FileUtil.OPT_COPY_BOTH, "E:/app/logs", "E:/app/bak/");
     }
 
     @Test

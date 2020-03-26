@@ -42,7 +42,7 @@ public class BeanUtil {
             IllegalAccessException,
             IllegalArgumentException,
             InvocationTargetException {
-        String methodName = "set" + StringUtil.fistCharUppercase(field.getName());
+        String methodName = "set" + StringUtil.firstCharUppercase(field.getName());
         Method method = bean.getClass().getMethod(methodName, field.getType());
         if (method != null) {
             method.invoke(bean, value);
@@ -101,7 +101,7 @@ public class BeanUtil {
     public static <T, R> R getFieldValueByReflect(T bean, Field field) {
         R value = null;
         try {
-            String methodName = "get" + StringUtil.fistCharUppercase(field.getName());
+            String methodName = "get" + StringUtil.firstCharUppercase(field.getName());
             Method method = bean.getClass().getMethod(methodName);
             if (method != null) {
                 value = (R) method.invoke(bean);

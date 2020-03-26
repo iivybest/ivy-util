@@ -89,9 +89,9 @@ public class SystemUtil {
         String osname = System.getProperty("os.name").toUpperCase();
         String os = "";
         if (osname.contains("LINUX")) {
-            os = "LINUX";
+            os = "linux";
         } else if (osname.contains("WINDOWS")) {
-            os = "WINDOWS";
+            os = "windows";
         }
         return os;
     }

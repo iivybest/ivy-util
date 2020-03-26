@@ -68,8 +68,8 @@ public class CertMgrTest extends TestCase {
     public void test_01_readX509Cert() throws Exception {
         log.debug("    证书版本: {}", this.cert.getVersion());
         log.debug("  证书序列号: {}", this.cert.getSerialNumber().toString(16));
-        log.debug("证书生效日期: {}", DateTimeUtil.formate(this.cert.getNotBefore()));
-        log.debug("证书失效日期: {}", DateTimeUtil.formate(this.cert.getNotAfter()));
+        log.debug("证书生效日期: {}", DateTimeUtil.format(this.cert.getNotBefore()));
+        log.debug("证书失效日期: {}", DateTimeUtil.format(this.cert.getNotAfter()));
         log.debug("  证书拥有者: {}", this.cert.getSubjectDN().getName());
         log.debug("  证书颁发者: {}", this.cert.getIssuerDN().getName());
         log.debug("证书签名算法: {}", this.cert.getSigAlgName());
