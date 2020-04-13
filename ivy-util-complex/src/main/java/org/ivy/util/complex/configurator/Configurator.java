@@ -16,24 +16,39 @@ import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 /**
  * <p>
- * <br>---------------------------------------------------------
+ * <br>-----------------------------------------------------------------------------
  * <br> requirement:
- * <br> 1、构建过于负责--builer模式（变种）
- * <br> 2、单例模式 (去除单例模式，复杂应用使用 spring 管理 configurator 对象)
- * <br> 3、可定义扫描位置、优先级
- * <br> 4、用户自定义例外文件或位置
- * <br> 5、配置项 key 支持通配符 #，
- * <br>         ofd.register.#.name
- * <br>         ofd.register.activation.#
- * <br> 6、配置项 value 支持 el 表达式, eg: ${classpath} / ${user.name}
- * <br>         eg: ${classpath} / ${user.name}
- * <br> 7、多文件类型支持 --二期实现
- * <br> 8、配置文件修改即时感应 --二期实现
- * <br> 9、用户设置记录 --二期实现
+ * <br> 01、构建过于复杂--使用 builder 模式（变种）保证构建过程的安全可靠
+ * <br> 02、去单例模式 (复杂 inst，建议 client 使用 spring 管理 configurator 对象)
+ * <br> 03、configurator 日志依赖 SLF4J
+ * <br> 03、可定义扫描位置（路径、文件）
+ * <br> 04、可以定配置文件优先级
+ * <br> 05、可定义扫描例外位置（路径、文件）
+ * <br> 06、配置文件名称支持通配符适配，用于加载符合规则的文件
+ * <br> 07、配置项 Key 值，支持通配符。用于一系列配置的加载
+ * <br> 08、配置项 val 值，支持 expression language，可处理静态、动态资源解析
+ * <br> 09、可定义 wildcard 处理器
+ * <br> 10、可定义 expression language 处理器
+ * <br> 11、配置文件多文件类型支持 （TODO）
+ * <br> 12、配置文件修改即时感应 （TODO）
+ * <br> 13、用户设置记录，（性能考虑，使用位运算表示） （TODO）
  * <br>---------------------------------------------------------
  * <br> description（logic）:
+ * <br> 1、配置项 key 支持通配符 #（默认通配符），
+ * <br>     1.1、通配符使用和业务密切相关，须事先设置好业务规约
+ * <br>     1.2、e.g. ofd.register.#.name
+ * <br>     1.3、e.g. ofd.register.activation.#
+ * <br>     1.4、e.g. ofd.register.##
+ * <br> 2、配置项 val 支持 el 表达式, eg: ${classpath} / ${user.name}
+ * <br>     2.1、e.g. ${classpath}
+ * <br>     2.2、e.g. ${user.name}
+ * <br>     2.3、e.g. ${user.getName()}
+ * <br>     2.4、e.g. ${date.currentDate("yyyy-MM-dd")}
+ * <br> 3、配置项 val 支持 special descriptor 处理
+ * <br>    3.1、[classpath:/project:/source:/source.directory:]
+ * <br>    3.2、e.g. ofd.register.material.root.input = classpath:material/ofd/
  * <br>
- * <br>---------------------------------------------------------
+ * <br>-----------------------------------------------------------------------------
  * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
  *
@@ -139,7 +154,7 @@ public class Configurator {
      * setting one or multi scanning path(file or directory)
      *
      * @param recursion weather recursion read directory
-     * @param path      scanning file paht
+     * @param path      scanning file path
      * @return Configurator this object
      */
     public Configurator configPath(boolean recursion, String... path) {
@@ -155,7 +170,7 @@ public class Configurator {
      * add one or multi scanning path(file or directory)
      * and recursion is false
      *
-     * @param path scanning file paht
+     * @param path scanning file path
      * @return Configurator this object
      */
     public Configurator configPath(String... path) {
@@ -167,7 +182,7 @@ public class Configurator {
      * add one or multi except scanning path(file or directory)
      * and recursion is false
      *
-     * @param path scanning file paht
+     * @param path scanning file path
      * @return Configurator this object
      */
     public Configurator exceptPath(String... path) {
@@ -204,18 +219,19 @@ public class Configurator {
             this.wildcardHandler = WildcardHandler.newInstance(ConfiguratorConstant.WILDCARD);
         }
         // ----若用户未指定el表达式处理器，使用默认 el 表达式处理器
-        if(this.getElHandler() == null) {
+        if (this.getElHandler() == null) {
             // ----使用通配符获取全部的类型别名集合
             Map<String, String> aliasMap = this.action.getAll(Boolean.TRUE, ConfiguratorConstant.WILDCARDS_ALIAS_DYNAMIC);
             // ----静态文本别名
             Map<String, String> staticTextMap = this.action.getAll(Boolean.TRUE, ConfiguratorConstant.WILDCARD_ALIAS_STATIC);
             // ----build expression language handler
             ExpressionLanguageHandler defaultHandler = ExpressionLanguageHandler.newInstance()
-                    .set("project", this.action.get("user.dir"))
-                    .set("classpath", this.action.get("class.path"))
+                    .set("project", SystemUtil.getUserDir())
+                    .set("classpath", SystemUtil.getClasspath())
+                    .set("source", SystemUtil.getSource())
+                    .set("source.directory", SystemUtil.getSourceDirectory())
                     .set(staticTextMap)
-                    .setAlias(aliasMap)
-                    ;
+                    .setAlias(aliasMap);
             this.elHandler = defaultHandler;
         }
         return this;
@@ -240,7 +256,9 @@ public class Configurator {
             return this;
         }
 
-        this.scanContainer.sort(this.confPathEntryPriorityComparator);
+        // ----扫描集合优先级排序
+//        this.scanContainer.sort(this.confPathEntryPriorityComparator);
+        Collections.sort(this.scanContainer, this.confPathEntryPriorityComparator);
 
         return this;
     }
@@ -276,13 +294,12 @@ public class Configurator {
         this.priorityCounter = new AtomicInteger(10_000_000);
         this.customSettingRecord = 0b00_000_000_000_000_000_000_000_000_000_000;
         return this
-                .setScanContainer(new ArrayList<>())
-                .setExceptContainer(new ArrayList<>())
-                .setEffectiveExceptContainer(new ArrayList<>())
-                .setEffectiveConfigContainer(new ArrayList<>())
+                .setScanContainer(new ArrayList<ConfPathEntry>())
+                .setExceptContainer(new ArrayList<ConfPathEntry>())
+                .setEffectiveExceptContainer(new ArrayList<String>())
+                .setEffectiveConfigContainer(new ArrayList<String>())
                 .setAction(new ConfActionMgr(this));
     }
-
 
 
     public String getId() {
@@ -443,24 +460,31 @@ public class Configurator {
             // ----将系统参数 classpath 保存到 ConfActionMgr 中。
             this.allConfigurationsMap.put("class.path", SystemUtil.getClasspath());
             this.allConfigurationsMap.put("user.dir", SystemUtil.getUserDir());
+            this.allConfigurationsMap.put("source", SystemUtil.getSource());
+            this.allConfigurationsMap.put("source.directory", SystemUtil.getSourceDirectory());
             this.allConfigurationsMap.put("os.arch", SystemUtil.getOSArch());
             this.allConfigurationsMap.put("os.name", SystemUtil.getOsName());
 
+            // ----scanning location container
             List<ConfPathEntry> scanContainer = this.configurator.scanContainer;
 
-            String path;
+            String concretePath;
             File file;
             for (int i = scanContainer.size() - 1; i >= 0; i--) {
-                path = scanContainer.get(i).getValue();
-                if (path.startsWith("classpath:") || path.startsWith("file:")) {
-                    this.loadConfigurationFromClasspath(path);
+                // ----client setting scanning path
+                concretePath = scanContainer.get(i).getValue();
+                // ----expression language precess ---- source process
+//                concretePath = this.configurator.getElHandler().handle(concretePath);
+                // ----classpath: process
+                if (concretePath.startsWith("classpath:") || concretePath.startsWith("file:")) {
+                    this.loadConfigurationFromClasspath(concretePath);
                     continue;
                 }
-                file = new File(path);
+                file = new File(concretePath);
                 if (!file.exists()) {
                     continue;
                 }
-                // --- 加载配置文件
+                // --- load configurator from file system
                 this.loadConfAtomic(file, scanContainer.get(i).isRecursion());
             }
             return this;
@@ -473,14 +497,14 @@ public class Configurator {
          * @return ConActionMgr this inst
          */
         private ConfActionMgr loadConfigurationFromClasspath(String path) {
-            log.debug("{path: {}}", path);
+//            log.debug("{path: {}}", path);
             String dest = FileUtil.getUnixStyleFilePath(path.replace("classpath:", ""));
             InputStream in = Configurator.class.getClassLoader().getResourceAsStream(dest);
             if (null == in) {
                 return this;
             }
             String absolutePath = FileUtil.getUnixStyleFilePath(Configurator.class.getClassLoader().getResource(dest).getPath());
-            log.debug("{absolutePath: {}}", absolutePath);
+//            log.debug("{absolutePath: {}}", absolutePath);
             if (null == absolutePath) {
                 return this;
             }
@@ -495,6 +519,7 @@ public class Configurator {
             }
             return this;
         }
+
 
         /**
          * <p>
@@ -529,6 +554,9 @@ public class Configurator {
                     try {
                         Properties prop = PropertiesUtil.load(file.getAbsolutePath());
                         this.allConfigurationsMap.putAll(PropertiesUtil.convertToMap(prop));
+                        if (null == prop) {
+                            throw new IOException("====file [" + file.getAbsolutePath() + "] load failed");
+                        }
                         // ---- 将有效的配置文件按次序添加到 effectiveConfigContainer 中
                         this.configurator.getEffectiveConfigContainer().add(FileUtil.getUnixStyleFilePath(file));
                     } catch (IOException ex) {
@@ -575,7 +603,6 @@ public class Configurator {
         }
 
 
-
         /**
          * 根据通配符获取指定 key 值
          *
@@ -583,16 +610,16 @@ public class Configurator {
          * @param items
          * @return
          */
-        public String getKey(String wildcard, String ... items) {
+        public String getKey(String wildcard, String... items) {
             if (StringUtil.isBlank(wildcard)) {
                 return wildcard;
             }
-            if (! wildcard.contains(ConfiguratorConstant.WILDCARD)) {
+            if (!wildcard.contains(ConfiguratorConstant.WILDCARD)) {
                 return wildcard;
             }
             String result = wildcard;
             for (String e : items) {
-                if (! wildcard.contains(ConfiguratorConstant.WILDCARD)) {
+                if (!wildcard.contains(ConfiguratorConstant.WILDCARD)) {
                     break;
                 }
                 result = result.replaceFirst(ConfiguratorConstant.WILDCARD, e);
@@ -607,7 +634,7 @@ public class Configurator {
          * @param key key
          * @return result
          */
-        public String getExpLang(String key) throws Exception{
+        public String getExpLang(String key) throws Exception {
             String value = this.get(key);
             if (StringUtil.isBlank(value)) {
                 return value;
@@ -615,6 +642,7 @@ public class Configurator {
             value = this.configurator.getElHandler().handle(value);
             return value;
         }
+
         public String getForcedIncludeConfigurationExpLang(String key) throws Exception {
             String value = this.getForcedIncludeConfiguration(key);
             value = this.configurator.getElHandler().handle(value);
@@ -638,6 +666,7 @@ public class Configurator {
             value = this.configurator.getElHandler().handle(value, bean);
             return value;
         }
+
         public <T> String getForcedIncludeConfigurationExpLang(String key, T bean) throws Exception {
             String value = this.getForcedIncludeConfiguration(key);
             value = this.configurator.getElHandler().handle(value, bean);
@@ -662,10 +691,10 @@ public class Configurator {
          */
         public Map<String, String> getAll(String key) {
             // ----double check, make sure this values in cache.
-            if (! wildcardConfigCache.containsKey(key)) {
+            if (!wildcardConfigCache.containsKey(key)) {
                 synchronized (this) {
                     Map<String, String> specificMap;
-                    if (! wildcardConfigCache.containsKey(key)) {
+                    if (!wildcardConfigCache.containsKey(key)) {
                         specificMap = this.configurator.getWildcardHandler().getMatched(key, this.allConfigurationsMap);
                         wildcardConfigCache.put(key, specificMap);
                     }
@@ -674,14 +703,21 @@ public class Configurator {
             return wildcardConfigCache.get(key);
         }
 
-        private Map<String, String> getAll(boolean removePrefix, String key) {
+        /**
+         * 获取所有配置，并去掉key值前缀。（不适用于 key 值中间部位含有通配符的场景）
+         *
+         * @param removePrefix 是否去掉前缀
+         * @param key          key
+         * @return map
+         */
+        public Map<String, String> getAll(boolean removePrefix, String key) {
             Map<String, String> result = this.getAll(key);
             if (removePrefix) {
                 Map<String, String> iResult = new HashMap<>(result.size());
                 String prefix = key.replace(ConfiguratorConstant.WILDCARD, "");
-//                prefix = (prefix.endsWith(".")) ? prefix.substring(0, prefix.length() - 1) : prefix;
+                prefix = (prefix.endsWith("..")) ? prefix.substring(0, prefix.length() - 1) : prefix;
                 String iKey;
-                for(Map.Entry<String,String> e : result.entrySet()) {
+                for (Map.Entry<String, String> e : result.entrySet()) {
                     iKey = e.getKey().replace(prefix, "");
                     iResult.put(iKey, e.getValue());
                 }
@@ -694,6 +730,14 @@ public class Configurator {
 
         public Map<String, String> getAllForcedIncludeConfiguration(String key) throws Exception {
             Map<String, String> result = this.getAll(key);
+            if (result == null || result.entrySet().size() == 0) {
+                throw new Exception("====not find any key matches [" + key + "] in configuration, these keys are required");
+            }
+            return result;
+        }
+
+        public Map<String, String> getAllForcedIncludeConfiguration(boolean removePrefix, String key) throws Exception {
+            Map<String, String> result = this.getAll(removePrefix, key);
             if (result == null || result.entrySet().size() == 0) {
                 throw new Exception("====not find any key matches [" + key + "] in configuration, these keys are required");
             }
@@ -860,7 +904,7 @@ public class Configurator {
      * @description 配置文件描述项封装对象
      * @date 2020/2/28 17:20
      */
-    private static class ConfPathEntry {
+    public static class ConfPathEntry {
         /**
          * 配置文件路径、支持 directory、File
          */

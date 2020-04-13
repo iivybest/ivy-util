@@ -1,6 +1,7 @@
 package org.ivy.util.complex.configurator;
 
-import org.ivy.util.common.StringUtil;
+
+import com.aisino.ofd.register.util.StringUtil;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -46,7 +47,7 @@ public class WildcardHandler {
      * <br>---------------------------------------------------------------
      * <br> description:
      * <br>     * get a series of configuration items with the same prefix
-     * <br>     * wildcard support
+     * <br>     * wildcard support, [#]
      * <br>     * user can specify multiple keys TODO
      * <br>     * user can specify whether to remove the prefix
      * <br>---------------------------------------------------------------
@@ -62,7 +63,7 @@ public class WildcardHandler {
         if (StringUtil.isBlank(key)) {
             return matched;
         }
-        if (! key.contains(this.wildcard)) {
+        if (!key.contains(this.wildcard)) {
             if (mapping.containsKey(key)) {
                 matched.put(key, mapping.get(key));
             }
@@ -82,12 +83,13 @@ public class WildcardHandler {
      * <p>
      * <br>---------------------------------------------------------
      * <br> description: process wildcard
-     * <br>     ## multistageWildcard
-     * <br>     #  singleStageWildcard
+     * <br>     # multistageWildcard
+     * <br>     # singleStageWildcard
      * <br>
      * <br>---------------------------------------------------------
      * <br> Copyright@2020 www.ivybest.org Inc. All rights reserved.
      * </p>
+     *
      * @param key
      * @return
      */

@@ -1,10 +1,18 @@
 package org.ivy.util.common;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.io.File;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import static org.ivy.util.common.IvyConstant.UNIX_SEPARATOR;
 import static org.ivy.util.common.IvyConstant.WIN_SEPARATOR;
 
+
 /**
- * <p>  classname：SystemUtil
+ * <p>
  * <br> description：系统工具类
  * <br>---------------------------------------------------------
  * <br>
@@ -17,6 +25,8 @@ import static org.ivy.util.common.IvyConstant.WIN_SEPARATOR;
  * @date 2015/10/22 15:18
  */
 public class SystemUtil {
+    private static Logger log = LoggerFactory.getLogger(SystemUtil.class);
+
     private static String classpath;
     private static String userDir;
 
@@ -31,8 +41,6 @@ public class SystemUtil {
     private static void initClasspath() {
         String fileSeparator = System.getProperty("file.separator");
 
-//		String root = Class.class.getClass().getResource("/").getPath().replace("%20", " ");
-        /* 打成 ruuable jar，执行，返回为空字符串 */
         String root = Thread.currentThread().getContextClassLoader().getResource("").getPath().replace("%20", " ");
 
         switch (fileSeparator) {
@@ -59,41 +67,20 @@ public class SystemUtil {
 
     private static void initUserDir() {
         userDir = FileUtil.getUnixStyleFilePath(System.getProperty("user.dir") + IvyConstant.UNIX_SEPARATOR);
+        if ("linux".equals(getOsName())) {
+            if (!userDir.startsWith("/")) {
+                userDir = "/" + userDir;
+            }
+        }
     }
 
-
     /**
-     * 获取项目 classpath
+     * 获取当前项目项目 classpath
      *
      * @return classpath string
      */
     public static String getClasspath() {
         return classpath;
-    }
-
-    /**
-     * 获取项目路径
-     *
-     * @return user dir string
-     */
-    public static String getUserDir() {
-        return userDir;
-    }
-
-    /**
-     * 获取系统名称
-     *
-     * @return os name
-     */
-    public static String getOsName() {
-        String osname = System.getProperty("os.name").toUpperCase();
-        String os = "";
-        if (osname.contains("LINUX")) {
-            os = "linux";
-        } else if (osname.contains("WINDOWS")) {
-            os = "windows";
-        }
-        return os;
     }
 
     /**
@@ -106,6 +93,59 @@ public class SystemUtil {
                 ? "64"
                 : "32";
         return arch;
+    }
+
+    /**
+     * 获取系统名称
+     *
+     * @return os name
+     */
+    public static String getOsName() {
+        String name = System.getProperty("os.name").toUpperCase();
+        String os = "";
+
+        if (name.contains("LINUX")) {
+            os = "linux";
+        } else if (name.contains("WINDOWS")) {
+            os = "windows";
+        }
+        return os;
+    }
+
+    /**
+     * get the directory of the source code
+     *
+     * @return directory of the source code
+     */
+    public static String getSource() {
+        String path = FileUtil.class.getProtectionDomain().getCodeSource().getLocation().getFile();
+        log.info("====source: {}", path);
+        try {
+            path = URLDecoder.decode(path, "UTF-8");
+            log.info("====source: {}", path);
+        }
+        catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return FileUtil.getUnixStyleFilePath(path);
+    }
+
+    /**
+     * get the directory of the source code
+     *
+     * @return directory of the source code
+     */
+    public static String getSourceDirectory() {
+        return FileUtil.getUnixStyleFilePath(new File(SystemUtil.getSource()).getParentFile());
+    }
+
+    /**
+     * 获取当前项目路径
+     *
+     * @return user dir string
+     */
+    public static String getUserDir() {
+        return userDir;
     }
 
 }

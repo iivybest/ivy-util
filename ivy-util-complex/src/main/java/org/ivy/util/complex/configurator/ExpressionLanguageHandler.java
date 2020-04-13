@@ -1,7 +1,7 @@
 package org.ivy.util.complex.configurator;
 
-import org.ivy.util.common.RegExpUtil;
-import org.ivy.util.common.StringUtil;
+import com.aisino.ofd.register.util.RegExpUtil;
+import com.aisino.ofd.register.util.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -59,7 +59,6 @@ public class ExpressionLanguageHandler {
 
     static {
         pattern = Pattern.compile("\\$\\{[\\S|( )&&[^\\{\\}]]*\\}");
-        prefix = "configurator.el.alias.";
         prefix = "";
     }
 
@@ -109,6 +108,7 @@ public class ExpressionLanguageHandler {
         if (StringUtil.isBlank(message)) {
             return message;
         }
+        // ---- the expression result
         String result = message;
         List<String> expressions = RegExpUtil.match(message, pattern);
         String[] protocol;
@@ -128,7 +128,7 @@ public class ExpressionLanguageHandler {
             if (StringUtil.isNonBlank(protocol[2]) && StringUtil.isBlank(protocol[3])) {
                 throw new Exception("====expression [" + message + "] explain need pojo object");
             }
-            // ----signature expression----${data.currentDate(yyyy-MM-dd)}
+            // ----signature expression----${data.currentdate(yyyy-MM-dd)}
             // ----static function
             if (StringUtil.isBlank(protocol[2]) && StringUtil.isNonBlank(protocol[3])) {
                 result = this.handleDynamicTextBySignature(result, protocol, null);
@@ -153,10 +153,11 @@ public class ExpressionLanguageHandler {
         if (null == bean) {
             return handle(message);
         }
+        // ---- the expression result
         String result = message;
         List<String> expressions = RegExpUtil.match(message, pattern);
         String[] protocol;
-        position_loop:
+        outter:
         for (String expression : expressions) {
             protocol = this.explainExpression(expression);
             // ----blank expression ${}
@@ -166,18 +167,18 @@ public class ExpressionLanguageHandler {
             // ----static text expression----${classpath}
             if (StringUtil.isBlank(protocol[2]) && StringUtil.isBlank(protocol[3])) {
                 result = this.handleStaticText(result, protocol);
-                continue position_loop;
+                continue outter;
             }
             // ----field expression----${user.name}
             if (StringUtil.isNonBlank(protocol[2]) && StringUtil.isBlank(protocol[3])) {
                 result = this.handleDynamicTextByPojoField(result, protocol, bean);
-                continue position_loop;
+                continue outter;
             }
             // ----signature expression----${data.currentdate(yyyy-MM-dd)}
             // ----instance function
             if (StringUtil.isBlank(protocol[2]) && StringUtil.isNonBlank(protocol[3])) {
                 result = this.handleDynamicTextBySignature(result, protocol, bean);
-                continue position_loop;
+                continue outter;
             }
         }
         return result;
@@ -274,10 +275,6 @@ public class ExpressionLanguageHandler {
      */
     private <T> Object getFieldValueByGetter(String field, Class<?> type, T bean) throws Exception {
         String signature = "get" + StringUtil.firstCharUppercase(field);
-
-//        Method method = type.getMethod(signature, null);
-//        return method.invoke(bean, null);
-
         return getValueByMethodReflectInvoke(type, bean, signature, null);
 
     }
@@ -301,10 +298,6 @@ public class ExpressionLanguageHandler {
      * @throws Exception
      */
     private <T> Object getValueByMethodReflectInvoke(Class<?> type, T bean, String signature, Object[] params) throws Exception {
-        // ---- 方法获取异常，改为下面动态判断获取 method
-//        Method method = type.getMethod(signature, ((params == null) ? null : String.class));
-//        Object result = method.invoke(bean, params);
-
         Method method = params == null
                 ? type.getMethod(signature)
                 : type.getMethod(signature, String.class);

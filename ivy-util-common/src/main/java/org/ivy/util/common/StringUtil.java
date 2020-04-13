@@ -1,13 +1,12 @@
 package org.ivy.util.common;
 
+
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.lang.reflect.Array;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * <p> description:
@@ -84,7 +83,7 @@ public class StringUtil {
 
 
     /**
-     * first Char Uppercase
+     * fist Char Uppercase
      *
      * @param arg0 argument
      * @return String
@@ -274,39 +273,6 @@ public class StringUtil {
     }
 
 
-    public static void main(String[] args) {
-        byte[] b = {0, 15, -117, -23, -30, -118, -111, 103, 47, 19, 66, -95, 74, -35, 110, 60, -119, -86};
-        byte[] copyB = b.clone();
-
-        System.out.println(Arrayx.printArray(b));
-        System.out.println(Arrayx.printArray(copyB));
-
-
-        Class<?> type = b.getClass();
-        // 数组中元素class类型
-        Class<?> itemType = Array.get(b, 0).getClass();
-
-        System.out.println("---->" + type.getName());
-        System.out.println("---->" + type.isArray());
-
-
-        Class<?>[] types = {
-                String.class,
-                HashMap.class,
-                HashSet.class,
-                ConcurrentHashMap.class,
-                Date.class,
-
-                StringUtil.class
-        };
-
-        for (Class<?> item : types) {
-            System.out.println(item.getName());
-            System.out.println(isMap(item));
-        }
-
-
-    }
 
 
 }

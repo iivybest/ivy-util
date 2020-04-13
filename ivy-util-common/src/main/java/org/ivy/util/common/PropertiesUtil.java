@@ -3,9 +3,13 @@ package org.ivy.util.common;
 import java.io.*;
 import java.util.*;
 
+import static org.ivy.util.common.IvyConstant.REGEXP_XML;
+
+
 /**
- * <p> description: properties 工具类
+ * <p>
  * <br>---------------------------------------------------------
+ * <br> description: properties util
  * <br>
  * <br>---------------------------------------------------------
  * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
@@ -16,6 +20,7 @@ import java.util.*;
  * @date 2014/12/3 17:47
  */
 public class PropertiesUtil {
+
     /**
      * load properties
      *
@@ -29,9 +34,9 @@ public class PropertiesUtil {
             return null;
         }
         Properties prop = null;
-        try (InputStream is = new BufferedInputStream(new FileInputStream(fileUrl))) {
+        try (InputStream in = new BufferedInputStream(new FileInputStream(fileUrl))) {
             // Class.class.getResourceAsStream，只支持classpath的相对路径
-            prop = (fileUrl.matches(IvyConstant.REGEXP_XML)) ? loadFromXML(is) : loadProperties(is);
+            prop = (fileUrl.matches(REGEXP_XML)) ? loadFromXML(in) : loadProperties(in);
         }
         return prop;
     }
@@ -39,27 +44,28 @@ public class PropertiesUtil {
     /**
      * load properties from xml file
      *
-     * @param is InputStream
+     * @param in InputStream
      * @return Properties
      * @throws IOException
      * @throws InvalidPropertiesFormatException
      */
-    public static Properties loadFromXML(InputStream is) throws InvalidPropertiesFormatException, IOException {
+    public static Properties loadFromXML(InputStream in) throws InvalidPropertiesFormatException, IOException {
         Properties prop = new Properties();
-        prop.loadFromXML(is);
+        prop.loadFromXML(in);
         return prop;
     }
 
     /**
      * load properties from properties file
      *
-     * @param is InputStream
+     * @param in InputStream
      * @return Properties
      * @throws IOException
      */
-    public static Properties loadProperties(InputStream is) throws IOException {
+    public static Properties loadProperties(InputStream in) throws IOException {
         Properties prop = new Properties();
-        prop.load(is);
+        prop.load(new InputStreamReader(in, "utf-8"));
+//        prop.load(in);
         return prop;
     }
 
@@ -74,11 +80,11 @@ public class PropertiesUtil {
         if (!new File(fileUrl).exists()) {
             FileUtil.createNewFile(fileUrl);
         }
-        try (OutputStream os = new BufferedOutputStream(new FileOutputStream(fileUrl))) {
-            if (fileUrl.matches(IvyConstant.REGEXP_XML)) {
-                storePropertiesToXML(prop, os, comment);
+        try (OutputStream out = new BufferedOutputStream(new FileOutputStream(fileUrl))) {
+            if (fileUrl.matches(REGEXP_XML)) {
+                storePropertiesToXML(prop, out, comment);
             } else {
-                storeProperties(prop, os, comment);
+                storeProperties(prop, out, comment);
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -136,3 +142,7 @@ public class PropertiesUtil {
     }
 
 }
+
+
+
+

@@ -1,6 +1,7 @@
 package org.ivy.util.common;
 
-import org.ivy.util.common.StringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import java.util.List;
  * @date 2014/6/5 09:01:55
  */
 public class FileUtil {
+    private static Logger log = LoggerFactory.getLogger(FileUtil.class);
 
     /**
      * 文件复制时，重复文件处理方式
@@ -93,7 +95,8 @@ public class FileUtil {
         String path = file.replaceAll("\\\\+", UNIX_SEPARATOR);
         // remove repetitive file separator
         path = path.replaceAll(FileUtil.UNIX_SEPARATOR + "{2,}", FileUtil.UNIX_SEPARATOR);
-        if (path.startsWith(FileUtil.UNIX_SEPARATOR)) {
+        // ----windows环境下 以 "/" 开头的路径，去掉 "/"
+        if ("windows".equals(SystemUtil.getOsName()) && path.startsWith(FileUtil.UNIX_SEPARATOR)) {
             path = path.substring(1, path.length());
         }
         return path;
@@ -214,7 +217,7 @@ public class FileUtil {
     private static void copyNonDirFile(int opt, InputStream in, File dest) throws IOException {
         // 输入流不存在，直接退出
         if (null == in) {
-            return;
+            throw new IOException("==== arg in can not be null");
         }
         // 目标路径不存在，直接退出
         if (null == dest) {
@@ -415,7 +418,14 @@ public class FileUtil {
         if (StringUtil.containsBlank(path, dest)) {
             throw new IOException("==== path [" + path + "], dest [" + dest + "] can not be blank");
         }
+        if (log.isDebugEnabled()) {
+            log.info("===={path: {}}", path);
+            log.info("===={dest: {}}", dest);
+        }
         try (InputStream in = FileUtil.class.getClassLoader().getResourceAsStream(path)) {
+            if (in == null) {
+                throw new IOException("path -[ + path + ] can not find");
+            }
             File destFile = new File(dest);
             copyNonDirFile(opt, in, destFile);
         }
