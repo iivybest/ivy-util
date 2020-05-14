@@ -1,7 +1,7 @@
 package org.ivy.util.complex.configurator;
 
-import com.aisino.ofd.register.util.RegExpUtil;
-import com.aisino.ofd.register.util.StringUtil;
+import org.ivy.util.common.RegExpUtil;
+import org.ivy.util.common.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,6 +47,12 @@ public class ExpressionLanguageHandler {
     private static String prefix;
 
     private static Pattern pattern;
+
+    static {
+        pattern = Pattern.compile("\\$\\{[\\S|( )&&[^\\{\\}]]*\\}");
+        prefix = "";
+    }
+
     /**
      * static text obj mapping set
      */
@@ -55,12 +61,6 @@ public class ExpressionLanguageHandler {
      * java pojo type alias set
      */
     private Map<String, String> aliasMapping;
-
-
-    static {
-        pattern = Pattern.compile("\\$\\{[\\S|( )&&[^\\{\\}]]*\\}");
-        prefix = "";
-    }
 
     {
         this.staticTextMapping = new HashMap<>();
@@ -108,9 +108,14 @@ public class ExpressionLanguageHandler {
         if (StringUtil.isBlank(message)) {
             return message;
         }
-        // ---- the expression result
+        // ----the expression handle
         String result = message;
         List<String> expressions = RegExpUtil.match(message, pattern);
+        // ----no expression in message, return origin message
+        if (null == expressions || expressions.size() == 0) {
+            return result;
+        }
+        // ----expression language protocol precess
         String[] protocol;
         outter:
         for (String expression : expressions) {
@@ -332,7 +337,7 @@ public class ExpressionLanguageHandler {
         String iExpression = expression.substring(2, expression.length() - 1);
 
         // ----static text mapping----${classpath}
-        if (! iExpression.contains(".")) {
+        if (!iExpression.contains(".")) {
             protocol[1] = iExpression;
             return protocol;
         }
@@ -344,7 +349,7 @@ public class ExpressionLanguageHandler {
             return protocol;
         }
 
-        // ----pojo signature mappin----${user.getName()}/${date.currentDate(yyyy-MM-dd)}
+        // ----pojo signature mapping----${user.getName()}/${date.currentDate(yyyy-MM-dd)}
         int idxBracketL = protocol[2].indexOf("(");
         int idxBracketR = protocol[2].indexOf(")");
         if (idxBracketR < 0) {

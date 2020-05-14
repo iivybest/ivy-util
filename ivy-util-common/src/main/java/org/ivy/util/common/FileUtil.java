@@ -12,24 +12,19 @@ import java.util.List;
  * <br>--------------------------------------------------------
  * <br> file operation util class
  * <br>--------------------------------------------------------
- * <br>Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
  *
  * @author Ivybest (ivybestdev@163.com)
  * @version 1.0
- * @date 2014/6/5 09:01:55
+ * @date 2020/3/5 09:01:55
  */
 public class FileUtil {
-    private static Logger log = LoggerFactory.getLogger(FileUtil.class);
-
     /**
      * 文件复制时，重复文件处理方式
      */
     public static final int OPT_COPY_ABANDON = 0;
     public static final int OPT_COPY_COVER = 1;
     public static final int OPT_COPY_BOTH = 2;
-
-
     /**
      * 文件复制中间临时文件后缀
      */
@@ -46,6 +41,7 @@ public class FileUtil {
      * the buffer for read or write
      */
     protected static final int BUF_SIZE;
+    private static Logger log = LoggerFactory.getLogger(FileUtil.class);
 
     static {
         TEMP_SUFFIX = ".temp";
@@ -97,7 +93,9 @@ public class FileUtil {
         path = path.replaceAll(FileUtil.UNIX_SEPARATOR + "{2,}", FileUtil.UNIX_SEPARATOR);
         // ----windows环境下 以 "/" 开头的路径，去掉 "/"
         if ("windows".equals(SystemUtil.getOsName()) && path.startsWith(FileUtil.UNIX_SEPARATOR)) {
-            path = path.substring(1, path.length());
+            if (path.contains(":")) {
+                path = path.substring(1, path.length());
+            }
         }
         return path;
     }
@@ -642,6 +640,14 @@ public class FileUtil {
     public static byte[] read(String file) throws IOException {
         if (null == file || file.trim().length() == 0) {
             return null;
+        }
+        if (file.startsWith("classpath:")) {
+            file = file.replace("classpath:", "");
+            InputStream in = FileUtil.class.getClassLoader().getResourceAsStream(file);
+            if (null == in) {
+                return null;
+            }
+            return read(in);
         }
         return read(new File(file));
     }

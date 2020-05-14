@@ -1,10 +1,10 @@
 package org.ivy.util.common;
 
 import lombok.extern.slf4j.Slf4j;
-import org.junit.After;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 
 /**
  * <p> description:
@@ -21,11 +21,11 @@ import org.junit.runners.MethodSorters;
  */
 @Slf4j
 /* FixMethodOrder 是 Junit 1.4 注解*/
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
-//@TestMethodOrder(MethodOrderer.Alphanumeric.class)
+//@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class StringUtilTest {
 
-    @After
+    @AfterEach
     public void tearDown() {
         log.debug("----> split line --------------------------");
     }
@@ -55,6 +55,27 @@ public class StringUtilTest {
         log.debug(DigitUtil.toHexString(b));
         log.debug(Arrayx.printArray(b));
     }
+
+    @Test
+    public void test_04_fixedLength() {
+        int len = 10;
+        String[] data = {
+                "hello",
+                "hello henry",
+                "hello123456789",
+                "hi",
+                "1234567890my",
+        };
+        String fixed;
+        for (String e : data) {
+            fixed = StringUtil.getFixedLengthString(e, len, '-', 0);
+            log.info("{fixed: {}, data: {}}", fixed, e);
+            fixed = StringUtil.getFixedLengthString(e, len);
+            log.info("{fixed: {}, data: {}}", fixed, e);
+        }
+
+    }
+
 
 
 }

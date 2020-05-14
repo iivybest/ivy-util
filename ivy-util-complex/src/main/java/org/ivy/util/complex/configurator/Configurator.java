@@ -65,6 +65,23 @@ public class Configurator {
      * 默认扫描路径，用户不指定扫描路径则扫描默认路径
      */
     private static List<ConfPathEntry> defaultConfContainer;
+
+    static {
+        // 初始化默认扫描路径--项目路径和 classpath--非递归扫描
+        defaultConfContainer = new ArrayList<>();
+        defaultConfContainer.add(ConfPathEntry.newInstance(0, Boolean.FALSE, SystemUtil.getClasspath()));
+        defaultConfContainer.add(ConfPathEntry.newInstance(1, Boolean.FALSE, SystemUtil.getUserDir()));
+    }
+
+    /**
+     * 配置文件管理器、动作管理器
+     */
+    public ConfActionMgr action;
+    /**
+     * 当前环境描述符
+     * 用于 configurator 获取当前环境的路径信息
+     */
+    private Class<?> curEnvDescriptor;
     /**
      * 配置管理器标识
      */
@@ -86,10 +103,6 @@ public class Configurator {
      */
     private List<String> effectiveConfigContainer;
     /**
-     * 配置文件管理器、动作管理器
-     */
-    public ConfActionMgr action;
-    /**
      * wildcard handler
      * handle key
      */
@@ -110,15 +123,23 @@ public class Configurator {
      * 用户设置值为 1，不设置为 0
      */
     private int customSettingRecord;
-
-
-    static {
-        // 初始化默认扫描路径--项目路径和 classpath--非递归扫描
-        defaultConfContainer = new ArrayList<>();
-        defaultConfContainer.add(ConfPathEntry.newInstance(0, Boolean.FALSE, SystemUtil.getClasspath()));
-        defaultConfContainer.add(ConfPathEntry.newInstance(1, Boolean.FALSE, SystemUtil.getUserDir()));
-    }
-
+    /**
+     * @description ConfPathEntry Priority Comparator
+     * @author ivybest (ivybestdev@163.com)
+     * @version 1.0
+     * @date 2020/3/4 0:28
+     */
+    private Comparator<ConfPathEntry> confPathEntryPriorityComparator = new Comparator<ConfPathEntry>() {
+        @Override
+        public int compare(ConfPathEntry arg0, ConfPathEntry arg1) {
+            // ----升序比较设置
+            int result = arg0.getPriority() - arg1.getPriority();
+            if (result == 0) {
+                result = arg0.getValue().compareTo(arg1.getValue());
+            }
+            return result;
+        }
+    };
 
     public Configurator() {
         initializeInstanceArgsWithLiteral();
@@ -134,7 +155,6 @@ public class Configurator {
         return new Configurator().setId(id);
     }
 
-
     /**
      * setting config path
      *
@@ -144,6 +164,7 @@ public class Configurator {
      * @return Configurator this object
      */
     public Configurator configPath(int priority, boolean recursion, String... path) {
+        String dest;
         for (String e : path) {
             this.scanContainer.add(ConfPathEntry.newInstance(priority, recursion, e));
         }
@@ -161,7 +182,6 @@ public class Configurator {
         return configPath(this.priorityCounter.getAndIncrement(), recursion, path);
     }
 
-
     public Configurator configPath(int priority, String... path) {
         return this.configPath(priority, Boolean.FALSE, path);
     }
@@ -176,7 +196,6 @@ public class Configurator {
     public Configurator configPath(String... path) {
         return this.configPath(Boolean.FALSE, path);
     }
-
 
     /**
      * add one or multi except scanning path(file or directory)
@@ -193,46 +212,61 @@ public class Configurator {
         return this;
     }
 
-
     /**
      * <p>
-     * <br>---------------------------------------------------------
-     * <br> build configurator object.
-     * <br> If user does not specify a configuration,
-     * <br> use the default configuration file
-     * <br>---------------------------------------------------------
-     * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
+     * <br>-----------------------------------------------------------------------------
+     * <br> description: build configurator inst
+     * <br> * if client does not specify a configuration, use default configuration file
+     * <br> * configurator build order:
+     * <br>     * 1、ensure current working environment
+     * <br>     * 2、check whether client setting wildcard handler
+     * <br>     * 3、ensure wildcard handler is available
+     * <br>     * 4、check whether client setting expression language handler
+     * <br>     * 5、ensure expression language handler is available
+     * <br>     * 6、check scanning path
+     * <br>     * 7、check except path
+     * <br>     * 8、initialize action manager and load all configurations
+     * <br>     * 9、load expression language configurations and inject into elHandler
+     * <br>     * 10、build completed and return
+     * <br>-----------------------------------------------------------------------------
      * </p>
      *
-     * @return configuration object
+     * @return configuration this inst
      */
-    public Configurator build() {
-        // ----检查扫描路径
-        this.initializeScanContainerBeforeBuild()
-                // ----检查设置例外路径，并设置有效例外路径
-                .initializeEffectiveExceptContainerBeforeBuild()
-                // ----初始化 ConfActionMgr -- # ConfActionMgr.init() 返回对象为 ConfActionMgr
-                .getAction().init();
-
-        // ----若用户未指定通配符处理器，使用默认通配符处理器
+    public <T> Configurator build(Class<T> type) {
+        // ----step-1
+        this.curEnvDescriptor = type;
+        // ----step-2,3 若用户未指定通配符处理器，使用默认通配符处理器
         if (this.getWildcardHandler() == null) {
             this.wildcardHandler = WildcardHandler.newInstance(ConfiguratorConstant.WILDCARD);
         }
-        // ----若用户未指定el表达式处理器，使用默认 el 表达式处理器
+        // ----step-4,5 若用户未指定el表达式处理器，使用默认 el 表达式处理器
         if (this.getElHandler() == null) {
-            // ----使用通配符获取全部的类型别名集合
-            Map<String, String> aliasMap = this.action.getAll(Boolean.TRUE, ConfiguratorConstant.WILDCARDS_ALIAS_DYNAMIC);
-            // ----静态文本别名
-            Map<String, String> staticTextMap = this.action.getAll(Boolean.TRUE, ConfiguratorConstant.WILDCARD_ALIAS_STATIC);
             // ----build expression language handler
             ExpressionLanguageHandler defaultHandler = ExpressionLanguageHandler.newInstance()
                     .set("project", SystemUtil.getUserDir())
                     .set("classpath", SystemUtil.getClasspath())
-                    .set("source", SystemUtil.getSource())
-                    .set("source.directory", SystemUtil.getSourceDirectory())
-                    .set(staticTextMap)
-                    .setAlias(aliasMap);
+                    .set("source", SystemUtil.getSource(this.curEnvDescriptor))
+                    .set("sourceDirectory", SystemUtil.getSourceDirectory(this.curEnvDescriptor));
             this.elHandler = defaultHandler;
+        }
+        // ----step-6,7,8 检查路径信息，ensure action mamager
+        {
+            this
+                    // ----检查扫描路径
+                    .initializeScanContainerBeforeBuild()
+                    // ----检查设置例外路径，并设置有效例外路径
+                    .initializeEffectiveExceptContainerBeforeBuild()
+                    // ----初始化 ConfActionMgr -- # ConfActionMgr.init() 返回对象为 ConfActionMgr
+                    .getAction().init();
+        }
+        // ----step-9 设置用户自定义表达式处理集合
+        {
+            // ----使用通配符获取全部的类型别名集合
+            Map<String, String> aliasMap = this.action.getAll(Boolean.TRUE, ConfiguratorConstant.WILDCARDS_ALIAS_DYNAMIC);
+            // ----静态文本别名
+            Map<String, String> staticTextMap = this.action.getAll(Boolean.TRUE, ConfiguratorConstant.WILDCARD_ALIAS_STATIC);
+            this.elHandler.set(staticTextMap).setAlias(aliasMap);
         }
         return this;
     }
@@ -284,7 +318,6 @@ public class Configurator {
         return this;
     }
 
-
     /**
      * initialize the configuration instance args with literal
      *
@@ -301,6 +334,14 @@ public class Configurator {
                 .setAction(new ConfActionMgr(this));
     }
 
+    /**
+     * get configurator 工作环境
+     *
+     * @return configurator env
+     */
+    public Class<?> getCurEnvDescriptor() {
+        return curEnvDescriptor;
+    }
 
     public String getId() {
         return id;
@@ -442,16 +483,14 @@ public class Configurator {
 
 
         /**
-         * 加载 project 配置项
-         *
          * <p>
          * <br>---------------------------------------------------------
          * <br> description:
          * <br> load all configurations
-         * <br>    1、add system default configuration items.
-         * <br>    2、Reverse load configuration items.
+         * <br>    * add system default configuration items.
+         * <br>    * Reverse load configuration items.
+         * <br>    * config path support express language precess
          * <br>---------------------------------------------------------
-         * <br> Copyright@2020 www.ivybest.org Inc. All rights reserved.
          * </p>
          *
          * @return ConfActionMgr
@@ -460,27 +499,32 @@ public class Configurator {
             // ----将系统参数 classpath 保存到 ConfActionMgr 中。
             this.allConfigurationsMap.put("class.path", SystemUtil.getClasspath());
             this.allConfigurationsMap.put("user.dir", SystemUtil.getUserDir());
-            this.allConfigurationsMap.put("source", SystemUtil.getSource());
-            this.allConfigurationsMap.put("source.directory", SystemUtil.getSourceDirectory());
+            this.allConfigurationsMap.put("source", SystemUtil.getSource(this.configurator.getCurEnvDescriptor()));
+            this.allConfigurationsMap.put("source.directory", SystemUtil.getSourceDirectory(this.configurator.getCurEnvDescriptor()));
             this.allConfigurationsMap.put("os.arch", SystemUtil.getOSArch());
             this.allConfigurationsMap.put("os.name", SystemUtil.getOsName());
 
             // ----scanning location container
             List<ConfPathEntry> scanContainer = this.configurator.scanContainer;
 
-            String concretePath;
+            String path;
             File file;
+            // ----reverse order traversal
             for (int i = scanContainer.size() - 1; i >= 0; i--) {
                 // ----client setting scanning path
-                concretePath = scanContainer.get(i).getValue();
+                try {
+                    path = this.configurator.getElHandler().handle(scanContainer.get(i).getValue());
+                } catch (Exception e) {
+                    path = scanContainer.get(i).getValue();
+                }
                 // ----expression language precess ---- source process
 //                concretePath = this.configurator.getElHandler().handle(concretePath);
                 // ----classpath: process
-                if (concretePath.startsWith("classpath:") || concretePath.startsWith("file:")) {
-                    this.loadConfigurationFromClasspath(concretePath);
+                if (path.startsWith("classpath:") || path.startsWith("file:")) {
+                    this.loadConfigurationFromClasspath(path);
                     continue;
                 }
-                file = new File(concretePath);
+                file = new File(path);
                 if (!file.exists()) {
                     continue;
                 }
@@ -528,7 +572,6 @@ public class Configurator {
          * <br>    1、
          * <br>
          * <br>---------------------------------------------------------
-         * <br> Copyright@2020 www.ivybest.org Inc. All rights reserved.
          * </p>
          *
          * @param file      configuration file
@@ -553,10 +596,10 @@ public class Configurator {
                 if (file.getName().endsWith(".properties")) {
                     try {
                         Properties prop = PropertiesUtil.load(file.getAbsolutePath());
-                        this.allConfigurationsMap.putAll(PropertiesUtil.convertToMap(prop));
                         if (null == prop) {
                             throw new IOException("====file [" + file.getAbsolutePath() + "] load failed");
                         }
+                        this.allConfigurationsMap.putAll(PropertiesUtil.convertToMap(prop));
                         // ---- 将有效的配置文件按次序添加到 effectiveConfigContainer 中
                         this.configurator.getEffectiveConfigContainer().add(FileUtil.getUnixStyleFilePath(file));
                     } catch (IOException ex) {
@@ -957,23 +1000,5 @@ public class Configurator {
             return this;
         }
     }
-
-    /**
-     * @description ConfPathEntry Priority Comparator
-     * @author ivybest (ivybestdev@163.com)
-     * @version 1.0
-     * @date 2020/3/4 0:28
-     */
-    private Comparator<ConfPathEntry> confPathEntryPriorityComparator = new Comparator<ConfPathEntry>() {
-        @Override
-        public int compare(ConfPathEntry arg0, ConfPathEntry arg1) {
-            // ----升序比较设置
-            int result = arg0.getPriority() - arg1.getPriority();
-            if (result == 0) {
-                result = arg0.getValue().compareTo(arg1.getValue());
-            }
-            return result;
-        }
-    };
 
 }

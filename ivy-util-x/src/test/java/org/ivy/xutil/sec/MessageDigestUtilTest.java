@@ -12,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * <p> description: MdUtil Test
@@ -59,7 +60,7 @@ public class MessageDigestUtilTest {
     }
 
     @Test
-    public void test_02_templateSign() {
+    public void test_02_templateSign() throws IOException {
         String path = "E:\\Ivybest\\work\\aisino\\07.OFD版式文件\\00.OFD发票模板\\电子发票通用模板-20200312/";
         File[] files = FileUtil.getAllNonDirFileList(path);
         String sign = null;

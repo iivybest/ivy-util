@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runners.MethodSorters;
 
 import javax.xml.bind.DatatypeConverter;
+import java.io.IOException;
 
 /**
  * <p> description:
@@ -37,7 +38,7 @@ public class HexStringPerformanceTest {
 
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         this.bytes = FileUtil.read(SystemUtil.getClasspath() + "/material/HelloWorld.txt");
         this.text = new String(this.bytes);
         this.count = 10_000;

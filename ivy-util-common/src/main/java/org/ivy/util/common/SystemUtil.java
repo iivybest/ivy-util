@@ -10,14 +10,12 @@ import java.net.URLDecoder;
 import static org.ivy.util.common.IvyConstant.UNIX_SEPARATOR;
 import static org.ivy.util.common.IvyConstant.WIN_SEPARATOR;
 
-
 /**
  * <p>
  * <br> description：系统工具类
  * <br>---------------------------------------------------------
  * <br>
  * <br>---------------------------------------------------------
- * <br> Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
  *
  * @author Ivybest (ivybestdev@163.com)
@@ -66,7 +64,7 @@ public class SystemUtil {
     }
 
     private static void initUserDir() {
-        userDir = FileUtil.getUnixStyleFilePath(System.getProperty("user.dir") + IvyConstant.UNIX_SEPARATOR);
+        userDir = FileUtil.getUnixStyleFilePath(System.getProperty("user.dir") + UNIX_SEPARATOR);
         if ("linux".equals(getOsName())) {
             if (!userDir.startsWith("/")) {
                 userDir = "/" + userDir;
@@ -118,14 +116,30 @@ public class SystemUtil {
      * @return directory of the source code
      */
     public static String getSource() {
-        String path = FileUtil.class.getProtectionDomain().getCodeSource().getLocation().getFile();
-        log.info("====source: {}", path);
+        return getSource(SystemUtil.class);
+    }
+
+
+    /**
+     * get the directory of the source code
+     *
+     * @param type class type
+     * @param <T>  class type
+     * @return class source location
+     */
+    public static <T> String getSource(Class<T> type) {
+        String path = type.getProtectionDomain().getCodeSource().getLocation().getFile();
+//        if (log.isDebugEnabled()) {
+//            log.info("====source: {}", path);
+//        }
         try {
             path = URLDecoder.decode(path, "UTF-8");
-            log.info("====source: {}", path);
-        }
-        catch (UnsupportedEncodingException e) {
+//            if (log.isDebugEnabled()) {
+//                log.info("====source: {}", path);
+//            }
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
+            log.error(StringUtil.getFullStackTrace(e));
         }
         return FileUtil.getUnixStyleFilePath(path);
     }
@@ -137,6 +151,17 @@ public class SystemUtil {
      */
     public static String getSourceDirectory() {
         return FileUtil.getUnixStyleFilePath(new File(SystemUtil.getSource()).getParentFile());
+    }
+
+    /**
+     * get the directory of the source code
+     *
+     * @param type class type
+     * @param <T>  class type
+     * @return directory of the source code
+     */
+    public static <T> String getSourceDirectory(Class<T> type) {
+        return FileUtil.getUnixStyleFilePath(new File(SystemUtil.getSource(type)).getParentFile());
     }
 
     /**

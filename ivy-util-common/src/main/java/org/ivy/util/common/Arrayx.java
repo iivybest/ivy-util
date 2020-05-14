@@ -1,8 +1,5 @@
 package org.ivy.util.common;
 
-import org.ivy.util.annotation.Description;
-import org.ivy.util.annotation.Recommend;
-
 import java.lang.reflect.Array;
 import java.security.SecureRandom;
 import java.util.Random;
@@ -27,7 +24,6 @@ import java.util.Random;
  */
 public class Arrayx {
 
-    @Description("// secure random number instance")
     private static final Random RANDOM = new SecureRandom();
 
     /**
@@ -43,7 +39,6 @@ public class Arrayx {
      * @param beginIdx array begin index
      * @param endIdx   array end index
      */
-    @Description("// Array derange(disorder) algorithm")
     public static void derange(byte[] array, int beginIdx, int endIdx) {
         int len = endIdx - beginIdx + 1;
         int count = len / 2;
@@ -187,6 +182,17 @@ public class Arrayx {
         }
     }
 
+    public static void fill(char[] array, char val, int beginIdx, int endIdx, int step) {
+        if (array == null) {
+            return;
+        }
+        for (int i = beginIdx; i < endIdx; i += step) {
+            array[i] = val;
+        }
+    }
+
+
+
     /**
      * new object array
      *
@@ -211,9 +217,6 @@ public class Arrayx {
      * @param endIdx   array end index
      * @return String
      */
-    @Recommend(value = false, msg = {
-            "// for testing, do not recommended for production",
-            "// recommended Arrays's api toString of JDK"})
     public static String printArray(byte[] array, int beginIdx, int endIdx) {
         if (null == array) {
             return null;
@@ -791,9 +794,6 @@ public class Arrayx {
      * @param beginIdx array begin index
      * @param endIdx   array end index
      */
-    @Description({
-            "// shuffle",
-            "// shuffle() = derange() & reverse()"})
     public static void shuffle(byte[] array, int beginIdx, int endIdx) {
         reverse(array, beginIdx, endIdx);
         derange(array, beginIdx, endIdx);
@@ -816,7 +816,6 @@ public class Arrayx {
      * @param beginIdx array begin index
      * @param endIdx   array end index
      */
-    @Description("// shuffle() = derange() and reverse()")
     public static void shuffle(short[] array, int beginIdx, int endIdx) {
         reverse(array, beginIdx, endIdx);
         derange(array, beginIdx, endIdx);
@@ -1189,8 +1188,6 @@ public class Arrayx {
      * @param <T>      array type
      * @return T[]
      */
-    @Recommend
-    @Description("// how to new a generic array instance")
     public static <T> T[] subarray(T[] array, int beginIdx, int endIdx) {
         if (array == null) {
             return null;
@@ -1255,11 +1252,6 @@ public class Arrayx {
      * @param x     array index x
      * @param y     array index y
      */
-    @Description({
-            "// swap elements using exclusive or algorithm(^)",
-            "// the index of the two elements cannot be the same",
-            "// perform safety check at the method entrance"
-    })
     public static void swap(int[] array, int x, int y) {
         if (array[x] == array[y]) {
             return;

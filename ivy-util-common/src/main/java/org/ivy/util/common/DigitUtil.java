@@ -1,12 +1,11 @@
 package org.ivy.util.common;
 
-import org.ivy.util.annotation.Recommend;
-
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static org.ivy.util.common.IvyConstant.DIGIT_ARR;
 import static org.ivy.util.common.IvyConstant.HEX_ARR;
+
 
 /**
  * <p>  classname: DigitUtil
@@ -573,7 +572,7 @@ public class DigitUtil {
         return chineseDigitToArabic(sentence, -1);
     }
 
-    public static String toBinString(byte ... data) {
+    public static String toBinString(byte... data) {
         int len = data.length;
         if (len == 1) {
             return toBinString(data[0], 8);
@@ -626,12 +625,6 @@ public class DigitUtil {
      * @param data data
      * @return String
      */
-    @Recommend(value = true, msg = {
-            "// 1、char arr 代替 StringBuilder",
-            "// 2、不推荐使用 Integer.toHex",
-            "// 3、byte 8 位，Hex 长度为 2",
-            "// 4、byte 高 4 位，data >>> 4 | data & 0xF0",
-            "// 5、byte 低 4 位，data & 0xF"})
     public static String toHexString(byte... data) {
         int len = data.length;
         char[] hexChars = new char[len * 2];
@@ -650,19 +643,13 @@ public class DigitUtil {
      * @param data data
      * @return String
      */
-    @Recommend(value = true, msg = {
-            "// 1、char arr 代替 StringBuilder",
-            "// 2、不推荐使用 Integer.toHex",
-            "// 3、byte 8 位，Hex 长度为 2",
-            "// 4、byte 高 4 位，data >>> 4 | data & 0xF0",
-            "// 5、byte 低 4 位，data & 0xF"})
     public static String toHexString2(byte... data) {
         char[] hexChars = new char[data.length * 2];
         int cursor = 0, val;
         for (byte e : data) {
             val = e & 0xFF;
-            hexChars[cursor ++] = HEX_ARR[val >>> 4];
-            hexChars[cursor ++] = HEX_ARR[val & 0xF];
+            hexChars[cursor++] = HEX_ARR[val >>> 4];
+            hexChars[cursor++] = HEX_ARR[val & 0xF];
         }
         return new String(hexChars);
     }

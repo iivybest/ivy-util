@@ -49,7 +49,7 @@ public class StringUtil {
         if (arg0 == null) {
             return false;
         }
-        return ! isBlank(arg0.trim());
+        return !isBlank(arg0.trim());
     }
 
 
@@ -62,6 +62,39 @@ public class StringUtil {
     public static boolean isBlank(String arg0) {
         return arg0 == null || arg0.length() == 0;
     }
+
+
+    /**
+     * 判断字符串是否为数字类型
+     *
+     * @param str
+     * @return
+     */
+    public static boolean isNumeric(String str) {
+        if (str == null) {
+            return false;
+        }
+        if (str.startsWith("-")) {
+            str = str.substring(1, str.length());
+        }
+        if (str.contains(".")) {
+            int idx = str.indexOf(".");
+            if (idx == 0 || idx == str.length() - 1) {
+                return false;
+            }
+            str = str.replaceFirst("\\.", "");
+            if (str.contains(".")) {
+                return false;
+            }
+        }
+        for (int i = 0, sz = str.length(); i < sz; i++) {
+            if (Character.isDigit(str.charAt(i)) == false) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     /**
      * 多个字段中是否包含空字段
@@ -89,6 +122,9 @@ public class StringUtil {
      * @return String
      */
     public static String firstCharUppercase(String arg0) {
+        if (isBlank(arg0)) {
+            return arg0;
+        }
         return arg0.substring(0, 1).toUpperCase() + arg0.substring(1, arg0.length());
     }
 
@@ -99,8 +135,45 @@ public class StringUtil {
      * @return String
      */
     public static String firstCharLowerCase(String arg0) {
+        if (isBlank(arg0)) {
+            return arg0;
+        }
         return arg0.substring(0, 1).toLowerCase() + arg0.substring(1, arg0.length());
     }
+
+    /**
+     * 获取定长字符串
+     *
+     * @param data   data
+     * @param length 长度
+     * @param pad    填充字符
+     * @param pos    填充位置，大于零右侧填充，小于零左侧填充
+     * @return 定长字符串
+     */
+    public static String getFixedLengthString(String data, int length, char pad, int pos) {
+        if (length < 0) {
+            return null;
+        }
+        String result;
+        int originLen = isBlank(data) ? 0 : data.length();
+        int offset = length - originLen;
+        if (offset == 0) {
+            result = data;
+        } else if (offset < 0) {
+            result = data.substring(0, length);
+        } else {
+            char[] sequence = new char[offset];
+            Arrays.fill(sequence, pad);
+            String pads = new String(sequence);
+            result = pos > 0 ? data + pads : pads + data;
+        }
+        return result;
+    }
+
+    public static String getFixedLengthString(String data, int length) {
+        return getFixedLengthString(data, length, ' ', 1);
+    }
+
 
     /**
      * 将异常中所有堆栈信息转换为String
@@ -271,8 +344,6 @@ public class StringUtil {
         }
         return false;
     }
-
-
 
 
 }

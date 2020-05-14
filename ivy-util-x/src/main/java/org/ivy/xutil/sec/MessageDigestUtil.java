@@ -1,13 +1,14 @@
 package org.ivy.xutil.sec;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
 /**
- * <p>  classname: MessageDigestUtil
- * <br> description: 摘要工具
- * <br>--------------------------------------------------------
  * <br>
+ * <br>--------------------------------------------------------
+ * <br> description: 摘要工具
  * <br>--------------------------------------------------------
  * <br>Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
@@ -61,15 +62,58 @@ public class MessageDigestUtil {
     public static final String SHA224 = "SHA-224";
     public static final String TIGER = "Tiger";
 
+    private static final int BUF_SIZE = 1024;
+
+
+    private MessageDigestUtil() {
+    }
+
 
     /**
      * 计算摘要
      *
      * @param data      data
      * @param algorithm 摘要算法
-     * @return byte[]
+     * @return byte[] 摘要值
      */
     public static byte[] digest(String algorithm, byte[] data) {
+        MessageDigest instance = MessageDigestUtil.getMessageDigestInstanceInternal(algorithm);
+        MessageDigestUtil.updateInternal(instance, data);
+        byte[] signature = MessageDigestUtil.digistInternal(instance);
+        return signature;
+    }
+
+    /**
+     * 计算摘要
+     *
+     * @param algorithm hash 算法名称
+     * @param data      data
+     * @return 摘要值
+     */
+    public static byte[] digest(String algorithm, String data) {
+        return digest(algorithm, data.getBytes());
+    }
+
+    /**
+     * 计算摘要 ---- 可用于计算文件摘要
+     *
+     * @param algorithm 摘要算法
+     * @param in        data 数据流
+     * @return 摘要值
+     */
+    public static byte[] digest(String algorithm, InputStream in) throws IOException {
+        MessageDigest instance = MessageDigestUtil.getMessageDigestInstanceInternal(algorithm);
+        byte[] buf = new byte[BUF_SIZE];
+        int offset = 0, len;
+        while ((len = in.read(buf)) > 0) {
+            MessageDigestUtil.updateInternal(instance, buf, offset, len);
+        }
+        byte[] signature = MessageDigestUtil.digistInternal(instance);
+        return signature;
+    }
+
+
+    private static MessageDigest getMessageDigestInstanceInternal(String algorithm) {
         MessageDigest instance = null;
         try {
             // 创建具有指定算法名称的信息摘要
@@ -77,14 +121,22 @@ public class MessageDigestUtil {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace();
         }
-        // 使用指定的 byte[] 更新摘要
-        instance.update(data);
-        // 通过执行诸如填充之类的最终操作完成哈希计算
-        return instance.digest();
+        return instance;
     }
 
-    public static byte[] digest(String algorithm, String original) {
-        return digest(algorithm, original.getBytes());
+    private static void updateInternal(MessageDigest instance, byte[] data) {
+        // 使用指定的 byte[] 更新摘要
+        instance.update(data);
+    }
+
+    private static void updateInternal(MessageDigest instance, byte[] data, int offset, int len) {
+        // 使用指定的 byte[] 更新摘要
+        instance.update(data, offset, len);
+    }
+
+    private static byte[] digistInternal(MessageDigest instance) {
+        // 通过执行诸如填充之类的最终操作完成哈希计算
+        return instance.digest();
     }
 
 }

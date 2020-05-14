@@ -3,14 +3,15 @@ package org.ivy.util.complex.configurator;
 import lombok.extern.slf4j.Slf4j;
 import org.ivy.entity.Student;
 import org.ivy.util.common.SystemUtil;
-import org.ivy.util.complex.configurator.Configurator;
-import org.ivy.util.complex.configurator.ExpressionLanguageHandler;
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.runners.MethodSorters;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -32,50 +33,51 @@ import java.util.Set;
  * @date 2020/3/3 9:41
  */
 @Slf4j
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.Alphanumeric.class)
 public class ConfiguratorSimpleTest {
 
-    private Configurator configurator;
+    private static final String CLASSPATH = SystemUtil.getClasspath();
 
-    @Before
-    public void setUp() {
-        String classpath = SystemUtil.getClasspath();
+    private static Configurator CONF;
+
+    @BeforeAll
+    public static void setUp() {
 
         ExpressionLanguageHandler handler = ExpressionLanguageHandler.newInstance()
                 .set("project", "");
 
 
-        this.configurator = Configurator.newInstance("test-configurator")
-                .configPath(classpath + "root.properties")
-                .configPath(true, classpath + "configurator/sub/")
-                .configPath(1, classpath + "configurator/priority/f.properties")
-                .configPath(2, classpath + "configurator/priority/g.properties")
-                .configPath(3, classpath + "configurator/ofd.register.default.properties")
+        CONF = Configurator.newInstance("test-configurator")
+                .configPath(CLASSPATH + "root.properties")
+                .configPath(true, CLASSPATH + "configurator/sub/")
+                .configPath(1, CLASSPATH + "configurator/priority/f.properties")
+                .configPath(2, CLASSPATH + "configurator/priority/g.properties")
+                .configPath(3, CLASSPATH + "configurator/ofd.register.default.properties")
                 // ----设置通配符处理器，不设置使用默认的通配符处理器
                 .wildcardHandler(null)
                 //  ----设置el表达式处理器，不设置使用默认的el表达式处理器
                 .elHandler(null)
-                .exceptPath(classpath + "configurator/sub/except/")
-                .build();
+                .exceptPath(CLASSPATH + "configurator/sub/except/")
+                .build(ConfiguratorSimpleTest.class);
     }
 
     @Test
     public void test_01_listAllConfigurations() {
-        this.configurator.action.list();
+        this.CONF.action.list();
     }
 
 
-    @Test(expected = Exception.class)
+    @Test
     public void test_02_getForcedIncludeConfiguration() throws Exception {
         String key = "one.key.dont.exists.except.throws.exception";
-        String value = this.configurator.action.getForcedIncludeConfiguration(key);
+        String value = this.CONF.action.getForcedIncludeConfiguration(key);
         log.debug("{{}: {}}", key, value);
     }
 
     @Test
     public void test_03_priority() {
         String key = "user.name";
-        String value = this.configurator.action.get(key);
+        String value = this.CONF.action.get(key);
         log.debug("{{}: {}}", key, value);
         Assert.assertEquals(value, "f");
     }
@@ -86,55 +88,47 @@ public class ConfiguratorSimpleTest {
         key = "root.el.#.test";
         key = "root.el.test.#";
         key = "configurator.el.test.##";
-        Set<String> keys = this.configurator.action.getKeySet(key);
+        Set<String> keys = this.CONF.action.getKeySet(key);
         for (String e : keys) {
-            log.info("{{}: {}}", e, this.configurator.action.get(e));
+            log.info("{{}: {}}", e, this.CONF.action.get(e));
         }
     }
 
-    @Test
-    public void test_05_explang() throws Exception {
+    @ParameterizedTest
+    @ValueSource(strings = {
+            "configurator.el.test.static.##",
+            "configurator.el.test.student.#",
+            "configurator.el.test.student.##",
+            "configurator.el.test.date.##",
+            "configurator.el.test.date.##",
+            "configurator.el.test.adv.#"}
+    )
+    public void test_05_explang(String key) throws Exception {
         Student student = new Student();
         student.setName("rashford");
         student.setAddr("London");
         student.setAge(22);
 
-        String key = "configurator.el.test.student.##";
+        Set<String> keys = this.CONF.action.getForcedIncludeKeySet(key);
         String value;
-        Set<String> keys = this.configurator.action.getForcedIncludeKeySet(key);
         for (String e : keys) {
-            value = this.configurator.action.get(e);
-            log.debug("{{}: {}}", e, value);
-            value = this.configurator.action.getExpLang(e, student);
-            log.info("{{}: {}}", e, value);
+            value = this.CONF.action.get(e);
+            log.debug("========{{}: {}}", e, value);
+            value = this.CONF.action.getExpLang(e, student);
+            log.info("~~~~~~~~{{}: {}}", e, value);
         }
         log.info("=======================================");
-        key = "configurator.el.test.date.##";
-        keys = this.configurator.action.getForcedIncludeKeySet(key);
-        for (String e : keys) {
-            value = this.configurator.action.get(e);
-            log.debug("{{}: {}}", e, value);
-            value = this.configurator.action.getExpLang(e);
-            log.info("{{}: {}}", e, value);
+        Map<String, String> confs = CONF.action.getAllForcedIncludeConfiguration(true, key);
+        String eKey, eVal;
+        for (Map.Entry<String, String> e : confs.entrySet()) {
+            eKey = e.getKey();
+            eVal = e.getValue();
+            log.debug("========{{}: {}}", eKey, eVal);
+            eVal = this.CONF.getElHandler().handle(eVal, student);
+            log.info("~~~~~~~~{{}: {}}", eKey, eVal);
         }
-        log.info("=======================================");
-        key = "configurator.el.test.static.##";
-        keys = this.configurator.action.getForcedIncludeKeySet(key);
-        for (String e : keys) {
-            value = this.configurator.action.get(e);
-            log.debug("{{}: {}}", e, value);
-            value = this.configurator.action.getExpLang(e);
-            log.info("{{}: {}}", e, value);
-        }
-        log.info("=======================================");
-        key = "configurator.el.test.adv.##";
-        keys = this.configurator.action.getForcedIncludeKeySet(key);
-        for (String e : keys) {
-            value = this.configurator.action.get(e);
-            log.debug("{{}: {}}", e, value);
-            value = this.configurator.action.getExpLang(e, student);
-            log.info("{{}: {}}", e, value);
-        }
+
+
 //        this.configurator.action.getForcedIncludeConfigurationExpLang("this.is.not.exits");
     }
 

@@ -1,7 +1,7 @@
 package org.ivy.util.complex.configurator;
 
 
-import com.aisino.ofd.register.util.StringUtil;
+import org.ivy.util.common.StringUtil;
 
 import java.util.HashMap;
 import java.util.Map;
