@@ -50,7 +50,7 @@ public class LocalFileHandler {
 //		this.base = "D:/BaiduNetdiskDownload/";
         // ----文件处理基准路径
 //		this.base = "D:\\BaiduNetdiskDownload\\netty高并发-张龙/";
-        this.base = "D:\\BaiduNetdiskDownload\\Spring Cloud微服务实战-慕课-廖师兄";
+        this.base = "C:\\Users\\Ivybest\\Videos\\黑马57期\\23 微服务社交平台--[十次方]\\";
         // ----scan path----format path
         this.path = FileUtil.getUnixStyleFilePath(this.base + "/");
         // ----temp path
@@ -62,7 +62,7 @@ public class LocalFileHandler {
     public void cutFile() {
 //		String[] originFileTypes = {"avi", "flv"};
         // ----源文件类型
-        String originFileType = "mp4";
+        String originFileType = "avi";
 
         FileUtil.checkDir(true, done, temp);
         File[] sub = FileUtil.getAllNonDirFileList(path);
@@ -72,7 +72,7 @@ public class LocalFileHandler {
                 return;
             }
 
-            // ----原文件非MP4文件，处理方式
+            // ----原文件非 MP4文件，处理方式
             if (!"mp4".equals(originFileType)) {
                 if ("mp4".equals(type)) {
                     String originFilename = e.getParentFile().getAbsolutePath()

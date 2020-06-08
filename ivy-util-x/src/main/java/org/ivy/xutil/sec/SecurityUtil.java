@@ -31,7 +31,6 @@ public interface SecurityUtil {
     CaesarCodeUtil caesarcode = new CaesarCodeUtil();
     DesUtil des = new DesUtil();
     MacUtil mac = new MacUtil();
-    MessageDigestUtil md = new MessageDigestUtil();
     RsaUtil rsa = new RsaUtil(ENCODING);
     Keygen keygen = new Keygen();
     SignatureUtil signature = new SignatureUtil(ENCODING);

@@ -1,7 +1,9 @@
 package org.ivy.xutil.sec;
 
+import java.io.BufferedInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.Buffer;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -103,15 +105,15 @@ public class MessageDigestUtil {
      */
     public static byte[] digest(String algorithm, InputStream in) throws IOException {
         MessageDigest instance = MessageDigestUtil.getMessageDigestInstanceInternal(algorithm);
+        BufferedInputStream enhanceIn = new BufferedInputStream(in);
         byte[] buf = new byte[BUF_SIZE];
         int offset = 0, len;
-        while ((len = in.read(buf)) > 0) {
+        while ((len = enhanceIn.read(buf)) > 0) {
             MessageDigestUtil.updateInternal(instance, buf, offset, len);
         }
         byte[] signature = MessageDigestUtil.digistInternal(instance);
         return signature;
     }
-
 
     private static MessageDigest getMessageDigestInstanceInternal(String algorithm) {
         MessageDigest instance = null;
