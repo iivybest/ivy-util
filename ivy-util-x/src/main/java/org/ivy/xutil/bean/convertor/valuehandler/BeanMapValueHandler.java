@@ -1,6 +1,7 @@
 package org.ivy.xutil.bean.convertor.valuehandler;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
 
 /**
  * ValueTypeHandlerAble
@@ -19,6 +20,6 @@ public interface BeanMapValueHandler {
      * @param <T>   bean's type
      * @return T
      */
-    public <T> Object handle(T bean, Field field);
+    public <T> Object handle(T bean, Field field) throws Exception;
 
 }

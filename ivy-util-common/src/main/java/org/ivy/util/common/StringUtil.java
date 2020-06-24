@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.util.*;
 
 /**
@@ -317,25 +318,53 @@ public class StringUtil {
         if (str == null) {
             return false;
         }
-        if (str.startsWith("-")) {
-            str = str.substring(1, str.length());
+        boolean isNumeric;
+        try {
+            new BigDecimal(str);
+            isNumeric = true;
+        } catch (NumberFormatException e) {
+            isNumeric = false;
         }
-        if (str.contains(".")) {
-            int idx = str.indexOf(".");
-            if (idx == 0 || idx == str.length() - 1) {
-                return false;
-            }
-            str = str.replaceFirst("\\.", "");
-            if (str.contains(".")) {
-                return false;
+        return isNumeric;
+    }
+
+    /**
+     * <p>
+     * <br>---------------------------------------------------------------
+     * <br> description: 字符序列断句处理
+     * <br>     * e.g. punctuate("111122223333", 4, "-") -> 1111-2222-3333
+     * <br>---------------------------------------------------------------
+     * <br> Copyright@2020 www.ivybest.org Inc. All rights reserved.
+     * </p>
+     *
+     * @param sequence 字符序列
+     * @param len      断句长度
+     * @param mark     断句标记
+     * @return 断句结果
+     */
+    public static String punctuate(String sequence, int len, String mark) {
+        if (sequence == null) {
+            return null;
+        }
+        int sLen = sequence.length();
+        if (sLen <= len) {
+            return sequence;
+        }
+        int remainder = sLen % len;
+        int count = sLen / len + (remainder > 0 ? 1 : 0);
+        StringBuilder builder = new StringBuilder();
+        int offset, end;
+        String part;
+        for (int i = 0; i < count; i++) {
+            offset = i * len;
+            end = (offset + len) < sLen ? (offset + len) : sLen;
+            part = sequence.substring(offset, end);
+            builder.append(part);
+            if (i != count - 1) {
+                builder.append(mark);
             }
         }
-        for (int i = 0, sz = str.length(); i < sz; i++) {
-            if (Character.isDigit(str.charAt(i)) == false) {
-                return false;
-            }
-        }
-        return true;
+        return builder.toString();
     }
 
 
@@ -374,17 +403,10 @@ public class StringUtil {
     /**
      * 获取 val 值，若 val 为空 返回 default val
      *
-     * @param val        val
-     * @param defaultVal defaultVal
+     * @param val  val
+     * @param vals default val array
      * @return val
      */
-    public static String get(String val, String defaultVal) {
-        if (isNonBlank(val)) {
-            return val;
-        }
-        return defaultVal;
-    }
-
     public static String getNonBlank(String val, String... vals) {
         if (isNonBlank(val)) {
             return val;
@@ -396,6 +418,58 @@ public class StringUtil {
             }
         }
         return null;
+    }
+
+    /**
+     * 获取 val 值，若 val 为 null 返回 default val
+     *
+     * @param val  val
+     * @param vals default val array
+     * @return val
+     */
+    public static String getNonNull(String val, String... vals) {
+        if (val != null) {
+            return val;
+        }
+        for (String e : vals) {
+            if (e != null) {
+                return e;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 字符序列分组布局
+     *
+     * @param sequence 字符序列
+     * @param len      分组字符长度
+     * @param mark     分组标记
+     * @return 分组字符序列
+     */
+    public static String groupLayout(String sequence, int len, String mark) {
+        if (sequence == null) {
+            return null;
+        }
+        int sLen = sequence.length();
+        if (sLen <= len) {
+            return sequence;
+        }
+        int remainder = sLen % len;
+        int count = sLen / len + (remainder > 0 ? 1 : 0);
+        StringBuilder builder = new StringBuilder();
+        int offset, end;
+        String part;
+        for (int i = 0; i < count; i++) {
+            offset = i * len;
+            end = (offset + len) < sLen ? (offset + len) : sLen;
+            part = sequence.substring(offset, end);
+            builder.append(part);
+            if (i != count - 1) {
+                builder.append(mark);
+            }
+        }
+        return builder.toString();
     }
 
 
@@ -459,6 +533,40 @@ public class StringUtil {
 
     public static String getFixedLengthString(String data, int length) {
         return getFixedLengthString(data, length, ' ', 1);
+    }
+
+
+    /**
+     * 获取固定字节数的sequence
+     *
+     * @param data
+     * @param length
+     * @param pad
+     * @param pos
+     * @param charset
+     * @return
+     * @throws UnsupportedEncodingException
+     */
+    public static String getFixedByteLengthSequence(String data, int length, String pad, int pos, String charset) throws UnsupportedEncodingException {
+        int padLen = pad.getBytes(charset).length;
+
+        StringBuilder builder = new StringBuilder();
+        if (StringUtil.isBlank(data)) {
+            int count = length % padLen;
+            for (int i = 0; i < count; i++) {
+                builder.append(pad);
+            }
+        }
+        int dataLen = data.getBytes(charset).length;
+        if (dataLen > length) {
+
+        }
+
+
+        if (dataLen < length) {
+            int offset = pos > 0 ? 0 : length - dataLen;
+        }
+        return null;
     }
 
 

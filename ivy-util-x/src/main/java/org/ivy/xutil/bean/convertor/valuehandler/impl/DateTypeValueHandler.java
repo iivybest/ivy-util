@@ -1,7 +1,7 @@
 package org.ivy.xutil.bean.convertor.valuehandler.impl;
 
+import org.ivy.util.common.BeanUtil;
 import org.ivy.util.common.DateTimeUtil;
-import org.ivy.xutil.bean.BeanUtil;
 import org.ivy.xutil.bean.convertor.valuehandler.BeanMapValueHandler;
 import org.ivy.xutil.bean.convertor.valuehandler.annotation.DateFormat;
 
@@ -19,7 +19,7 @@ import java.util.Date;
 public class DateTypeValueHandler implements BeanMapValueHandler {
 
     @Override
-    public <T> Object handle(T bean, Field field) {
+    public <T> Object handle(T bean, Field field) throws Exception {
         // 入参为null，直接返回null
         if (null == bean || null == field) {
             return null;

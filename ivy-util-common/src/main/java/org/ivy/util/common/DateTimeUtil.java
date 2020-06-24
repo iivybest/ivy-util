@@ -9,11 +9,13 @@ import java.time.temporal.TemporalUnit;
 import java.util.Date;
 
 /**
- * <p> description: 日期时间工具
+ * <p>
  * <br>--------------------------------------------------------
- * <br> 1、日期
- * <br> 2、时间戳、Unix时间戳
- * <br> 3、格式化、格式转换
+ * <br> description: 日期时间工具
+ * <br>     * 1、日期
+ * <br>     * 2、时间戳、Unix时间戳
+ * <br>     * 3、格式化
+ * <br>     * 4、格式转换
  * <br>--------------------------------------------------------
  * <br>Copyright@2019 www.ivybest.org Inc. All rights reserved.
  * </p>
@@ -24,8 +26,10 @@ import java.util.Date;
  * @since 1.8+
  */
 public class DateTimeUtil {
-    // ----默认日期格式
-    private static String defaultPattern = "yyyy-MM-dd HH:mm:ss";
+    /*
+     * 默认日期格式
+     */
+    private static final String DEFAULT_DATE_PATTERN = "yyyy-MM-dd HH:mm:ss";
 
     /**
      * get current date time
@@ -44,7 +48,7 @@ public class DateTimeUtil {
      */
     public static String currentDateTime(String pattern) {
         if (StringUtil.isBlank(pattern)) {
-            pattern = defaultPattern;
+            pattern = DEFAULT_DATE_PATTERN;
         }
         return format(currentDateTime(), pattern);
     }
@@ -67,7 +71,7 @@ public class DateTimeUtil {
      * @return String
      */
     public static String format(LocalDateTime date) {
-        return format(date, defaultPattern);
+        return format(date, DEFAULT_DATE_PATTERN);
     }
 
     public static String format(Date date, String pattern) {
@@ -75,7 +79,7 @@ public class DateTimeUtil {
     }
 
     public static String format(Date date) {
-        return format(date, defaultPattern);
+        return format(date, DEFAULT_DATE_PATTERN);
     }
 
 
@@ -121,13 +125,15 @@ public class DateTimeUtil {
     }
 
     /**
+     * 将时间戳适配为默认格式时间字符串
+     *
      * @param timestamp
      * @param unit
      * @return String
      * 将时间戳适配为默认格式 "yyyy-MM-dd HH:mm:ss" 时间字符串
      */
     public static String datePatternAdapt(Long timestamp, TemporalUnit unit) {
-        return datePatternAdapt(timestamp, unit, defaultPattern);
+        return datePatternAdapt(timestamp, unit, DEFAULT_DATE_PATTERN);
     }
 
     /**

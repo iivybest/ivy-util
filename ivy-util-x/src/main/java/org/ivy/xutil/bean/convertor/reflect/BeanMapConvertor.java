@@ -1,6 +1,6 @@
 package org.ivy.xutil.bean.convertor.reflect;
 
-import org.ivy.xutil.bean.BeanUtil;
+import org.ivy.util.common.BeanUtil;
 import org.ivy.xutil.bean.convertor.keyhandler.BeanMapKeyHandler;
 import org.ivy.xutil.bean.convertor.valuehandler.BeanMapValueHandler;
 import org.slf4j.Logger;
@@ -88,7 +88,7 @@ public class BeanMapConvertor {
      * @param <T>   bean's type
      * @return T
      */
-    private <T> Object handleValue(T bean, Field field) {
+    private <T> Object handleValue(T bean, Field field) throws Exception {
         if (valueHandlers == null
                 || valueHandlers.size() <= 0
                 || beanMapValueHandlerDispatch(field.getType()) == null) {
@@ -120,7 +120,7 @@ public class BeanMapConvertor {
      * @param <T>  bean's type
      * @return 转化出来的 Map 对象
      */
-    public <T> Map<String, Object> convertBean2Map(T bean) {
+    public <T> Map<String, Object> convertBean2Map(T bean) throws Exception {
         if (bean == null) {
             return null;
         }
