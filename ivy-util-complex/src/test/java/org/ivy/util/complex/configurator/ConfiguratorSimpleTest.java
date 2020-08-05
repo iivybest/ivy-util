@@ -74,40 +74,21 @@ public class ConfiguratorSimpleTest {
         log.debug("{{}: {}}", key, value);
     }
 
-    @Test
-    public void test_03_priority() {
-        String key = "user.name";
-        String value = this.CONF.action.get(key);
-        log.debug("{{}: {}}", key, value);
-        Assert.assertEquals(value, "f");
-    }
-
-    @Test
-    public void test_04_wildcard() throws Exception {
-        String key = "ofd.register.material.path.el.#";
-        key = "root.el.#.test";
-        key = "root.el.test.#";
-        key = "configurator.el.test.##";
-        Set<String> keys = this.CONF.action.getKeySet(key);
-        for (String e : keys) {
-            log.info("{{}: {}}", e, this.CONF.action.get(e));
-        }
-    }
-
     @ParameterizedTest
     @ValueSource(strings = {
             "configurator.el.test.static.##",
-            "configurator.el.test.student.#",
+            "configurator.el.test.static.#",
             "configurator.el.test.student.##",
+            "configurator.el.test.student.#",
             "configurator.el.test.date.##",
-            "configurator.el.test.date.##",
-            "configurator.el.test.adv.#"}
-    )
+            "configurator.el.test.date.#",
+            "configurator.el.test.adv.#"
+    })
     public void test_05_explang(String key) throws Exception {
         Student student = new Student();
-        student.setName("rashford");
-        student.setAddr("London");
-        student.setAge(22);
+        student.setName("Rashford");
+        student.setAddr("Manchester");
+        student.setAge(20);
 
         Set<String> keys = this.CONF.action.getForcedIncludeKeySet(key);
         String value;
@@ -130,6 +111,26 @@ public class ConfiguratorSimpleTest {
 
 
 //        this.configurator.action.getForcedIncludeConfigurationExpLang("this.is.not.exits");
+    }
+
+    @Test
+    public void test_03_priority() {
+        String key = "user.name";
+        String value = this.CONF.action.get(key);
+        log.debug("{{}: {}}", key, value);
+        Assert.assertEquals(value, "f");
+    }
+
+    @Test
+    public void test_04_wildcard() throws Exception {
+        String key = "ofd.register.material.path.el.#";
+        key = "root.el.#.test";
+        key = "root.el.test.#";
+        key = "configurator.el.test.##";
+        Set<String> keys = this.CONF.action.getKeySet(key);
+        for (String e : keys) {
+            log.info("{{}: {}}", e, this.CONF.action.get(e));
+        }
     }
 
 
