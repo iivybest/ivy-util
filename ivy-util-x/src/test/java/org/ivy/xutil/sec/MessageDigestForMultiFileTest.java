@@ -30,7 +30,7 @@ import java.io.IOException;
 public class MessageDigestForMultiFileTest {
 
 //    private static final String REQUEST_PATH = "D:\\Ivybest\\test\\tpls/";
-    private static final String REQUEST_PATH = "D:\\Ivybest\\work\\aisino\\07.OFD版式文件\\00.OFD发票模板\\";
+    private static final String REQUEST_PATH = "D:\\Ivybest\\work\\aisino\\07.OFD版式文件\\00.foxit==最终验收版==\\test\\";
 //    private static final String REQUEST_PATH = "D:\\Ivybest\\test\\tpls\\jar/";
 
     @Test
@@ -58,10 +58,8 @@ public class MessageDigestForMultiFileTest {
         for (File e : FileUtil.getAllNonDirFileList(REQUEST_PATH)) {
             in = new FileInputStream(e);
             signature = DigitUtil.toHexString(MessageDigestUtil.digest(MessageDigestUtil.SHA256, in));
-            log.info("file: {}, algo: {}, sign: {}", StringUtil.getFixedLengthString(e.getName(), 40), "SHA256", signature);
+            log.info("file: {}, algo: {}, sign: {}", StringUtil.getFixedLengthString(e.getName(), 55), "SHA256", signature);
             in.close();
         }
-
-
     }
 }
